@@ -14,7 +14,6 @@ gem 'rspec-rails'
 group :assets do
   gem 'sass-rails',   '~> 4.0.1'
   gem 'coffee-rails', '~> 4.0.1'
-
   gem 'bootstrap-sass', '~> 3.1.1'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -23,6 +22,12 @@ group :assets do
 end
 
 gem 'jquery-rails'
+
+gem 'capybara'
+
+
+
+# gem 'capybara-webkit'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
