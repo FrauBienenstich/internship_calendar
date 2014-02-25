@@ -1,10 +1,10 @@
 class PeopleController < ApplicationController
 
   def create
-    @people = People.new(slot_params)
+    @person = Person.new
 
-    if @people.save
-      redirect_to @people, notice: 'Person was successfully created.'
+    if @person.save
+      redirect_to :back, notice: 'Person was successfully created.'
     else
       render action: 'new'
     end
