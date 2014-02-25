@@ -15,20 +15,36 @@
       <tr>
         <td><%= slot.name %></td>
         <td>
-          <form class="form-inline">
+        <!-- <%- internship = slot.internships.build %> -->
+        <%= form_for Person.new do |f| %>
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+
+          <%= f.label :email %>
+          <%= f.text_field :email %>
+
+          <%= f.submit %>
+        <% end %>
+
+
+
+
+
+
+
+          <!-- <form class="form-inline">
             <input type="text" class="input-small" placeholder="Email">
             <input type="text" class="input-small" placeholder="Name">
             <button type="submit" class="btn">Offer Slot</button>
-            <!-- form for -->
-          </form>
+          </form> -->
         </td>
-        <td>
+<!--         <td>
           <form class="form-inline">
             <input type="text" class="input-small" placeholder="Email">
             <input type="text" class="input-small" placeholder="Name">
             <button type="submit" class="btn">Apply for Slot</button>
           </form>
-        </td>
+        </td> -->
       </tr>
     <% end %>
   </tbody>  
