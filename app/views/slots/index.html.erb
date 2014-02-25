@@ -1,0 +1,29 @@
+<h1>Listing slots</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @slots.each do |slot| %>
+      <tr>
+        <td><%= slot.name %></td>
+        <td><%= slot.day %></td>
+        <td><%= link_to 'Show', slot %></td>
+        <td><%= link_to 'Edit', edit_slot_path(slot) %></td>
+        <td><%= link_to 'Destroy', slot, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Slot', new_slot_path %>
