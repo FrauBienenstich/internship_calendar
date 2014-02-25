@@ -1,17 +1,17 @@
 require 'spec_helper'
+require_relative '../../lib/seeds/create_new_day.rb'
 
 feature 'Host offers slot' do
 
   scenario 'offers slot for the first time' do
-    today = Date.today
-    day = Day.create!(:date => today)
-    Slot.create!(:name => "9am - 10am", :day_id => day)
-    Slot.create!(:name => "10am - 12 am", :day_id => day)
+    create_new_day
 
     visit 'days/current'
 
+    save_and_open_page
     expect(page).to have_content(today)
     expect(page).to have_content("9am - 10am")
+    expect(page).to have_content("10am - 12 am")
 
   end
 
