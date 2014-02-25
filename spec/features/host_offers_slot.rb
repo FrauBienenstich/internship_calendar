@@ -9,7 +9,7 @@ feature 'Host offers slot' do
     visit 'days/current'
 
     save_and_open_page
-    expect(page).to have_content(today)
+    expect(page).to have_content(@today)
     expect(page).to have_content("9am - 10am")
     expect(page).to have_content("10am - 12 am")
 
