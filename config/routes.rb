@@ -1,6 +1,13 @@
 InternshipCalender::Application.routes.draw do
 
-  root 'days#index'
+  resources :slots
+  resources :days do
+    collection do
+      get :current
+    end
+  end
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
