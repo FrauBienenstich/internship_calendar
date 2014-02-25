@@ -11,23 +11,25 @@
   </thead>
 
   <tbody>
-    <tr>
-      <td>9am - 10am</td>
-      <td>
-        <form class="form-inline">
-          <input type="text" class="input-small" placeholder="Email">
-          <input type="text" class="input-small" placeholder="Name">
-          <button type="submit" class="btn">Offer Slot</button>
-          <!-- form for -->
-        </form>
-      </td>
-      <td>
-        <form class="form-inline">
-          <input type="text" class="input-small" placeholder="Email">
-          <input type="text" class="input-small" placeholder="Name">
-          <button type="submit" class="btn">Apply for Slot</button>
-        </form>
-      </td>
-    </tr>
+    <%- @day.slots.each do |slot| %>
+      <tr>
+        <td><%= slot.name %></td>
+        <td>
+          <form class="form-inline">
+            <input type="text" class="input-small" placeholder="Email">
+            <input type="text" class="input-small" placeholder="Name">
+            <button type="submit" class="btn">Offer Slot</button>
+            <!-- form for -->
+          </form>
+        </td>
+        <td>
+          <form class="form-inline">
+            <input type="text" class="input-small" placeholder="Email">
+            <input type="text" class="input-small" placeholder="Name">
+            <button type="submit" class="btn">Apply for Slot</button>
+          </form>
+        </td>
+      </tr>
+    <% end %>
   </tbody>  
 </table>
