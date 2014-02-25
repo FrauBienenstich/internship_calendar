@@ -3,7 +3,7 @@ InternshipCalender::Application.routes.draw do
   resources :slots
   resources :days do
     collection do
-      get :current
+      get :current #days/current renders the show view of the last!
     end
   end
 
