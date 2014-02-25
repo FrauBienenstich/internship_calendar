@@ -1,18 +1,18 @@
-<h1>DAY</h1>
-<table class="table table-striped">
+<h1>All Internship Days</h1>
+
+<table>
   <thead>
     <tr>
-      <th>Time</th>
-      <th>Host</th>
-      <th>Intern</th>
+      <th>Date</th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <tr>
-      <td>9am - 10am</td>
-      <td>Susanne</td>
-      <td>Lena</td>
-    </tr>
-  </tbody>  
+    <% @days.each do |day| %>
+      <tr>
+        <td><%= day.date %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
