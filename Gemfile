@@ -25,6 +25,7 @@ end
 gem 'jquery-rails'
 
 gem 'capybara'
+gem "launchy", "~> 2.4.2"
 
 
 
