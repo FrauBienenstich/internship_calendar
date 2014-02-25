@@ -1,5 +1,6 @@
 InternshipCalender::Application.routes.draw do
 
+  root :to => 'days#index'
   resources :slots
   resources :days do
     collection do
