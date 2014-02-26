@@ -5,7 +5,7 @@
   <thead>
     <tr>
       <th>Time</th>
-      <th>Host</th>
+      <th colspan="2">Host</th>
       <th>Intern</th>
       <th>Description</th>
     </tr>
@@ -16,7 +16,7 @@
       <tr>
         <td><%= slot.name %></td>
 
-        <td>
+<!--         <td>
           <%= form_tag (internships_path) do %>
            
             <%= label_tag 'email', 'Email' %>
@@ -27,30 +27,28 @@
            
             <%= submit_tag "Teach!"%>
           <% end %>
-        </td>
+        </td> -->
+
 
         <td>
-          <%= form_tag (internships_path) do %>
-           
-            <%= label_tag 'email', 'Email' %>
-            <%= text_field_tag 'email' %><br>
-           
-            <%= label_tag 'name', 'Name' %>
-            <%= password_field_tag 'name' %>
-           
-            <%= submit_tag "Learn!"%>
-          <% end %>
-        </td>
+          <ul>
+            <li>
+            <%- slot.internships.each do |internship| %>
+              <%= internship.description %><br>
+              <br>
+            <% end %>
+            </li>
 
-        <td>
-          <%- internship = slot.internships.build %>
+            <li>
+            <%= form_for Internship.new do |f| %>
+              <%= f.hidden_field :slot_id, :value => slot.id %>
+              <%= f.label :description %>
+              <%= f.text_area :description %>
 
-          <%= form_for internship do |f| %>
-            <%= f.label :description %>
-            <%= f.text_area :description %>
-
-            <%= f.submit %>
-          <% end %>
+              <%= f.submit %>
+            <% end %>
+            </li>
+          </ul>
         </td>
 
 
