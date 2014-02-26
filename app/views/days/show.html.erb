@@ -7,6 +7,7 @@
       <th>Time</th>
       <th>Host</th>
       <th>Intern</th>
+      <th>Description</th>
     </tr>
   </thead>
 
@@ -14,37 +15,48 @@
     <%- @day.slots.each do |slot| %>
       <tr>
         <td><%= slot.name %></td>
+
         <td>
-        <!-- <%- internship = slot.internships.build %> -->
-        <%= form_for Person.new do |f| %>
-          <%= f.label :name %>
-          <%= f.text_field :name %>
-
-          <%= f.label :email %>
-          <%= f.text_field :email %>
-
-          <%= f.submit %>
-        <% end %>
-
-
-
-
-
-
-
-          <!-- <form class="form-inline">
-            <input type="text" class="input-small" placeholder="Email">
-            <input type="text" class="input-small" placeholder="Name">
-            <button type="submit" class="btn">Offer Slot</button>
-          </form> -->
+          <%= form_tag (internships_path) do %>
+           
+            <%= label_tag 'email', 'Email' %>
+            <%= text_field_tag 'email' %><br>
+           
+            <%= label_tag 'name', 'Name' %>
+            <%= password_field_tag 'name' %>
+           
+            <%= submit_tag "Teach!"%>
+          <% end %>
         </td>
-<!--         <td>
-          <form class="form-inline">
-            <input type="text" class="input-small" placeholder="Email">
-            <input type="text" class="input-small" placeholder="Name">
-            <button type="submit" class="btn">Apply for Slot</button>
-          </form>
-        </td> -->
+
+        <td>
+          <%= form_tag (internships_path) do %>
+           
+            <%= label_tag 'email', 'Email' %>
+            <%= text_field_tag 'email' %><br>
+           
+            <%= label_tag 'name', 'Name' %>
+            <%= password_field_tag 'name' %>
+           
+            <%= submit_tag "Learn!"%>
+          <% end %>
+        </td>
+
+        <td>
+          <%- internship = slot.internships.build %>
+
+          <%= form_for internship do |f| %>
+            <%= f.label :description %>
+            <%= f.text_area :description %>
+
+            <%= f.submit %>
+          <% end %>
+        </td>
+
+
+
+
+
       </tr>
     <% end %>
   </tbody>  
