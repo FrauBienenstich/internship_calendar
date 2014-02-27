@@ -9,7 +9,6 @@ class DaysController < ApplicationController
 
   def current
     @day = Day.last
-    puts Day.count
     render :show
   end
 end
