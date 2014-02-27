@@ -38,6 +38,7 @@
               <%= internship.description %>
               <br/>
               <%= internship.host.email %>
+              <%= link_to "delete", internship, method: :delete, data: { confirm: 'Are you sure?' } %>
               <br/>
               <%= internship.host.name %>
             <% end %>

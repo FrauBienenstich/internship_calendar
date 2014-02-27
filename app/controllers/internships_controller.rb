@@ -15,6 +15,13 @@ class InternshipsController < ApplicationController
     end
   end
 
+  def destroy
+    @internship = Internship.find_by(id: params[:id])
+    @internship.destroy
+
+    redirect_to current_days_path, notice: "You successfully deleted an internship"
+  end
+
 end
 
 
