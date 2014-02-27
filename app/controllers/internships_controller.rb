@@ -1,17 +1,20 @@
 class InternshipsController < ApplicationController
 
   def create
-    slot_id = params[:internship][:slot_id]
-    desc = params[:internship][:description]
-    @internship = Internship.new(:description => desc, :slot_id => slot_id)
 
-    if @internship.save
+    host = Person.find_or_initialize_by(email: params[:email])
+    host.name = params[:name]
+    slot_id = params[:slot_id]
+    desc = params[:description]
+    internship = Internship.new(:description => desc, :slot_id => slot_id, :host => host)
+
+    if host.save && internship.save
       redirect_to current_days_path, notice: "You successfully created an internship!"
     else
       redirect_to current_days_path, :flash => { :error => "Your internship could not be saved" }
-      #error: "Your internship could not be saved"
     end
   end
+
 end
 
 
