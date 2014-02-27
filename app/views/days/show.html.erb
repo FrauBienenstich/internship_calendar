@@ -34,27 +34,27 @@
           <ul>
             <li>
             <%- slot.internships.each do |internship| %>
+            <!-- sollten in td horizontally aligned sein -->
               <%= internship.description %>
+              <br/>
               <%= internship.host.email %>
+              <br/>
               <%= internship.host.name %>
-
-              <br>
-              <br>
             <% end %>
             </li>
 
             <li>
-            <%= form_tag(controller: "internships", action: "create",method: "post") do %>
+            <%= form_tag({controller: "internships", action: "create", method: "post"}, {class: 'host_form'}) do %>
               <%= hidden_field_tag :slot_id, slot.id %>
 
-              <%= label_tag :description %>
-              <%= text_area_tag :description %>
+              <%= text_area_tag :description, nil, placeholder: 'Description' %>
+              <br/>
 
-              <%= label_tag :email %>
-              <%= text_field_tag :email %>
+              <%= text_field_tag :email, nil, placeholder: 'Email' %>
+              <br/>
 
-              <%= label_tag :name %>
-              <%= text_field_tag :name %> 
+              <%= text_field_tag :name, nil, placeholder: 'Name' %>
+
               
 
               <%= submit_tag("Offer Internship") %>

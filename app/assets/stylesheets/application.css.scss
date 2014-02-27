@@ -17,6 +17,20 @@ ul {
     list-style-type: none;
 }
 
+ul li {
+    display: block;
+    overflow: hidden;
+
+}
+.host_form {
+  background-color: red;
+  display: block;
+  input, textarea {
+    margin-bottom: 20px;
+  }
+
+}
+
 /*
  * Simple CSS stylesheet for a navigation bar and flash messages.
  */
