@@ -34,17 +34,22 @@
           <ul>
             <li>
             <%- slot.internships.each do |internship| %>
-            <!-- sollten in td horizontally aligned sein -->
               <%= internship.description %>
               <br/>
-              <%= internship.host.email %>
+              <% if internship.host %> 
+                <%= internship.host.email %>
+              <br/>
+                <%= internship.host.name %>
+              <% end %>
+              <br/>
               <%= link_to "delete", internship, method: :delete, data: { confirm: 'Are you sure?' } %>
               <br/>
-              <%= internship.host.name %>
             <% end %>
+
             </li>
 
             <li>
+            <%= @internship.errors.length if @internship %>
             <%= form_tag({controller: "internships", action: "create", method: "post"}, {class: 'host_form'}) do %>
               <%= hidden_field_tag :slot_id, slot.id %>
 
