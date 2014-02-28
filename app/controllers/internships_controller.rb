@@ -11,6 +11,7 @@ class InternshipsController < ApplicationController
     internship = Internship.new(:description => desc, :slot_id => slot_id, :host => host)# still dont know what happens afterwards with it!
 
     if host.save && internship.save
+      PersonMailer.confirmation_mail(host).deliver
       redirect_to current_days_path, notice: "You successfully created an internship!"
     else
       redirect_to current_days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
