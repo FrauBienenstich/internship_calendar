@@ -42,7 +42,12 @@
                 <%= internship.host.name %>
               <% end %>
               <br/>
-              <%= link_to "delete", internship, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <div>
+              <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash-o"></i>
+              <% end %>
+              </div>
+              
               <br/>
             <% end %>
 
