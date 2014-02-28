@@ -8,6 +8,7 @@ gem 'rails', '4.0.3'
 gem 'mysql2'
 gem 'sqlite3'
 gem 'rspec-rails'
+gem "font-awesome-rails"
 
 
 # Gems used only for assets and not required
