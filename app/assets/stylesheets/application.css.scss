@@ -17,15 +17,41 @@
 
 ul {
     list-style-type: none;
+    padding-left: 0;
 }
 
 ul li {
     display: block;
     overflow: hidden;
+    padding: 15px;
+    margin: 5px;
+}
+.text-field {
+  //border: 1px dotted black;
+}
+
+li {
+  border: 1px solid black;
+}
+#days {
+  text-align: center;
 
 }
+
+.host-column {
+  width: 45%;
+}
+
+.time_column {
+  width: 5%;
+}
+
+.awesome-font {
+
+  margin-bottom: 15px;
+}
+
 .host_form {
-  background-color: red;
   display: block;
   input, textarea {
     margin-bottom: 20px;

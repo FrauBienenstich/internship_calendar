@@ -1,18 +1,20 @@
 <h1>All Internship Days </h1>
 
 <table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @days.each do |day| %>
+  <div id="days">
+    <thead>
       <tr>
-        <td><%= link_to day.date, day %></td>
+        <th>Date</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
+    </thead>
+
+    <tbody>
+      <% @days.each do |day| %>
+        <tr>
+          <td colspan="2"><%= link_to day.date, day %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    </div>
 </table>

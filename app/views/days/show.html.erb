@@ -1,84 +1,84 @@
-<h1>
-  <%= @day.date %>
-</h1>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Time</th>
-      <th colspan="2">Host</th>
-      <th>Intern</th>
-      <th>Description</th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="span12">
+    <h1>
+      <%= @day.date %>
+    </h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="time_column">Time</th>
+          <th class="host-column">Host</th>
+          <th>Intern</th>
+          <th>Description</th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <%- @day.slots.each do |slot| %>
-      <tr>
-        <td><%= slot.name %></td>
+      <tbody>
+        <%- @day.slots.each do |slot| %>
+          <tr>
+            <td><%= slot.name %></td>
 
-<!--         <td>
-          <%= form_tag (internships_path) do %>
-           
-            <%= label_tag 'email', 'Email' %>
-            <%= text_field_tag 'email' %><br>
-           
-            <%= label_tag 'name', 'Name' %>
-            <%= password_field_tag 'name' %>
-           
-            <%= submit_tag "Teach!"%>
-          <% end %>
-        </td> -->
-
-
-        <td>
-          <ul>
-            <li>
-            <%- slot.internships.each do |internship| %>
-              <%= internship.description %>
-              <br/>
-              <% if internship.host %> 
-                <%= internship.host.email %>
-              <br/>
-                <%= internship.host.name %>
+    <!--         <td>
+              <%= form_tag (internships_path) do %>
+               
+                <%= label_tag 'email', 'Email' %>
+                <%= text_field_tag 'email' %><br>
+               
+                <%= label_tag 'name', 'Name' %>
+                <%= password_field_tag 'name' %>
+               
+                <%= submit_tag "Teach!"%>
               <% end %>
-              <br/>
-              <div>
-              <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <i class="fa fa-trash-o"></i>
-              <% end %>
-              </div>
-              
-              <br/>
-            <% end %>
-
-            </li>
-
-            <li>
-            <%= @internship.errors.length if @internship %>
-            <%= form_tag({controller: "internships", action: "create", method: "post"}, {class: 'host_form'}) do %>
-              <%= hidden_field_tag :slot_id, slot.id %>
-
-              <%= text_area_tag :description, nil, placeholder: 'Description' %>
-              <br/>
-
-              <%= text_field_tag :email, nil, placeholder: 'Email' %>
-              <br/>
-
-              <%= text_field_tag :name, nil, placeholder: 'Name' %>
-
-              
-
-              <%= submit_tag("Offer Internship") %>
-            <% end %>
-            </li>
-          </ul>
-        </td>
+            </td> -->
+            
 
 
+            <td>
+              <ul>
+                <li>
+                <%- slot.internships.each do |internship| %>
+                  <div class="text-field">
+                    <blockquote class="pull-right">
+                      <p>"<%= internship.description %>"</p>
+                      <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
+
+                      <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                        <i class="fa fa-trash-o"></i>
+                      <% end %>
+                    </blockquote>
+                  </div>
+                <% end %>
+
+                </li>
+
+                <li>
+                  <%= @internship.errors.length if @internship %>
+                  <%= form_tag({controller: "internships", action: "create", method: "post"}, {class: 'host_form'}) do %>
+                    <%= hidden_field_tag :slot_id, slot.id %>
+                    <%= text_area_tag :description, nil, placeholder: 'Description' %>
+                    <br/>
+
+                    <%= text_field_tag :email, nil, placeholder: 'Email' %>
+                    <br/>
+
+                    <%= text_field_tag :name, nil, placeholder: 'Name' %>
+                    
+
+                    <%= submit_tag("Offer Internship") %>
+                  <% end %>
+                </li>
+              </ul>
+            </td>
+            <td></td>
+            <td></td>
 
 
 
-      </tr>
-    <% end %>
-  </tbody>  
-</table>
+
+
+          </tr>
+        <% end %>
+      </tbody>  
+    </table>
+  </div>
+</div>
