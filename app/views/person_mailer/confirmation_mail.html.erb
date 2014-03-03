@@ -6,8 +6,25 @@
   <body>
     <h1>Hello <%= @person.name %></h1>
     <p>
-      You have successfully created an open internship slot on <%= @day.date %> at <%= @time %>!
-      <br/>
-      </p>
+      You successfully created an open internship slot!
+      Please mark in your calendar:
+    </p>
+
+    <p>
+      <b><%= @day.date %></b>
+    </p>
+
+    <p>
+      <b><%= @time %></b>
+    </p>
+
+    <p>
+    This is your description of the internship you're offering:
+    </p>
+
+    <p>
+      <b><%= @description %></b>
+    </p>
+    
   </body>
 </html>

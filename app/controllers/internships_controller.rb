@@ -15,7 +15,7 @@ class InternshipsController < ApplicationController
     day = internship.slot.day
 
     if host.save && internship.save
-      PersonMailer.confirmation_mail(host, time, day).deliver
+      PersonMailer.confirmation_mail(host, time, day, desc).deliver
       redirect_to current_days_path, notice: "You successfully created an internship!"
     else
       redirect_to current_days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
