@@ -26,7 +26,6 @@ class InternshipsController < ApplicationController
   def sign_up_form
     @internship = Internship.find_by(id: params[:id])
     render :layout => false
-
   end
 
   def update
