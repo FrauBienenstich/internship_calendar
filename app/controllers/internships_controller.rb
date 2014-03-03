@@ -6,12 +6,14 @@ class InternshipsController < ApplicationController
     host.name = params[:name]
     slot_id = params[:slot_id]
     desc = params[:description]
-    puts 'a host'
-    puts host.inspect
+
+    slot = Slot.find_by(id: slot_id)
+    time = slot.name
+
     internship = Internship.new(:description => desc, :slot_id => slot_id, :host => host)# still dont know what happens afterwards with it!
 
     if host.save && internship.save
-      PersonMailer.confirmation_mail(host).deliver
+      PersonMailer.confirmation_mail(host, time).deliver
       redirect_to current_days_path, notice: "You successfully created an internship!"
     else
       redirect_to current_days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
