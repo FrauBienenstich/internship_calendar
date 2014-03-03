@@ -1,7 +1,11 @@
 InternshipCalender::Application.routes.draw do
 
   root :to => 'days#index'
-  resources :internships
+  resources :internships do
+    member do
+      get :sign_up_form, :as => :sign_up_to
+    end
+  end
   resources :people
   resources :slots
   resources :days do

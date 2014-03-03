@@ -1,84 +1,61 @@
-<div class="row">
-  <div class="span12">
-    <h1>
-      <%= @day.date %>
-    </h1>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th class="time_column">Time</th>
-          <th class="host-column">Host</th>
-          <th>Intern</th>
-          <th>Description</th>
-        </tr>
-      </thead>
+<h1>
+  <%= @day.date %>
+</h1>
 
-      <tbody>
-        <%- @day.slots.each do |slot| %>
-          <tr>
-            <td><%= slot.name %></td>
+  
+<%- @day.slots.each do |slot| %>
+  <div class="slot">
+    <h4><%= slot.name %></h4>
+  
+    <%- slot.internships.each do |internship| %>
+      <div class="row">
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+          <div class="text-field">
+            <blockquote class="pull-right">
+              <p>"<%= internship.description %>"</p>
+              <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
 
-    <!--         <td>
-              <%= form_tag (internships_path) do %>
-               
-                <%= label_tag 'email', 'Email' %>
-                <%= text_field_tag 'email' %><br>
-               
-                <%= label_tag 'name', 'Name' %>
-                <%= password_field_tag 'name' %>
-               
-                <%= submit_tag "Teach!"%>
+              <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash-o"></i>
               <% end %>
-            </td> -->
-            
+            </blockquote>
+          </div>
+        </div>
 
+        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+          <a href=<%=sign_up_to_internship_path(internship)%> data-toggle="modal" data-target="#myModal">Sign Up</a>
+        </div>
+        
+      </div>
 
-            <td>
-              <ul>
-                <li>
-                <%- slot.internships.each do |internship| %>
-                  <div class="text-field">
-                    <blockquote class="pull-right">
-                      <p>"<%= internship.description %>"</p>
-                      <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
+    <% end %>
 
-                      <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                        <i class="fa fa-trash-o"></i>
-                      <% end %>
-                    </blockquote>
-                  </div>
-                <% end %>
+    <div class="row">
+      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <%= @internship.errors.length if @internship %>
+        <%= form_tag({controller: "internships", action: "create", method: "post"}, {class: 'host_form'}) do %>
+          <%= hidden_field_tag :slot_id, slot.id %>
+          <%= text_area_tag :description, nil, placeholder: 'Description' %>
+          <br/>
 
-                </li>
+          <%= text_field_tag :email, nil, placeholder: 'Email' %>
+          <br/>
 
-                <li>
-                  <%= @internship.errors.length if @internship %>
-                  <%= form_tag({controller: "internships", action: "create", method: "post"}, {class: 'host_form'}) do %>
-                    <%= hidden_field_tag :slot_id, slot.id %>
-                    <%= text_area_tag :description, nil, placeholder: 'Description' %>
-                    <br/>
+          <%= text_field_tag :name, nil, placeholder: 'Name' %>
+          
 
-                    <%= text_field_tag :email, nil, placeholder: 'Email' %>
-                    <br/>
-
-                    <%= text_field_tag :name, nil, placeholder: 'Name' %>
-                    
-
-                    <%= submit_tag("Offer Internship") %>
-                  <% end %>
-                </li>
-              </ul>
-            </td>
-            <td></td>
-            <td></td>
-
-
-
-
-
-          </tr>
+          <%= submit_tag("Offer Internship") %>
         <% end %>
-      </tbody>  
-    </table>
+      </div>
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
   </div>
+<% end %>
+
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div>
