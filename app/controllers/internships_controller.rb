@@ -37,14 +37,20 @@ class InternshipsController < ApplicationController
 
   def update
     @internship = Internship.find_by(id: params[:id])
-    @internship.intern = Person.find_or_initialize_by(email: params[:email])
-    @internship.intern.name = params[:name]
+    result = true
 
-    if @internship.intern.save and @internship.save
-      redirect_to day_path(@internship.slot.day), notice: "You successfully became an intern!"
+    if params[:commit] == "Remove"
+      delete_intern(@internship)
     else
-      redirect_to day_path(@internship.slot.day), :flash => { :error => "Your application as an intern failed!" }
+      result = assign_intern(@internship)
     end
+
+    if result && @internship.save
+      flash[:notice] = "You successfully became an intern!"
+    else
+      flash[:error] = "Your application as an intern failed!"
+    end
+    redirect_to day_path(@internship.slot.day)
   end
 
   def destroy
@@ -52,6 +58,19 @@ class InternshipsController < ApplicationController
     @internship.destroy
 
     redirect_to current_days_path, notice: "You successfully deleted an internship"
+  end
+
+protected
+
+  def assign_intern(internship)
+    internship.intern = Person.find_or_initialize_by(email: params[:email])
+    internship.intern.name = params[:name]
+    
+    internship.intern.save
+  end
+
+  def delete_intern(internship)
+    internship.intern_id = nil
   end
 
 end
