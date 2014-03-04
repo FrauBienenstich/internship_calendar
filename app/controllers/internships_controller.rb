@@ -23,6 +23,13 @@ class InternshipsController < ApplicationController
     end
   end
 
+  def new
+    @slot = Slot.find_by(id: params[:slot_id])
+
+    @internship = @slot.internships.build
+    render :layout => false
+  end
+
   def sign_up_form
     @internship = Internship.find_by(id: params[:id])
     render :layout => false
