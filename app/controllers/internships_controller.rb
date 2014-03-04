@@ -44,12 +44,6 @@ class InternshipsController < ApplicationController
     else
       result = assign_intern(@internship)
     end
-
-    if result && @internship.save
-      flash[:notice] = "You successfully became an intern!"
-    else
-      flash[:error] = "Your application as an intern failed!"
-    end
     redirect_to day_path(@internship.slot.day)
   end
 
@@ -66,11 +60,16 @@ protected
     internship.intern = Person.find_or_initialize_by(email: params[:email])
     internship.intern.name = params[:name]
     
-    internship.intern.save
+    if internship.intern.save && internship.save
+      flash[:notice] = "You successfully became an intern!"
+    else
+      flash[:error] = "Your application as an intern failed!"
+    end
   end
 
   def delete_intern(internship)
     internship.intern_id = nil
+    internship.save
   end
 
 end
