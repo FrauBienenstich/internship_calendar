@@ -37,7 +37,14 @@ class InternshipsController < ApplicationController
 
   def update
     @internship = Internship.find_by(id: params[:id])
-    redirect_to day_path(@internship.slot.day)
+    @internship.intern = Person.find_or_initialize_by(email: params[:email])
+    @internship.intern.name = params[:name]
+
+    if @internship.intern.save and @internship.save
+      redirect_to day_path(@internship.slot.day), notice: "You successfully became an intern!"
+    else
+      redirect_to day_path(@internship.slot.day), :flash => { :error => "Your application as an intern failed!" }
+    end
   end
 
   def destroy
