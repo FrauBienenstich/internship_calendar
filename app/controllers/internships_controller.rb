@@ -82,7 +82,6 @@ class InternshipsController < ApplicationController
 
     PersonMailer.delete_internship_mail(host, intern, time, day, description).deliver
     redirect_to current_days_path, notice: "You successfully deleted an internship"
-    #action mailer?
   end
 
 protected
@@ -104,8 +103,6 @@ protected
   end
 
 end
-
-
 
 # {
 #   "utf8"=>"✓",
