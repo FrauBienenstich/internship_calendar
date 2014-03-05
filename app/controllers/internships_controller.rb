@@ -40,6 +40,10 @@ class InternshipsController < ApplicationController
     
     host = @internship.host
     intern = @internship.intern
+
+    new_intern = Person.find_or_initialize_by(email: params[:email])
+    new_intern.name = params[:name]
+
     time = @internship.slot.name
     day = @internship.slot.day
     description = @internship.description
