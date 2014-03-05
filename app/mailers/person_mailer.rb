@@ -10,7 +10,6 @@ class PersonMailer < ActionMailer::Base
     mail(to: @person.email, subject: "You successfully created an open internship")
   end
 
-  def update_mail(host, intern, time, day, description)
   def delete_intern_mail(host, intern, time, day, description)
     @host = host
     @intern = intern
@@ -32,5 +31,15 @@ class PersonMailer < ActionMailer::Base
 
     mail(to: emails, subject: "You have an intern now!")
   end
+
+  def delete_internship_mail(host, intern, time, day, description)
+    @host = host
+    @intern = intern
+    @time = time
+    @day = day
+    @description = description
+    emails = [@host.email, @intern.email]
+
+    mail(to: emails, subject: "Internship was deleted")
   end
 end

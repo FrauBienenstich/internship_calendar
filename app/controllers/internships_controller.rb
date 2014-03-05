@@ -48,14 +48,19 @@ class InternshipsController < ApplicationController
     day = @internship.slot.day
     description = @internship.description
 
+    deleted_intern = @internship.intern
+
     result = true
 
     if params[:commit] == "Remove"
       delete_intern(@internship)
+      PersonMailer.delete_intern_mail(host, deleted_intern, time, day, description).deliver
+
     else
       result = assign_intern(@internship)
+
+      PersonMailer.assign_intern_mail(host, new_intern, time, day, description).deliver
     end
-    PersonMailer.update_mail(host, intern, time, day, description).deliver
     redirect_to day_path(@internship.slot.day)
   end
 
@@ -65,9 +70,17 @@ class InternshipsController < ApplicationController
   end
 
   def destroy
-    @internship = Internship.find_by(id: params[:id])
+    @internship = Internship.find(params[:id])
+    host = @internship.host
+    intern = @internship.intern
+    time = @internship.slot.name
+    day = @internship.slot.day
+    description = @internship.description
+
     @internship.destroy
 
+
+    PersonMailer.delete_internship_mail(host, intern, time, day, description).deliver
     redirect_to current_days_path, notice: "You successfully deleted an internship"
     #action mailer?
   end
