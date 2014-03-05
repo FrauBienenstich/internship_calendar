@@ -47,6 +47,11 @@ class InternshipsController < ApplicationController
     redirect_to day_path(@internship.slot.day)
   end
 
+  def edit
+    @internship = Internship.find_by(id: params[:id])
+    render :layout => false
+  end
+
   def destroy
     @internship = Internship.find_by(id: params[:id])
     @internship.destroy

@@ -36,11 +36,14 @@
               <%= internship.intern.name %></br>
               <%= mail_to internship.intern.email %>
             </p>
+
+            
             <p>
-              <%= link_to sign_up_form_internship_path(internship), method: :get do %>
-                <i class="fa fa-pencil"></i>
-              <% end %>
+              <a href=<%=edit_internship_path(internship)%> data-toggle="modal" data-target="#myModal3">
+                 <i class="fa fa-pencil"></i>
+              </a>             
             </p>
+
             <p>
               <%= form_for internship do |f| %>
 
@@ -56,26 +59,6 @@
 
     <% end %>
 
-<!--     <div class="row">
-      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-        <%= @internship.errors.length if @internship %>
-        <%= form_tag({controller: "internships", action: "create", method: "post"}, {class: 'host_form'}) do %>
-          <%= hidden_field_tag :slot_id, slot.id %>
-          <%= text_area_tag :description, nil, placeholder: 'Description' %>
-          <br/>
-
-          <%= text_field_tag :email, nil, placeholder: 'Email' %>
-          <br/>
-
-          <%= text_field_tag :name, nil, placeholder: 'Name' %>
-          
-
-          <%= submit_tag("Offer Internship") %>
-        <% end %>
-      </div>
-      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"></div> -->
-<!--     </div>
-  </div> -->
 <% end %>
 
 <!-- Modal -->
@@ -88,6 +71,14 @@
 </div>
 
 <div id="myModal2" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<div id="myModal3" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       

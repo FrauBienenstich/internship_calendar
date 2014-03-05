@@ -4,6 +4,7 @@ InternshipCalender::Application.routes.draw do
   resources :internships do
     member do
       get :sign_up_form #generiert path und url helper
+      get :edit
     end
   end
   resources :people
