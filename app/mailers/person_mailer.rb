@@ -38,7 +38,12 @@ class PersonMailer < ActionMailer::Base
     @time = time
     @day = day
     @description = description
-    emails = [@host.email, @intern.email]
+
+    if @intern
+      emails = [@host.email, @intern.email]
+    else
+      emails = @host.email
+    end
 
     mail(to: emails, subject: "Internship was deleted")
   end
