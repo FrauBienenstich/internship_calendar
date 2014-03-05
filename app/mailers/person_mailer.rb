@@ -11,6 +11,7 @@ class PersonMailer < ActionMailer::Base
   end
 
   def update_mail(host, intern, time, day, description)
+  def delete_intern_mail(host, intern, time, day, description)
     @host = host
     @intern = intern
     @time = time
@@ -18,7 +19,9 @@ class PersonMailer < ActionMailer::Base
     @description = description
     emails = [@host.email, @intern.email]
 
-    mail(to: emails, subject: "Internship was updated!")
+    mail(to: emails, subject: "Intern was deleted")
+  end
+
   def assign_intern_mail(host, intern, time, day, description)
     @host = host
     @intern = intern
