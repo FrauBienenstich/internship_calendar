@@ -6,10 +6,10 @@
   <div class="modal-body">
     <%= hidden_field_tag :slot_id, @internship.slot.id %> 
 
-    <%= text_field_tag :email, nil, placeholder: 'Email' %>
+    <%= text_field_tag :email, @internship.intern.email, placeholder: 'Email' %>
     <br/>
 
-    <%= text_field_tag :name, nil, placeholder: 'Name' %>
+    <%= text_field_tag :name, @internship.intern.name, placeholder: 'Name' %>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
