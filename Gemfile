@@ -10,6 +10,11 @@ gem 'sqlite3'
 gem 'rspec-rails'
 gem "font-awesome-rails"
 
+gem "factory_girl_rails"
+gem "guard-rspec"
+gem "database_cleaner"
+
+
 
 # Gems used only for assets and not required
 # in production environments by default.
