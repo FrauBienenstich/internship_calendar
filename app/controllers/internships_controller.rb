@@ -48,11 +48,11 @@ class InternshipsController < ApplicationController
     day = @internship.slot.day
     description = @internship.description
 
-    deleted_intern = @internship.intern
 
     result = true
 
     if params[:commit] == "Remove"
+      deleted_intern = @internship.intern
       delete_intern(@internship)
       PersonMailer.delete_intern_mail(host, deleted_intern, time, day, description).deliver
 

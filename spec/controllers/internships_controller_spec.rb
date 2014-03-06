@@ -41,5 +41,20 @@ describe InternshipsController do
       expect { get :sign_up_form }.to_not render_template(layout: "application")
     end
   end
-  
+
+  describe 'GET edit' do
+
+    before do
+      @internship = FactoryGirl.create(:internship)
+      @internship.create_intern( FactoryGirl.attributes_for(:intern) ) # WICHTIG!!!
+      @internship.save
+    end
+
+    it "renders the edit form" do
+      get :edit, :id => @internship.id
+      expect { get :edit }.to_not render_template(layout: "application")
+    end
+
+  end
+
 end
