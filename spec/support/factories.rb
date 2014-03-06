@@ -1,15 +1,8 @@
 FactoryGirl.define do
 
-  factory :internship do
-
-  end
-
-  factory :host do
-
-  end
-
-  factory :intern do
-
+  factory :person do
+    name "Susanne"
+    email "susanne@dewein.de"
   end
 
   factory :slot do
@@ -18,4 +11,9 @@ FactoryGirl.define do
     #day_id '1'
   end
   
+  factory :internship do
+    description "Blabla"
+    host { FactoryGirl.create(:person) }
+    slot { FactoryGirl.create(:slot)}
+  end
 end
