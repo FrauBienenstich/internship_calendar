@@ -34,6 +34,8 @@ gem 'jquery-rails'
 gem 'capybara'
 gem "launchy", "~> 2.4.2"
 
+gem 'poltergeist'
+
 
 
 # gem 'capybara-webkit'
