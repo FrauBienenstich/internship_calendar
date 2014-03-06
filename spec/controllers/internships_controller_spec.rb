@@ -3,15 +3,32 @@ require 'spec_helper'
 describe InternshipsController do
   render_views
 
- 
   describe 'POST create' do
     context "with valid attributes" do
-      pending
+      
     end
 
     context "with invalid attributes" do
       pending
     end
+  end
+
+  describe 'PUT update' do
+
+  end
+
+
+  describe 'DELETE destroy' do
+
+  end
+
+  describe '#assign_intern' do
+
+  end
+
+
+  describe '#delete_intern' do
+
   end
 
 
@@ -54,7 +71,6 @@ describe InternshipsController do
       get :edit, :id => @internship.id
       expect { get :edit }.to_not render_template(layout: "application")
     end
-
   end
 
 end
