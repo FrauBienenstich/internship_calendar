@@ -12,13 +12,9 @@ class PersonMailer < ActionMailer::Base
   end
 
   def delete_intern_mail(internship, deleted_intern)
-    @host = internship.host
-    @intern = internship.intern
-    @time = internship.slot.name
-    @day = internship.slot.day
-    @description = internship.description
-    deleted_intern = deleted_intern
-    emails = [@host.email, deleted_intern.email]
+    @internship = internship
+    @deleted_intern = deleted_intern
+    emails = [@internship.host.email, deleted_intern.email]
 
     mail(to: emails, subject: "Intern was deleted")
   end
