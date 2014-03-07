@@ -8,11 +8,11 @@ class InternshipsController < ApplicationController
     slot_id = params[:slot_id]
     desc = params[:description]
 
-    slot = Slot.find_by(id: slot_id) # ist das hier guter Stil? oder übergebe ich confirmation_mail zu viele Argumente(host, time, day, desc)?
+    slot = Slot.find_by(id: slot_id)
     time = slot.name
 
     internship = Internship.new(:description => desc, :slot_id => slot_id, :host => host)# still dont know what happens afterwards with it!
-    
+
     day = internship.slot.day
 
     if host.save && internship.save
@@ -76,6 +76,7 @@ class InternshipsController < ApplicationController
     time = @internship.slot.name
     day = @internship.slot.day
     description = @internship.description
+    # saved_internship = @internship
 
     @internship.destroy
 
