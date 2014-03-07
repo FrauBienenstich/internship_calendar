@@ -36,6 +36,22 @@ describe PersonMailer do
     expect(mail.to).to eql [internship.host.email, deleted_intern.email]
 
   end
+
+  it 'sends out an email if an intern was assigned to an internship' do
+    internship = FactoryGirl.create(:internship)
+    internship.create_intern( FactoryGirl.attributes_for(:intern))
+
+    mailer = described_class.assign_intern_mail(internship)
+
+    mailer.deliver
+    mail = ActionMailer::Base.deliveries.last
+    expect(ActionMailer::Base.deliveries.size).to eql 1
+    expect(mail.subject).to eql "You have an intern now!"
+    expect(mail.from).to eql ["openday@nugg.ad"]
+    expect(mail.to).to eql [internship.host.email, internship.intern.email]
+  end
+
+
   
 
 end
