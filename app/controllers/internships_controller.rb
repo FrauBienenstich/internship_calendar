@@ -80,7 +80,7 @@ class InternshipsController < ApplicationController
     @internship.destroy
 
 
-    PersonMailer.delete_internship_mail(host, intern, time, day, description).deliver
+    PersonMailer.delete_internship_mail(@internship).deliver
     redirect_to current_days_path, notice: "You successfully deleted an internship"
   end
 

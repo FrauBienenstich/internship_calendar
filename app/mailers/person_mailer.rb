@@ -34,12 +34,12 @@ class PersonMailer < ActionMailer::Base
     mail(to: emails, subject: "You have an intern now!")
   end
 
-  def delete_internship_mail(host, intern, time, day, description)
-    @host = host
-    @intern = intern
-    @time = time
-    @day = day
-    @description = description
+  def delete_internship_mail(internship)
+    @host = internship.host
+    @intern = internship.intern
+    @time = internship.slot.name
+    @day = internship.slot.day
+    @description = internship.description
 
     if @intern
       emails = [@host.email, @intern.email]
