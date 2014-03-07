@@ -12,11 +12,11 @@ class InternshipsController < ApplicationController
     time = slot.name
 
     internship = Internship.new(:description => desc, :slot_id => slot_id, :host => host)# still dont know what happens afterwards with it!
-
+    
     day = internship.slot.day
 
     if host.save && internship.save
-      PersonMailer.confirmation_mail(host, time, day, desc).deliver
+      PersonMailer.confirmation_mail(internship).deliver
       redirect_to current_days_path, notice: "You successfully created an internship!"
     else
       redirect_to current_days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
@@ -54,7 +54,7 @@ class InternshipsController < ApplicationController
     if params[:commit] == "Remove"
       deleted_intern = @internship.intern
       delete_intern(@internship)
-      PersonMailer.delete_intern_mail(host, deleted_intern, time, day, description).deliver
+      PersonMailer.delete_intern_mail(@internship, deleted_intern).deliver
 
     else
       result = assign_intern(@internship)
