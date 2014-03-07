@@ -1,22 +1,24 @@
 class PersonMailer < ActionMailer::Base
   default from: "openday@nugg.ad"
 
-  def confirmation_mail(person, time, day, description)
-    @person = person
-    @time = time
-    @day = day
-    @description = description
+  def confirmation_mail(internship)
+    @person = internship.host
+    @time = internship.slot.name
+    @day = internship.slot.day
+
+    @description = internship.description
 
     mail(to: @person.email, subject: "You successfully created an open internship")
   end
 
-  def delete_intern_mail(host, intern, time, day, description)
-    @host = host
-    @intern = intern
-    @time = time
-    @day = day
-    @description = description
-    emails = [@host.email, @intern.email]
+  def delete_intern_mail(internship, deleted_intern)
+    @host = internship.host
+    @intern = internship.intern
+    @time = internship.slot.name
+    @day = internship.slot.day
+    @description = internship.description
+    deleted_intern = deleted_intern
+    emails = [@host.email, deleted_intern.email]
 
     mail(to: emails, subject: "Intern was deleted")
   end
