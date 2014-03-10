@@ -20,12 +20,10 @@ class PersonMailer < ActionMailer::Base
   end
 
   def assign_intern_mail(internship)
-    @host = internship.host
-    @intern = internship.intern
-    @time = internship.slot.name
-    @day = internship.slot.day
-    @description = internship.description
-    emails = [@host.email, @intern.email]
+
+    @internship = internship
+    
+    emails = [internship.host.email, internship.intern.email]
 
     mail(to: emails, subject: "You have an intern now!")
   end
