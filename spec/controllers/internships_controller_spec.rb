@@ -11,23 +11,39 @@ describe InternshipsController do
         @slot = FactoryGirl.create(:slot)
       end
 
+      context "new person " do
+        before do
+          @params = {
+            email: "susanne@dewein.de",
+            name: "Susanne Dewein",
+            slot_id: @slot.id,
+            description: "Test" 
+          }
+          
+        end
       #internship: FactoryGirl.attributes_for(:internship)
-      it 'creates a new internship and a new person' do
-        
-        params = {
-          email: "susanne@dewein.de",
-          name: "Susanne Dewein",
-          slot_id: @slot.id,
-          description: "Test" 
-        }
+        it 'creates a new internship and a new person' do
+          
 
-        expect do
           expect do
-            post :create, params
-          end.to change{ Internship.count }.by(1)
-        end.to change{ Person.count }.by(1)
+            expect do
+              post :create, @params
+            end.to change{ Internship.count }.by(1)
+          end.to change{ Person.count }.by(1)
 
-        response.should redirect_to current_days_path
+          response.should redirect_to current_days_path
+        end
+
+
+        it 'sends out email' do
+          internship = double("my Internship").as_null_object
+          Internship.stub(:new).and_return(internship)
+
+          PersonMailer.any_instance.should_receive(:confirmation_mail).with(internship)
+
+          post :create, @params
+
+        end
       end
 
       it 'finds assigned host if Person already exists' do
