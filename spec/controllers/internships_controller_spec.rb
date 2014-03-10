@@ -24,8 +24,7 @@ describe InternshipsController do
         expect do
           post :create, params
         end.to change{ Internship.count }.by(1)
-        puts assigns(:internship)
-        response.should redirect_to current_days_path()
+        response.should redirect_to current_days_path
       end
     end
 
