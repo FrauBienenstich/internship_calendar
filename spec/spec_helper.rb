@@ -3,8 +3,10 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
-require 'capybara/rspec'
 require 'factory_girl_rails'
+
+require 'capybara/rspec'
+require 'capybara/rails'
 require 'capybara/poltergeist'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -20,15 +22,15 @@ Capybara.configure do |config|
 end
 
 Capybara.run_server = false
-Capybara.current_driver = :poltergeist
+# Capybara.current_driver = :poltergeist
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(
-    app,
-    window_size: [1280, 1024],
-    debug:       true
-  )
-end
+# Capybara.register_driver :poltergeist do |app|
+#   Capybara::Poltergeist::Driver.new(
+#     app,
+#     window_size: [1280, 1024],
+#     debug:       true
+#   )
+# end
 Capybara.javascript_driver = :poltergeist
 
 
