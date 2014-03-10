@@ -4,8 +4,29 @@ describe InternshipsController do
   render_views
 
   describe 'POST create' do
+
     context "with valid attributes" do
-      
+
+      before do 
+        @slot = FactoryGirl.create(:slot)
+      end
+
+      #internship: FactoryGirl.attributes_for(:internship)
+      it 'creates a new internship' do
+        
+        params = {
+          email: "susanne@dewein.de",
+          name: "Susanne Dewein",
+          slot_id: @slot.id,
+          description: "Test" 
+        }
+
+        expect do
+          post :create, params
+        end.to change{ Internship.count }.by(1)
+        puts assigns(:internship)
+        response.should redirect_to current_days_path()
+      end
     end
 
     context "with invalid attributes" do
