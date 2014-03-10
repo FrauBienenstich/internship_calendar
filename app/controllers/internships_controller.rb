@@ -2,7 +2,6 @@ class InternshipsController < ApplicationController
   respond_to :html
 
   def create
-
     host = Person.find_or_initialize_by(email: params[:email])
     host.name = params[:name]
     slot_id = params[:slot_id]
