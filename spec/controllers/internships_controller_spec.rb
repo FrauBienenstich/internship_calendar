@@ -22,11 +22,9 @@ describe InternshipsController do
         }
 
         expect do
-          post :create, params
-        end.to change{ Internship.count }.by(1)
-
-        expect do
-          post :create, params
+          expect do
+            post :create, params
+          end.to change{ Internship.count }.by(1)
         end.to change{ Person.count }.by(1)
 
         response.should redirect_to current_days_path
@@ -54,7 +52,14 @@ describe InternshipsController do
     end
 
     context "with invalid attributes" do
-      pending
+      
+      it 'renders an error message and does not save' do
+        expect do
+          post :create, internship: { title: ''}
+        end.not_to change{ Internship.count }
+        response.should redirect_to current_days_path
+        flash[:error].should_not be_blank
+      end
     end
   end
 
