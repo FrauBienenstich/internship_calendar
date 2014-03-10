@@ -20,25 +20,19 @@ class PersonMailer < ActionMailer::Base
   end
 
   def assign_intern_mail(internship)
-
     @internship = internship
-    
     emails = [internship.host.email, internship.intern.email]
 
     mail(to: emails, subject: "You have an intern now!")
   end
 
   def delete_internship_mail(internship)
-    @host = internship.host
-    @intern = internship.intern
-    @time = internship.slot.name
-    @day = internship.slot.day
-    @description = internship.description
+    @internship = internship
 
-    if @intern
-      emails = [@host.email, @intern.email]
+    if @internship.intern
+      emails = [@internship.host.email, @internship.intern.email]
     else
-      emails = @host.email
+      emails = @internship.host.email
     end
 
     mail(to: emails, subject: "Internship was deleted")

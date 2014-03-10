@@ -4,10 +4,10 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hello <%= @host.name %>
+    <h1>Hello <%= @internship.host.name %>
 
-      <%- if @intern %>
-        and <%= @intern.name %>
+      <%- if @internship.intern %>
+        and <%= @internship.intern.name %>
       <% end %>
     </h1>
     <p>
@@ -15,11 +15,11 @@
     </p>
 
     <p>
-      <b><%= @day.date %></b>
+      <b><%= @internship.slot.day.date %></b>
     </p>
 
     <p>
-      <b><%= @time %></b>
+      <b><%= @internship.slot.name %></b>
     </p>
 
     <p>
@@ -27,7 +27,7 @@
     </p>
 
     <p>
-      <b><%= @description %></b>
+      <b><%= @internship.description %></b>
     </p>
     
   </body>
