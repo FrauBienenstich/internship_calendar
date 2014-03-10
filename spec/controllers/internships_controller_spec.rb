@@ -5,14 +5,14 @@ describe InternshipsController do
 
   describe 'POST create' do
 
-    context "with valid attributes" do
+    context "with valid attributes" do #why do invalid attributes not go into model?
 
       before do 
         @slot = FactoryGirl.create(:slot)
       end
 
       #internship: FactoryGirl.attributes_for(:internship)
-      it 'creates a new internship' do
+      it 'creates a new internship and a new person' do
         
         params = {
           email: "susanne@dewein.de",
@@ -24,8 +24,33 @@ describe InternshipsController do
         expect do
           post :create, params
         end.to change{ Internship.count }.by(1)
+
+        expect do
+          post :create, params
+        end.to change{ Person.count }.by(1)
+
         response.should redirect_to current_days_path
       end
+
+      it 'finds assigned host if Person already exists' do
+        person = FactoryGirl.create(:person)
+
+        params = {
+          email: person.email,
+          name: person.name,
+          slot_id: @slot.id,
+          description: "Test" 
+        }
+
+        expect do
+          post :create, params
+        end.not_to change{ Person.count }
+
+        expect do
+          post :create, params
+        end.to change{ Internship.count }.by(1)
+      end
+
     end
 
     context "with invalid attributes" do
