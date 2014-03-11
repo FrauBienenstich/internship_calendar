@@ -12,25 +12,22 @@ describe InternshipsController do
       end
 
       context "new person " do
+
         before do
           @params = {
             email: "susanne@dewein.de",
             name: "Susanne Dewein",
             slot_id: @slot.id,
             description: "Test" 
-          }
-          
+          }   
         end
-      #internship: FactoryGirl.attributes_for(:internship)
-        it 'creates a new internship and a new person' do
-          
 
+        it 'creates a new internship and a new person' do
           expect do
             expect do
               post :create, @params
             end.to change{ Internship.count }.by(1)
           end.to change{ Person.count }.by(1)
-
           response.should redirect_to current_days_path
         end
 
@@ -38,9 +35,7 @@ describe InternshipsController do
         it 'sends out email' do
           internship = double("my Internship").as_null_object
           Internship.stub(:new).and_return(internship)
-
           PersonMailer.any_instance.should_receive(:confirmation_mail).with(internship)
-
           post :create, @params
 
         end
@@ -81,11 +76,52 @@ describe InternshipsController do
 
   describe 'PUT update' do
 
+    it 'removes an intern from an internship' do
+      pending
+    end
+
+    it 'adds an intern to an internship' do
+      pending
+    end
+    # should i test the internally called methods separately?(delete_intern, assign_intern)
+
   end
 
 
   describe 'DELETE destroy' do
 
+    # before do
+    #   @internship = FactoryGirl.create(:internship)
+    # end
+
+    it 'deletes the whole internship' do
+      #create a double:
+      internship = double("my Internship")
+
+      #stub a method:
+      Internship.stub(:find).with("7").and_return(internship)
+      internship.should_receive(:destroy).and_return(internship.as_null_object)
+      delete :destroy, :id => 7
+
+      # expect{
+      #   delete :destroy, id: internship # why can i write it like this?
+      # }.to change(Internship, :count).by(-1)
+
+
+
+          
+      # PersonMailer.any_instance.should_receive(:delete_internship_mail).with(internship)
+      # delete :destroy, @params
+
+    end
+
+    it 'sends out an email to intern and host' do
+      
+    end
+
+    it 'redirects to the current_days_path' do
+
+    end
   end
 
   describe '#assign_intern' do
