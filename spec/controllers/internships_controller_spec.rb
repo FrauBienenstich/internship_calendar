@@ -76,25 +76,31 @@ describe InternshipsController do
 
   describe 'PUT update' do
 
+    before do
+      @internship = double("my internship")
+      Internship.stub(:find_by).with(id: "12").and_return(@internship)
+    end
+
     it 'removes an intern from an internship' do
-      pending
+      @internship.should_receive(:delete_intern).and_return(@internship.as_null_object)
+      put :update, id: 12, commit: "Remove"
     end
 
     it 'adds an intern to an internship' do
-      pending
+      @internship.should_receive(:assign_intern).and_return(@internship.as_null_object)
+      put :update, id: 12
     end
-    # should i test the internally called methods separately?(delete_intern, assign_intern)
 
+    it 'redirects to the day_path' do
+
+    end
   end
 
 
   describe 'DELETE destroy' do
 
     it 'deletes the whole internship' do
-      #create a double:
       internship = double("my Internship")
-
-      #stub a method:
       Internship.stub(:find).with("7").and_return(internship)
       internship.should_receive(:destroy).and_return(internship.as_null_object)
       delete :destroy, :id => 7
@@ -113,22 +119,10 @@ describe InternshipsController do
     it 'redirects to the current_days_path' do
       internship = double("my Internship").as_null_object
       Internship.stub(:find).with("9").and_return(internship)
-
-
       delete :destroy, id: 9
       expect(response).to redirect_to current_days_path
     end
   end
-
-  describe '#assign_intern' do
-
-  end
-
-
-  describe '#delete_intern' do
-
-  end
-
 
   describe 'GET new' do
 
