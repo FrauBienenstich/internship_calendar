@@ -100,6 +100,7 @@ describe InternshipsController do
       delete :destroy, :id => 7
     end
 
+
     it 'sends out an email to intern and host' do
       internship = double("my Internship").as_null_object
       Internship.stub(:find).with("8").and_return(internship)
@@ -110,7 +111,12 @@ describe InternshipsController do
     end
 
     it 'redirects to the current_days_path' do
+      internship = double("my Internship").as_null_object
+      Internship.stub(:find).with("9").and_return(internship)
 
+
+      delete :destroy, id: 9
+      expect(response).to redirect_to current_days_path
     end
   end
 
