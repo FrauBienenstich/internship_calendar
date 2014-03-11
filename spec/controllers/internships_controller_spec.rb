@@ -81,18 +81,40 @@ describe InternshipsController do
       Internship.stub(:find_by).with(id: "12").and_return(@internship)
     end
 
-    it 'removes an intern from an internship' do
-      @internship.should_receive(:delete_intern).and_return(@internship.as_null_object)
-      put :update, id: 12, commit: "Remove"
+    context "when deleting an intern from an internship" do
+
+      it 'removes an intern from an internship' do
+        @internship.should_receive(:delete_intern).and_return(@internship.as_null_object)
+        put :update, id: 12, commit: "Remove"
+      end
+
+      it 'redirects to day path' do
+        slot = double('slot')
+        day = double('day')
+        @internship.stub(:slot).and_return(slot)
+        slot.stub(:day).and_return(day)
+        @internship.stub(:delete_intern).and_return(@internship.as_null_object)
+        put :update, id: 12, commit: "Remove"
+        response.should redirect_to day_path(@internship.slot.day)
+      end
     end
 
-    it 'adds an intern to an internship' do
-      @internship.should_receive(:assign_intern).and_return(@internship.as_null_object)
-      put :update, id: 12
-    end
+    context "when assigning an intern to an internship" do
 
-    it 'redirects to the day_path' do
+      it 'adds an intern to an internship' do
+        @internship.should_receive(:assign_intern).and_return(@internship.as_null_object)
+        put :update, id: 12
+      end
 
+      it 'redirects to day path' do
+        slot = double('slot')
+        day = double('day')
+        @internship.stub(:slot).and_return(slot)
+        slot.stub(:day).and_return(day)
+        @internship.stub(:assign_intern).and_return(@internship.as_null_object)
+        put :update, id: 12
+        response.should redirect_to day_path(@internship.slot.day)
+      end
     end
   end
 
