@@ -90,10 +90,6 @@ describe InternshipsController do
 
   describe 'DELETE destroy' do
 
-    # before do
-    #   @internship = FactoryGirl.create(:internship)
-    # end
-
     it 'deletes the whole internship' do
       #create a double:
       internship = double("my Internship")
@@ -102,21 +98,15 @@ describe InternshipsController do
       Internship.stub(:find).with("7").and_return(internship)
       internship.should_receive(:destroy).and_return(internship.as_null_object)
       delete :destroy, :id => 7
-
-      # expect{
-      #   delete :destroy, id: internship # why can i write it like this?
-      # }.to change(Internship, :count).by(-1)
-
-
-
-          
-      # PersonMailer.any_instance.should_receive(:delete_internship_mail).with(internship)
-      # delete :destroy, @params
-
     end
 
     it 'sends out an email to intern and host' do
-      
+      internship = double("my Internship").as_null_object
+      Internship.stub(:find).with("8").and_return(internship)
+
+      PersonMailer.any_instance.should_receive(:delete_internship_mail).with(internship)
+
+      delete :destroy, id: 8
     end
 
     it 'redirects to the current_days_path' do
