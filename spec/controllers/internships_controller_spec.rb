@@ -79,6 +79,10 @@ describe InternshipsController do
     before do
       @internship = double("my internship")
       Internship.stub(:find_by).with(id: "12").and_return(@internship)
+      @slot = double('slot')
+      @day = double('day')
+      @internship.stub(:slot).and_return(@slot)
+      @slot.stub(:day).and_return(@day)
     end
 
     context "when deleting an intern from an internship" do
@@ -89,10 +93,6 @@ describe InternshipsController do
       end
 
       it 'redirects to day path' do
-        slot = double('slot')
-        day = double('day')
-        @internship.stub(:slot).and_return(slot)
-        slot.stub(:day).and_return(day)
         @internship.stub(:delete_intern).and_return(@internship.as_null_object)
         put :update, id: 12, commit: "Remove"
         response.should redirect_to day_path(@internship.slot.day)
@@ -107,10 +107,6 @@ describe InternshipsController do
       end
 
       it 'redirects to day path' do
-        slot = double('slot')
-        day = double('day')
-        @internship.stub(:slot).and_return(slot)
-        slot.stub(:day).and_return(day)
         @internship.stub(:assign_intern).and_return(@internship.as_null_object)
         put :update, id: 12
         response.should redirect_to day_path(@internship.slot.day)
