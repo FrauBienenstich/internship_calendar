@@ -30,9 +30,7 @@ class InternshipsController < ApplicationController
   end
 
   def update
-    puts "PARAMS #{params}"
     @internship = Internship.find_by(id: params[:id])
-    puts "INTERNSHIP #{@internship}"
 
     if params[:commit] == "Remove"
       @internship.delete_intern
@@ -56,30 +54,6 @@ class InternshipsController < ApplicationController
     PersonMailer.delete_internship_mail(@internship).deliver
     redirect_to current_days_path, notice: "You successfully deleted an internship"
   end
-
-protected
-
-  # def delete_intern
-  #   @deleted_intern = @internship.intern
-
-  #   @internship.intern_id = nil
-  #   @internship.save
-
-  #   PersonMailer.delete_intern_mail(@internship, @deleted_intern).deliver
-  # end
-
-  # def assign_intern
-  #   @internship.intern = Person.find_or_initialize_by(email: params[:email])
-  #   @internship.intern.name = params[:name]
-    
-  #   if @internship.intern.save && @internship.save
-  #     flash[:notice] = "You successfully became an intern!"
-  #     PersonMailer.assign_intern_mail(@internship).deliver
-  #   else
-  #     flash[:error] = "Your application as an intern failed!"
-  #   end
-  # end
-
 end
 
 # {
