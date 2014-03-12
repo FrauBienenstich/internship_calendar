@@ -25,7 +25,11 @@ class Internship < ActiveRecord::Base
 
     self.intern = Person.find_or_initialize_by(:email => email) # not yet saved!
     save
-    PersonMailer.assign_intern_mail(self).deliver
+
+    ical = to_ical
+    puts ical.inspect
+
+    PersonMailer.assign_intern_mail(self, ical).deliver
 
     #self.intern.name = params[:name]
     
@@ -37,6 +41,23 @@ class Internship < ActiveRecord::Base
   #     flash[:error] = "Your application as an intern failed!"
     #   false
     # end
+  end
+
+  def to_ical
+    @calendar = Icalendar::Calendar.new
+    event = Icalendar::Event.new
+    start_time = 1.day.from_now
+    end_time = start_time + 1.hour
+
+    event.start = start_time.strftime("%Y%m%dT%H%M%S")
+    event.end = end_time.strftime("%Y%m%dT%H%M%S")
+    event.summary = description
+    event.description = description
+    event.location = "nugg.ad office"
+    @calendar.add event
+    @calendar.publish
+    # headers['Content-Type'] = "text/calendar; charset=UTF-8"
+    @calendar.to_ical
   end
 
 

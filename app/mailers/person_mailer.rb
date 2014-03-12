@@ -19,11 +19,11 @@ class PersonMailer < ActionMailer::Base
     mail(to: emails, subject: "Intern was deleted")
   end
 
-  def assign_intern_mail(internship)
+  def assign_intern_mail(internship, ical)
     @internship = internship
     emails = [@internship.host.email, @internship.intern.email]
-
-    mail(to: emails, subject: "You have an intern now!")
+    attachments["internship_appointment.ics"] = {mimetype: "text/calendar; charset=UTF-8", content: ical}
+    mail(to: emails, subject: "You have an iicalntern now!")
   end
 
   def delete_internship_mail(internship)
