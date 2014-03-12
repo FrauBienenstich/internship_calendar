@@ -92,6 +92,10 @@ describe InternshipsController do
         put :update, id: 12, commit: "Remove"
       end
 
+      it 'shows a succes flash' do
+      end
+
+      
       it 'redirects to day path' do
         @internship.stub(:delete_intern).and_return(@internship.as_null_object)
         put :update, id: 12, commit: "Remove"

@@ -33,7 +33,11 @@ class InternshipsController < ApplicationController
     @internship = Internship.find_by(id: params[:id])
 
     if params[:commit] == "Remove"
-      @internship.delete_intern
+      if @internship.delete_intern!
+        flash[:notice] = "Worked"
+      else
+        flash[:error] = "Did not work"
+      end
     else
       @internship.assign_intern(params[:email])
     end
