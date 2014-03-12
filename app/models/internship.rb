@@ -10,22 +10,22 @@ class Internship < ActiveRecord::Base
 
 
 
-  def delete_intern
-    puts self.inspect
-    @internship = self
-    puts "@internship #{@internship.inspect}"
-    @deleted_intern = @internship.intern
-    puts "@internship.intern #{@internship.intern}"
-    @internship.intern_id = nil
-    @internship.save # how do i test this line?
+  def delete_intern!
+    deleted_intern = self.intern
+    self.intern_id = nil
 
-    puts "DELETED: #{@deleted_intern}"
-    PersonMailer.delete_intern_mail(@internship, @deleted_intern).deliver
+    if save
+      PersonMailer.delete_intern_mail(self, deleted_intern).deliver
+    else 
+      false
+    end
   end
 
-  # def assign_intern
-  #   @internship.intern = Person.find_or_initialize_by(email: params[:email])
-  #   @internship.intern.name = params[:name]
+  def assign_intern(email)
+
+    self.intern = Person.find_or_initialize_by(:email => email) # not yet saved!
+    save
+    #self.intern.name = params[:name]
     
   #   if @internship.intern.save && @internship.save
   #     flash[:notice] = "You successfully became an intern!"
@@ -33,7 +33,7 @@ class Internship < ActiveRecord::Base
   #   else
   #     flash[:error] = "Your application as an intern failed!"
   #   end
-  # end
+  end
 
 
 end
