@@ -14,8 +14,6 @@ class PersonMailer < ActionMailer::Base
   def delete_intern_mail(internship, deleted_intern)
     @internship = internship
     @deleted_intern = deleted_intern
-    puts "Host: #{@internship.host}"
-    puts "Intern #{@deleted_intern}" #empty!!
     emails = [@internship.host.email, @deleted_intern.email]
 
     mail(to: emails, subject: "Intern was deleted")
