@@ -30,13 +30,13 @@ describe SlotsController do
   # SlotsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all slots as @slots" do
-      slot = Slot.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:slots).should eq([slot])
-    end
-  end
+  # describe "GET index" do
+  #   it "assigns all slots as @slots" do
+  #     slot = Slot.create! valid_attributes
+  #     get :index, {}, valid_session
+  #     assigns(:slots).should eq([slot])
+  #   end
+  # end
 
   describe "GET show" do
     it "assigns the requested slot as @slot" do
