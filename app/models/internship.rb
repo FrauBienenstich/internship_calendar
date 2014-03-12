@@ -25,14 +25,18 @@ class Internship < ActiveRecord::Base
 
     self.intern = Person.find_or_initialize_by(:email => email) # not yet saved!
     save
+    PersonMailer.assign_intern_mail(self).deliver
+
     #self.intern.name = params[:name]
     
-  #   if @internship.intern.save && @internship.save
+   # if @internship.intern.save && @internship.save
   #     flash[:notice] = "You successfully became an intern!"
-  #     PersonMailer.assign_intern_mail(@internship).deliver
-  #   else
+     # PersonMailer.assign_intern_mail(@internship).deliver
+
+    #else
   #     flash[:error] = "Your application as an intern failed!"
-  #   end
+    #   false
+    # end
   end
 
 

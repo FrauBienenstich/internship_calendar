@@ -36,7 +36,7 @@ describe Internship do
       expect {
         @internship.assign_intern("susanne.dewein@gmail.com")
         expect(@internship.reload.intern).to eql @person
-      }.not_to change{Person.count}
+      }.not_to change{ Person.count }
     end
 
     it 'creates a new person as an intern for an internship' do
@@ -46,6 +46,12 @@ describe Internship do
         @internship.assign_intern("susanne.dewein@gmail.com")
         expect(@internship.reload.intern.email).to eql "susanne.dewein@gmail.com"
       }.to change{Person.count}.by 1
+    end
+
+    it 'sends out an email when saved' do
+      PersonMailer.any_instance.should_receive(:assign_intern_mail).with(@internship)
+
+      @internship.assign_intern("susanne.dewein@gmail.com")
     end
   end
 end
