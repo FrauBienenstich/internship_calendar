@@ -33,11 +33,23 @@ describe InternshipsController do
 
 
         it 'sends out email' do
+
+          ical = Icalendar::Calendar.new.to_ical
           internship = double("my Internship").as_null_object
           Internship.stub(:new).and_return(internship)
-          PersonMailer.any_instance.should_receive(:confirmation_mail).with(internship)
+          internship.stub(:to_ical).and_return(ical)
+          PersonMailer.any_instance.should_receive(:confirmation_mail).with(internship, ical)
+          #puts @params
           post :create, @params
+        end
 
+        it 'sends out email 2' do
+          expect {            
+            post :create, @params
+            mail = ActionMailer::Base.deliveries.last
+            mail.subject.should match /successfully created/
+            mail.attachments.first.filename.should match /ics/
+          }.to change { ActionMailer::Base.deliveries.size }.by(1)
         end
       end
 
@@ -88,7 +100,7 @@ describe InternshipsController do
     context "when deleting an intern from an internship" do
 
       it 'removes an intern from an internship' do
-        @internship.should_receive(:delete_intern).and_return(@internship.as_null_object)
+        @internship.should_receive(:delete_intern!).and_return(@internship.as_null_object)
         put :update, id: 12, commit: "Remove"
       end
 

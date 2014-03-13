@@ -1,12 +1,14 @@
 class PersonMailer < ActionMailer::Base
   default from: "openday@nugg.ad"
 
-  def confirmation_mail(internship)
+  def confirmation_mail(internship, ical)
     @person = internship.host
     @time = internship.slot.name
     @day = internship.slot.day
 
     @description = internship.description
+
+    attachments["internship_appointment.ics"] = {content_type: "text/calendar; charset=UTF-8", content: ical}
 
     mail(to: @person.email, subject: "You successfully created an open internship")
   end
@@ -21,9 +23,13 @@ class PersonMailer < ActionMailer::Base
 
   def assign_intern_mail(internship, ical)
     @internship = internship
-    emails = [@internship.host.email, @internship.intern.email]
-    attachments["internship_appointment.ics"] = {mimetype: "text/calendar; charset=UTF-8", content: ical}
-    mail(to: emails, subject: "You have an iicalntern now!")
+    mail(to: @internship.host.email, subject: "You have an intern now!")
+  end
+
+  def confirmation_for_intern_mail(internship, ical)
+    @internship = internship
+    attachments["internship_appointment.ics"] = {content_type: "text/calendar; charset=UTF-8", content: ical}
+    mail(to: @internship.intern.email, subject: "You are interning with #{@internship.host.name}!")
   end
 
   def delete_internship_mail(internship)

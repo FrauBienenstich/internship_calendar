@@ -27,9 +27,11 @@ class Internship < ActiveRecord::Base
     save
 
     ical = to_ical
-    puts ical.inspect
+    #puts ical.inspect
 
+    #puts "SELF #{self}"
     PersonMailer.assign_intern_mail(self, ical).deliver
+    PersonMailer.confirmation_for_intern_mail(self, ical).deliver
 
     #self.intern.name = params[:name]
     

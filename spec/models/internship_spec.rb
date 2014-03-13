@@ -29,6 +29,7 @@ describe Internship do
     
     before do
       @internship = FactoryGirl.create(:internship)
+      @ical = Icalendar::Calendar.new.to_ical
     end 
 
     it 'finds an exisiting person as an intern for an internship' do
@@ -48,10 +49,15 @@ describe Internship do
       }.to change{Person.count}.by 1
     end
 
-    it 'sends out an email when saved' do
-      PersonMailer.any_instance.should_receive(:assign_intern_mail).with(@internship)
-
+    it 'sends out an email to host when intern saved' do
+      PersonMailer.any_instance.should_receive(:assign_intern_mail)
       @internship.assign_intern("susanne.dewein@gmail.com")
     end
+
+    # it 'sends out an email to the intern when they assign themselves' do
+    #   ical = @internship.to_ical
+    #   PersonMailer.any_instance.should_receive(:confirmation_for_intern_mail).with(@internship, ical)
+    #   @internship.assign_intern("susanne.dewein@gmail.com")
+    # end
   end
 end

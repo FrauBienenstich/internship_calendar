@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello <%= @internship.intern.name %></h1>
+    <p>
+      You are now interning with <%= @internship.host.name %> (<%= @internship.host.email %>)!
+    </p>
+
+    <p>
+      <b><%= @internship.slot.day.date %></b>
+    </p>
+
+    <p>
+      <b><%= @internship.slot.name %></b>
+    </p>
+
+    <p>
+    This is your description of the internship you just joined:
+    </p>
+
+    <p>
+      <b><%= @internship.description %></b>
+    </p>
+    
+  </body>
+</html>
