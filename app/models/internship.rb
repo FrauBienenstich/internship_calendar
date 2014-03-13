@@ -48,11 +48,10 @@ class Internship < ActiveRecord::Base
   def to_ical
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
-    start_time = 1.day.from_now
-    end_time = start_time + 1.hour
 
-    event.start = start_time.strftime("%Y%m%dT%H%M%S")
-    event.end = end_time.strftime("%Y%m%dT%H%M%S")
+    puts "SLOT #{self}"
+    event.start = slot.start_time.strftime("%Y%m%dT%H%M%S")
+    event.end = slot.end_time.strftime("%Y%m%dT%H%M%S")
     event.summary = description
     event.description = description
     event.location = "nugg.ad office"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140226130316) do
+ActiveRecord::Schema.define(version: 20140313150059) do
 
   create_table "days", force: true do |t|
     t.date     "date"
@@ -36,10 +36,11 @@ ActiveRecord::Schema.define(version: 20140226130316) do
   end
 
   create_table "slots", force: true do |t|
-    t.string   "name"
     t.integer  "day_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "start_time", null: false
+    t.datetime "end_time",   null: false
   end
 
 end

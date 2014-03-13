@@ -7,8 +7,9 @@ FactoryGirl.define do
   end
 
   factory :slot do
-    name '1 - 2 pm'
     day { FactoryGirl.create(:day) }
+    start_time Time.now
+    end_time Time.now + 1.hour
   end
   
   factory :internship do
