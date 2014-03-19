@@ -48,8 +48,6 @@ class Internship < ActiveRecord::Base
   def to_ical
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
-
-    puts "SLOT #{self}"
     event.start = slot.start_time.strftime("%Y%m%dT%H%M%S")
     event.end = slot.end_time.strftime("%Y%m%dT%H%M%S")
     event.summary = description

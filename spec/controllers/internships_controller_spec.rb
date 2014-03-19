@@ -75,7 +75,7 @@ describe InternshipsController do
     end
 
     context "with invalid attributes" do
-      
+      #why does this not go into model spec?
       it 'renders an error message and does not save' do
         expect do
           post :create, internship: { title: ''}

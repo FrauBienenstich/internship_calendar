@@ -9,9 +9,8 @@ class InternshipsController < ApplicationController
 
     internship = Internship.new(:description => desc, :slot_id => slot_id, :host => host)# still dont know what happens afterwards with it!
 
-    ical = internship.to_ical 
-
     if host.save && internship.save
+      ical = internship.to_ical # NOTE TO MYSELF: this has to be called after save!!! before i had a red test
       PersonMailer.confirmation_mail(internship, ical).deliver
       redirect_to current_days_path, notice: "You successfully created an internship!"
 
