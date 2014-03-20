@@ -5,3 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+Day.delete_all
+days = Day.create([{date: "2014-03-20"}, {date: "2014-04-21"}])
+
+Slot.delete_all
+slots = Slot.create([{start_time: "14:00:00", end_time: "15:00:00", day_id: days[0].id}, {start_time: "10:00:00", end_time: "11:00:00", day_id: days[1].id}])
+
+
+
+
