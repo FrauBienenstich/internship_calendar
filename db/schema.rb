@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140313150059) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "days", force: true do |t|
     t.date     "date"
     t.datetime "created_at"
