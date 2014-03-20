@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
+ruby "2.0.0"
 
 gem 'rails', '4.0.3'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2'
+gem 'pg'
 gem 'icalendar'
-
 
 
 
@@ -37,6 +38,5 @@ group :test, :development do
 end
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end
