@@ -21,9 +21,9 @@ class Internship < ActiveRecord::Base
     end
   end
 
-  def assign_intern(email)
+  def assign_intern(email, name)
 
-    self.intern = Person.find_or_initialize_by(:email => email) # not yet saved!
+    self.intern = Person.find_or_initialize_by(:email => email, :name => name) # not yet saved!
     save
 
     ical = to_ical

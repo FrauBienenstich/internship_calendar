@@ -34,8 +34,9 @@ describe Internship do
 
     it 'finds an exisiting person as an intern for an internship' do
       @person = FactoryGirl.create(:person, :email => "susanne.dewein@gmail.com")
+      @person.name = "Susanne"
       expect {
-        @internship.assign_intern("susanne.dewein@gmail.com")
+        @internship.assign_intern("susanne.dewein@gmail.com", "Susanne")
         expect(@internship.reload.intern).to eql @person
       }.not_to change{ Person.count }
     end
@@ -44,14 +45,15 @@ describe Internship do
       expect(@internship.intern).to eql nil
       
       expect {
-        @internship.assign_intern("susanne.dewein@gmail.com")
+        @internship.assign_intern("susanne.dewein@gmail.com", "Susanne")
         expect(@internship.reload.intern.email).to eql "susanne.dewein@gmail.com"
+        expect(@internship.reload.intern.name).to eql "Susanne"
       }.to change{Person.count}.by 1
     end
 
     it 'sends out an email to host when intern saved' do
       PersonMailer.any_instance.should_receive(:assign_intern_mail)
-      @internship.assign_intern("susanne.dewein@gmail.com")
+      @internship.assign_intern("susanne.dewein@gmail.com", "Susanne")
     end
 
     # it 'sends out an email to the intern when they assign themselves' do

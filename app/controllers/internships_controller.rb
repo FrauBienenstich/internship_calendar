@@ -42,7 +42,7 @@ class InternshipsController < ApplicationController
         flash[:error] = "Did not work"
       end
     else
-      @internship.assign_intern(params[:email])
+      @internship.assign_intern(params[:email], params[:name])
     end
     redirect_to day_path(@internship.slot.day)
   end
