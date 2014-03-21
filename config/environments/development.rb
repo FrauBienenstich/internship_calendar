@@ -17,11 +17,12 @@ InternshipCalender::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-  :address              => ENV["SMTP_ADDRESS"],
+
+  :address              => 'mail.office.nugg.ad',#ENV["SMTP_ADDRESS"],
   :authentication       => 'plain',
-  :port                 => 25,
-  :domain               => ENV["SMTP_DOMAIN"],
-  :enable_starttls_auto => true  }
+  :port                 => '25',
+  :domain               => 'nugg.ad',#ENV["SMTP_DOMAIN"],
+  :enable_starttls_auto => false  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
