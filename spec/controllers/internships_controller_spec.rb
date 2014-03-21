@@ -26,9 +26,10 @@ describe InternshipsController do
           expect do
             expect do
               post :create, @params
+              expect(assigns[:slot]).not_to be_nil
             end.to change{ Internship.count }.by(1)
           end.to change{ Person.count }.by(1)
-          response.should redirect_to current_days_path
+          response.should redirect_to day_path(@slot.day)
         end
 
 
@@ -80,7 +81,7 @@ describe InternshipsController do
         expect do
           post :create, internship: { title: ''}
         end.not_to change{ Internship.count }
-        response.should redirect_to current_days_path
+        response.should redirect_to days_path
         flash[:error].should_not be_blank
       end
     end
@@ -150,11 +151,11 @@ describe InternshipsController do
       delete :destroy, id: 8
     end
 
-    it 'redirects to the current_days_path' do
+    it 'redirects to the day_path' do
       internship = double("my Internship").as_null_object
       Internship.stub(:find).with("9").and_return(internship)
       delete :destroy, id: 9
-      expect(response).to redirect_to current_days_path
+      expect(response).to redirect_to day_path(internship.slot.day)#i am confused why this works(internship.slot.day) where do slot and day come from?
     end
   end
 

@@ -1,22 +1,23 @@
 class InternshipsController < ApplicationController
   respond_to :html
 
+  before_filter :assign_slot, :only => [:create, :new]
+
   def create
     host = Person.find_or_initialize_by(email: params[:email])
-    host.name = params[:name]
-    slot_id = params[:slot_id]
-    desc = params[:description]
+    host.name = params[:name] if host
 
-    internship = Internship.new(:description => desc, :slot_id => slot_id, :host => host)# still dont know what happens afterwards with it!
+    internship = Internship.new(:description => params[:description], 
+                                :slot_id => @slot.id, 
+                                :host => host)
 
-    if host.save && internship.save
+    if host && host.save && internship && internship.save
       ical = internship.to_ical # NOTE TO MYSELF: this has to be called after save!!! before i had a red test
       PersonMailer.confirmation_mail(internship, ical).deliver
-      redirect_to current_days_path, notice: "You successfully created an internship!"
+      redirect_to day_path(internship.slot.day), notice: "You successfully created an internship!"
 
-      # redirect_to day_path(internship.slot.day)
     else
-      redirect_to current_days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
+      redirect_to day_path(slot.day), :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
     end
   end
 
@@ -59,9 +60,21 @@ class InternshipsController < ApplicationController
     @internship.destroy
 
     PersonMailer.delete_internship_mail(@internship).deliver
-    redirect_to current_days_path, notice: "You successfully deleted an internship"
+    redirect_to day_path(@internship.slot.day), notice: "You successfully deleted an internship"
+  end
+
+private
+  def assign_slot
+    @slot = Slot.find_by(id: params[:slot_id])
+    unless @slot 
+      flash[:error] = "No Slot"
+      # redirecting to days because we dont knoe where to go elsewhere
+      redirect_to days_path
+    end
   end
 end
+
+
 
 # {
 #   "utf8"=>"✓",
