@@ -20,6 +20,7 @@ group :assets do
   gem "font-awesome-rails"
   gem 'jquery-rails'
   gem 'uglifier', '>= 2.1.1'
+  gem 'bootstrap-timepicker-rails'
 end
 
 group :test, :development do
