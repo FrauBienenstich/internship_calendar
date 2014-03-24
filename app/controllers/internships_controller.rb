@@ -17,7 +17,7 @@ class InternshipsController < ApplicationController
       redirect_to day_path(internship.slot.day), notice: "You successfully created an internship!"
 
     else
-      redirect_to day_path(slot.day), :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
+      redirect_to day_path(@slot.day), :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
     end
   end
 
