@@ -1,5 +1,5 @@
 class Day < ActiveRecord::Base
-  has_many :slots
+  has_many :internships
 
   def upcoming_day
     self.date > Date.today or self.date == Date.today
