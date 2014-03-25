@@ -26,6 +26,7 @@ end
 group :test, :development do
 
   #gem "capybara"
+  gem 'mysql2'
   gem "poltergeist", "~> 1.4.0"
   gem "launchy"
 
