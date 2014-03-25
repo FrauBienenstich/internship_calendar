@@ -45,6 +45,10 @@ class Internship < ActiveRecord::Base
     # end
   end
 
+  def get_timeslot
+    "#{self.start_time} until #{self.end_time}"
+  end
+
   def to_ical
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
