@@ -3,29 +3,31 @@
 </h1>
 
   
-<%- @day.slots.each do |slot| %>
-  <div class="slot" id="slot_<%= slot.id %>">
-    <h4><%= slot.get_time %></h4>
+<%- @internships.each do |internship| %>
+  <div class="internship" id="internship_">
+  <!-- the line above is still unclear to me -->
     <!-- button trigger modal -->
     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-      <a href=<%= new_internship_path(:slot_id => slot.id) %> data-toggle="modal" data-target="#myModal2">Yes, I want to offer a new internship!</a>
+      <a href=<%= new_internship_path %> data-toggle="modal" data-target="#myModal2">Yes, I want to offer a new internship!</a>
     </div>
 
   
-    <%- slot.internships.each do |internship| %>
-      <div class="row">
-        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-          <div class="text-field">
-            <blockquote class="pull-right">
-              <p>"<%= internship.description %>"</p>
-              <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
+    <%- @internships.each do |internship| %>
+      <h4><%= internship.get_timeslot %></h4>
+        <div class="row">
+          <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <div class="text-field">
+              <blockquote class="pull-right">
+                <p>"<%= internship.description %>"</p>
+                    <p><%= internship.inspect %></p>
+                <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
 
-              <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <i class="fa fa-trash-o"></i>
-              <% end %>
-            </blockquote>
+                <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class="fa fa-trash-o"></i>
+                <% end %>
+              </blockquote>
+            </div>
           </div>
-        </div>
 
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
           <% unless internship.intern %>
