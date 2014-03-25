@@ -8,7 +8,7 @@ describe InternshipsController do
     context "with valid attributes" do #why do invalid attributes not go into model?
 
       before do 
-        @slot = FactoryGirl.create(:slot)
+        @day = FactoryGirl.create(:day)
       end
 
       context "new person " do
@@ -17,7 +17,7 @@ describe InternshipsController do
           @params = {
             email: "susanne@dewein.de",
             name: "Susanne Dewein",
-            slot_id: @slot.id,
+            day_id: @day.id,
             description: "Test" 
           }   
         end
@@ -26,10 +26,11 @@ describe InternshipsController do
           expect do
             expect do
               post :create, @params
-              expect(assigns[:slot]).not_to be_nil
+              expect(assigns[:day]).not_to be_nil
+              #TODO
             end.to change{ Internship.count }.by(1)
           end.to change{ Person.count }.by(1)
-          response.should redirect_to day_path(@slot.day)
+          response.should redirect_to day_path(day)
         end
 
 
@@ -60,7 +61,7 @@ describe InternshipsController do
         params = {
           email: person.email,
           name: person.name,
-          slot_id: @slot.id,
+          day_id: @day.id,
           description: "Test" 
         }
 
@@ -76,6 +77,19 @@ describe InternshipsController do
     end
 
     context "with invalid attributes" do
+
+      before do
+        @day = FactoryGirl.create(:day)
+        
+            @params = {
+
+              email: "susanne@dewein.de",
+              name: "Susanne Dewein",
+              day_id: @day.id,
+              description: "Test" 
+            }   
+          end
+
       #why does this not go into model spec?
       it 'renders an error message and does not save' do
         expect do
@@ -92,10 +106,8 @@ describe InternshipsController do
     before do
       @internship = double("my internship")
       Internship.stub(:find_by).with(id: "12").and_return(@internship)
-      @slot = double('slot')
       @day = double('day')
-      @internship.stub(:slot).and_return(@slot)
-      @slot.stub(:day).and_return(@day)
+      @internship.stub(:day).and_return(@day)
     end
 
     context "when deleting an intern from an internship" do
@@ -162,11 +174,11 @@ describe InternshipsController do
   describe 'GET new' do
 
     before do 
-      @slot = FactoryGirl.create(:slot)
+      @day = FactoryGirl.create(:day)
     end
 
     it "renders the new form" do
-      get :new, :slot_id => @slot.id
+      get :new, :day_id => @day.id
       expect { get :new }.to render_template(:new)
       assigns(:internship).should be_a_new(Internship)
       expect { get :new }.to_not render_template(layout: "application")

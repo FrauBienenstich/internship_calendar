@@ -1,7 +1,7 @@
 class Internship < ActiveRecord::Base
 
   validates :host, presence: true
-  validates :slot_id, presence: true
+  validates :day_id, presence: true
   validates :description, presence: true
 
   belongs_to :day
@@ -24,25 +24,27 @@ class Internship < ActiveRecord::Base
   def assign_intern(email, name)
 
     self.intern = Person.find_or_initialize_by(:email => email, :name => name) # not yet saved!
-    save
+    self.intern.save
+    self.save
+
+    puts "INTERN #{self.intern.inspect}"
+    puts "Internship #{self.inspect}"
 
     ical = to_ical
-    #puts ical.inspect
 
-    #puts "SELF #{self}"
     PersonMailer.assign_intern_mail(self, ical).deliver
     PersonMailer.confirmation_for_intern_mail(self, ical).deliver
 
-    #self.intern.name = params[:name]
+   #  self.intern.name = params[:name]
     
-   # if @internship.intern.save && @internship.save
-  #     flash[:notice] = "You successfully became an intern!"
-     # PersonMailer.assign_intern_mail(@internship).deliver
+   # if self.intern.save && @internship.save
+   #    flash[:notice] = "You successfully became an intern!"
+   #   PersonMailer.assign_intern_mail(@internship).deliver
 
-    #else
-  #     flash[:error] = "Your application as an intern failed!"
-    #   false
-    # end
+   #  else
+   #    flash[:error] = "Your application as an intern failed!"
+   #    false
+   #  end
   end
 
   def get_timeslot
@@ -52,8 +54,8 @@ class Internship < ActiveRecord::Base
   def to_ical
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
-    event.start = slot.start_time.strftime("%Y%m%dT%H%M%S")
-    event.end = slot.end_time.strftime("%Y%m%dT%H%M%S")
+    event.start = start_time
+    event.end = end_time
     event.summary = description
     event.description = description
     event.location = "nugg.ad office"

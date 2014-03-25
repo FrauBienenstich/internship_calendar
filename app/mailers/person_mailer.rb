@@ -3,8 +3,8 @@ class PersonMailer < ActionMailer::Base
 
   def confirmation_mail(internship, ical)
     @person = internship.host
-    @time = internship.slot.get_time
-    @day = internship.slot.day
+    @time = internship.get_timeslot
+    @day = internship.day
 
     @description = internship.description
 

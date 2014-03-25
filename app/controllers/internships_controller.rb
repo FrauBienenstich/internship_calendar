@@ -1,30 +1,36 @@
 class InternshipsController < ApplicationController
   respond_to :html
 
-  before_filter :assign_slot, :only => [:create, :new]
-
   def create
     host = Person.find_or_initialize_by(email: params[:email])
     host.name = params[:name] if host
+    puts "PARAMS #{params}"
+    #PARAMS {"utf8"=>"✓", "authenticity_token"=>"FAUpvGQeq4SkgrlQU2lIXP2CdzEaattm4/t29xDGDt0=", "day_id"=>"1", "description"=>"Tolle Sache!!!", "email"=>"susanne.dewein@gmail.com", "name"=>"Susi", "hour"=>"10", "minute"=>"30", "meridian"=>"PM", "action"=>"create", "controller"=>"internships"}
 
+    
     internship = Internship.new(:description => params[:description], 
-                                :slot_id => @slot.id, 
-                                :host => host)
+                                :day_id => params[:day_id],
+                                :host => host,
+                                :start_time => params[:start_time],
+                                :end_time => params[:end_time])
+
 
     if host && host.save && internship && internship.save
       ical = internship.to_ical # NOTE TO MYSELF: this has to be called after save!!! before i had a red test
       PersonMailer.confirmation_mail(internship, ical).deliver
-      redirect_to day_path(internship.slot.day), notice: "You successfully created an internship!"
+      redirect_to day_path(internship.day), notice: "You successfully created an internship!"
 
     else
-      redirect_to day_path(@slot.day), :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
+      redirect_to days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
     end
   end
 
   def new
-    @slot = Slot.find_by(id: params[:slot_id])
+    puts params
+    #@slot = Slot.find_by(id: params[:slot_id])
+    @day = Day.find_by(id: params[:day_id])
 
-    @internship = @slot.internships.build
+    @internship = Internship.new
     render :layout => false
   end
 
@@ -45,7 +51,7 @@ class InternshipsController < ApplicationController
     else
       @internship.assign_intern(params[:email], params[:name])
     end
-    redirect_to day_path(@internship.slot.day)
+    redirect_to day_path(@internship.day)
   end
   
 
@@ -60,17 +66,7 @@ class InternshipsController < ApplicationController
     @internship.destroy
 
     PersonMailer.delete_internship_mail(@internship).deliver
-    redirect_to day_path(@internship.slot.day), notice: "You successfully deleted an internship"
-  end
-
-private
-  def assign_slot
-    @slot = Slot.find_by(id: params[:slot_id])
-    unless @slot 
-      flash[:error] = "No Slot"
-      # redirecting to days because we dont knoe where to go elsewhere
-      redirect_to days_path
-    end
+    redirect_to day_path(@internship.day), notice: "You successfully deleted an internship"
   end
 end
 

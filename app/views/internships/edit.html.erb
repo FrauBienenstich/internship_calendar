@@ -4,7 +4,7 @@
     <h4 class="modal-title">Update your internship</h4>
   </div>
   <div class="modal-body">
-    <%= hidden_field_tag :slot_id, @internship.slot.id %> 
+    <%= hidden_field_tag :day_id, @internship.day.id %> 
 
     <%= text_field_tag :email, @internship.intern.email, placeholder: 'Email' %>
     <br/>
