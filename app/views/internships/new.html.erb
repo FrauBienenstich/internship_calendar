@@ -14,11 +14,9 @@
 
 
     <%= time_select :internship, :start_time, {minute_step: 15} %>
+    until
     <%= time_select :internship, :end_time, {minute_step: 15} %>
     <br>
-<!--     <%= select_hour(Time.now) %>
-    <%= select_minute(Time.now) %> 
-     params[:date][:minute] -->
 
      <!-- If you use Rails 4, be sure to whitelist :start_time and :end_time using the strong parameters. -->
 
