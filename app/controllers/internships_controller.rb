@@ -1,4 +1,6 @@
 class InternshipsController < ApplicationController
+
+
   respond_to :html
 
   def create
@@ -8,7 +10,7 @@ class InternshipsController < ApplicationController
 
     # start_time = Date.new *new_start_time_from_hash(params[:internship])
     # end_time = Date.new *new_end_time_from_hash(params[:internship])
-    
+
     start_time = DateTime.new(params["internship"]["start_time(1i)"].to_i, 
                         params["internship"]["start_time(2i)"].to_i,
                         params["internship"]["start_time(3i)"].to_i,
@@ -20,6 +22,7 @@ class InternshipsController < ApplicationController
                         params["internship"]["end_time(3i)"].to_i,
                         params["internship"]["end_time(4i)"].to_i,
                         params["internship"]["end_time(5i)"].to_i)
+    #TODO Refactor!
     
     internship = Internship.new(:description => params[:description], 
                                 :day_id => params[:day_id],
