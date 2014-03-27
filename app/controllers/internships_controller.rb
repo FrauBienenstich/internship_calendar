@@ -5,14 +5,29 @@ class InternshipsController < ApplicationController
     host = Person.find_or_initialize_by(email: params[:email])
     host.name = params[:name] if host
     puts "PARAMS #{params}"
-    #PARAMS {"utf8"=>"✓", "authenticity_token"=>"FAUpvGQeq4SkgrlQU2lIXP2CdzEaattm4/t29xDGDt0=", "day_id"=>"1", "description"=>"Tolle Sache!!!", "email"=>"susanne.dewein@gmail.com", "name"=>"Susi", "hour"=>"10", "minute"=>"30", "meridian"=>"PM", "action"=>"create", "controller"=>"internships"}
 
+    # start_time = Date.new *new_start_time_from_hash(params[:internship])
+    # end_time = Date.new *new_end_time_from_hash(params[:internship])
+    
+    start_time = DateTime.new(params["internship"]["start_time(1i)"].to_i, 
+                        params["internship"]["start_time(2i)"].to_i,
+                        params["internship"]["start_time(3i)"].to_i,
+                        params["internship"]["start_time(4i)"].to_i,
+                        params["internship"]["start_time(5i)"].to_i)
+
+    end_time = DateTime.new(params["internship"]["end_time(1i)"].to_i, 
+                        params["internship"]["end_time(2i)"].to_i,
+                        params["internship"]["end_time(3i)"].to_i,
+                        params["internship"]["end_time(4i)"].to_i,
+                        params["internship"]["end_time(5i)"].to_i)
     
     internship = Internship.new(:description => params[:description], 
                                 :day_id => params[:day_id],
                                 :host => host,
-                                :start_time => params[:start_time],
-                                :end_time => params[:end_time])
+                                :start_time => start_time,
+                                :end_time => end_time)
+
+
 
 
     if host && host.save && internship && internship.save
@@ -42,6 +57,8 @@ class InternshipsController < ApplicationController
   def update
     @internship = Internship.find_by(id: params[:id])
 
+    ical = @internship.to_ical
+
     if params[:commit] == "Remove"
       if @internship.delete_intern!
         flash[:notice] = "Worked"
@@ -49,7 +66,17 @@ class InternshipsController < ApplicationController
         flash[:error] = "Did not work"
       end
     else
-      @internship.assign_intern(params[:email], params[:name])
+      
+      #still have to write tests for this:
+  
+          
+      if @internship.assign_intern(params[:email], params[:name])
+        flash[:notice] = "You successfully became an intern."
+        PersonMailer.assign_intern_mail(@internship, ical).deliver
+        PersonMailer.confirmation_for_intern_mail(@internship, ical).deliver
+      else
+        flash[:error] = "Your application as an intern failed!"
+      end
     end
     redirect_to day_path(@internship.day)
   end
@@ -68,6 +95,17 @@ class InternshipsController < ApplicationController
     PersonMailer.delete_internship_mail(@internship).deliver
     redirect_to day_path(@internship.day), notice: "You successfully deleted an internship"
   end
+
+
+
+
+  # def new_start_time_from_hash(params)
+  #   %w(1 2 3 4 5).map {|e| params["start_time({e}i)"].to_i}
+  # end
+
+  # def new_end_time_from_hash(params)
+  #   %w(1 2 3 4 5).map {|e| params["end_time({e}i)"].to_i}
+  # end
 end
 
 

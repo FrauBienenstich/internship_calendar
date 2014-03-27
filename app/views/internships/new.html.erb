@@ -12,19 +12,15 @@
     <br/>
     <%= text_field_tag :name, nil, placeholder: 'Name' %>
 
-    <div class='bootstrap-timepicker' style='display: inline;'>
-      <input class='dateselect-time input-small' type='text' data-time='12:45 PM'>
-      <span class='add-on'><i class='icon-time'></i></span>
-    </div>
 
-    <div class='bootstrap-timepicker' style='display: inline;'>
-      <input class='dateselect-time input-small' type='text' data-time='12:45 PM'>
-      <span class='add-on'><i class='icon-time'></i></span>
-    </div>
+    <%= time_select :internship, :start_time, {minute_step: 15} %>
+    <%= time_select :internship, :end_time, {minute_step: 15} %>
+    <br>
+<!--     <%= select_hour(Time.now) %>
+    <%= select_minute(Time.now) %> 
+     params[:date][:minute] -->
 
-    <script type="text/javascript">
-      $('.dateselect-time').timepicker({});
-    </script>
+     <!-- If you use Rails 4, be sure to whitelist :start_time and :end_time using the strong parameters. -->
 
   </div>
 
