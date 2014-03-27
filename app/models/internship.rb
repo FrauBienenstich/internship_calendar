@@ -49,6 +49,7 @@ class Internship < ActiveRecord::Base
 
   def get_timeslot
     "#{self.start_time} until #{self.end_time}"
+    "#{self.start_time.to_time_of_day} until #{self.end_time.to_time_of_day}"
   end
 
   def to_ical
