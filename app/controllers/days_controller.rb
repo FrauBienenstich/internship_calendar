@@ -5,7 +5,7 @@ class DaysController < ApplicationController
 
   def show
     @day = Day.find(params[:id])
-    @internships = @day.internships
+    @internships = @day.internships.order('start_time ASC')
   end
 
   def current
