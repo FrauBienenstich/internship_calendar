@@ -8,6 +8,7 @@ gem 'rails', '4.0.3'
 
 gem 'pg'
 gem 'icalendar'
+gem 'tod', '~> 1.3.0'
 
 
 
