@@ -1,5 +1,6 @@
 <h1>
-  <%= @day.date %>
+  <%= @day.date.inspect %> <i class="fa fa-calendar"></i>
+  <!-- TODO better alternative? -->
 </h1>
 <div class="row">
   <div class="col-md-4"></div>
@@ -48,10 +49,12 @@
               </a>             
             </p>
             <p>
+
+
               <%= form_for internship do |f| %>
 
                 <%= f.submit "Remove" %>
-              <% end %> 
+              <% end %>
             </p>
           <% end %>
         </div> 

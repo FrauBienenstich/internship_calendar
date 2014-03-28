@@ -13,7 +13,7 @@
 
             <% if day.upcoming_day %>
               <div class="container">
-                <li><%= link_to day.date, day %></li>
+                <li><%= link_to day.date.inspect, day %></li>
               </div>
             <% end %>
 
@@ -33,7 +33,7 @@
         <% @days.each do |day| %>
           <% unless day.upcoming_day %>
             <li>
-              <%= link_to day.date, day %>
+              <%= link_to day.date.inspect, day %>
             </li>
           <% end %>
         <% end %>
