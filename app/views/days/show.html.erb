@@ -1,25 +1,28 @@
 <h1>
   <%= @day.date %>
 </h1>
-
-<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-  <a href=<%= new_internship_path(:day_id => @day.id) %> data-toggle="modal" data-target="#myModal2">Yes, I want to offer a new internship!</a>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <a href=<%= new_internship_path(:day_id => @day.id) %> data-toggle="modal" data-target="#myModal2" type="button" class="btn btn-primary btn-lg" role="button">I want to offer a new internship!</a>
+  </div>
+  <div class="col-md-4"></div>
 </div>
-  
+
+
 <%- @internships.each do |internship| %>
-<p><%= internship.inspect %></p>
   <div class="internship" id="internship_">
   <!-- the line above is still unclear to me -->
     <!-- button trigger modal -->
-    <br>
-
-    <h4><%= internship.get_timeslot %></h4>
+    <h4>
+      <i class="fa fa-clock-o fa-2x"></i>
+      <%= internship.get_timeslot %>
+    </h4> 
       <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
           <div class="text-field">
             <blockquote class="pull-right">
               <p>"<%= internship.description %>"</p>
-                  <p><%= internship.host.inspect %></p>
               <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
 
               <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
@@ -31,7 +34,7 @@
 
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
           <% unless internship.intern %>
-            <a href=<%=sign_up_form_internship_path()%> data-toggle="modal" data-target="#myModal">Yes, I want to become <%= internship.host.name %>'s intern!</a>
+            <a href=<%=sign_up_form_internship_path(internship)%> data-toggle="modal" data-target="#myModal">Yes, I want to become <%= internship.host.name %>'s intern!</a>
           <% else %>
             <p class="text-center">
               Lucky Intern:</br>
