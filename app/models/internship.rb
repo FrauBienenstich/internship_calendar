@@ -52,6 +52,10 @@ class Internship < ActiveRecord::Base
     "#{self.start_time.to_time_of_day} until #{self.end_time.to_time_of_day}"
   end
 
+  def different_day
+    "#{start_time.strftime("%B %d, %Y")}" if start_time > day.date
+  end
+
   def to_ical
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
