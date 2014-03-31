@@ -12,13 +12,10 @@
     <br/>
     <%= text_field_tag :name, nil, placeholder: 'Name' %>
 
-
-    <%= time_select :internship, :start_time, {minute_step: 15} %>
+    <%= datetime_select :internship, :start_time, start_year: 2014, minute_step: 15, default: @day.date %>
     until
-    <%= time_select :internship, :end_time, {minute_step: 15} %>
+    <%= datetime_select :internship, :end_time, start_year: 2014, minute_step: 15, default: @day.date %>
     <br>
-
-     <!-- If you use Rails 4, be sure to whitelist :start_time and :end_time using the strong parameters. -->
 
   </div>
 
