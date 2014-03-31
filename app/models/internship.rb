@@ -48,8 +48,7 @@ class Internship < ActiveRecord::Base
   end
 
   def get_timeslot
-    "#{self.start_time} until #{self.end_time}"
-    "#{self.start_time.to_time_of_day} until #{self.end_time.to_time_of_day}"
+    "#{self.start_time.to_time_of_day.strftime("%H:%M")} until #{self.end_time.to_time_of_day.strftime("%H:%M")}"
   end
 
   def different_day
