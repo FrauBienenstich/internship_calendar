@@ -27,14 +27,6 @@ class Internship < ActiveRecord::Base
     self.intern.save
     self.save
 
-    puts "INTERN #{self.intern.inspect}"
-    puts "Internship #{self.inspect}"
-
-    ical = to_ical
-
-    PersonMailer.assign_intern_mail(self, ical).deliver
-    PersonMailer.confirmation_for_intern_mail(self, ical).deliver
-
    #  self.intern.name = params[:name]
     
    # if self.intern.save && @internship.save

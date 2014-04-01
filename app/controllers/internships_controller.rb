@@ -38,8 +38,8 @@ class InternshipsController < ApplicationController
 
 
     if host && host.save && internship && internship.save
-      ical = internship.to_ical # NOTE TO MYSELF: this has to be called after save!!! before i had a red test
-      PersonMailer.confirmation_mail(internship, ical).deliver
+      ical = internship.to_ical
+      PersonMailer.confirmation_mail(internship).deliver
       redirect_to day_path(internship.day), notice: "You successfully created an internship!"
 
     else
@@ -64,7 +64,6 @@ class InternshipsController < ApplicationController
   def update
     @internship = Internship.find_by(id: params[:id])
 
-    ical = @internship.to_ical
 
     if params[:commit] == "Remove"
       if @internship.delete_intern!
@@ -79,8 +78,8 @@ class InternshipsController < ApplicationController
           
       if @internship.assign_intern(params[:email], params[:name])
         flash[:notice] = "You successfully became an intern."
-        PersonMailer.assign_intern_mail(@internship, ical).deliver
-        PersonMailer.confirmation_for_intern_mail(@internship, ical).deliver
+        PersonMailer.assign_intern_mail(@internship).deliver
+        PersonMailer.confirmation_for_intern_mail(@internship).deliver
       else
         flash[:error] = "Your application as an intern failed!"
       end
