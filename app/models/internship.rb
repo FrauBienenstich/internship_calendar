@@ -44,14 +44,14 @@ class Internship < ActiveRecord::Base
   end
 
   def different_day
-    "#{start_time.strftime("%B %d, %Y")}" if start_time > day.date
+    "#{start_time.strftime("%B %d, %Y")}" if start_time.to_date > day.date
   end
 
   def to_ical
     @calendar = Icalendar::Calendar.new
     event = Icalendar::Event.new
-    event.start = start_time
-    event.end = end_time
+    event.dtstart = start_time.to_datetime
+    event.dtend = end_time.to_datetime
     event.summary = description
     event.description = description
     event.location = "nugg.ad office"
