@@ -12,7 +12,10 @@
 
 <% flash.each do |name, msg| %>
   <% if msg.is_a?(String) %>
-    <%= content_tag :div, msg, :class => "flash_#{name}" %>
+    <div class="<%= flash_class(name) %> fade in">
+      <a href="#" data-dismiss="alert" class="close">×</a>
+      <%= msg %>
+    </div>
   <% end %>
 <% end %>
 
