@@ -9,7 +9,7 @@ describe PersonMailer do
 
   describe '#confirmation_mail' do
     it 'sends out an email if internship was registered' do
-      mailer = described_class.confirmation_mail(@internship, @ical)
+      mailer = described_class.confirmation_mail(@internship)
       expect do
         mailer.deliver
       end.to change { ActionMailer::Base.deliveries.size }.by(1)
@@ -45,7 +45,7 @@ describe PersonMailer do
     it 'sends out an email if intern was assigned' do
       @internship.create_intern( FactoryGirl.attributes_for(:intern))
 
-      mailer = described_class.assign_intern_mail(@internship, @ical)
+      mailer = described_class.assign_intern_mail(@internship)
 
       mailer.deliver
       mail = ActionMailer::Base.deliveries.last
