@@ -33,12 +33,19 @@ ul li {
 }
 
 
-.start-page-background {
-  background-image: image-url("merapi.jpg");
-  background-size: 100% auto;
-  height: 100%;
+html.start-page-background {
+  background: image-url("merapi.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   // -webkit-filter: grayscale(100%);
+
+  body {
+    background-color: transparent;
+  }
 }
+
 .text-field {
   //border: 1px dotted black;
 }

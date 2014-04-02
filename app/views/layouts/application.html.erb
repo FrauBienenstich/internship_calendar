@@ -9,6 +9,8 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%- klass = @start_page ? "start-page-background" : "" %>
+<html class="<%= klass %>">
 
 <% flash.each do |name, msg| %>
   <% if msg.is_a?(String) %>
