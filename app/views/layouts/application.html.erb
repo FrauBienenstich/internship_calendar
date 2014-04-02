@@ -22,6 +22,18 @@
 <div class="container">
   <%= yield %>
 </div>
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <div class="<%= flash_class(name) %> fade in">
+          <a href="#" data-dismiss="alert" class="close">×</a>
+          <%= msg %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <div class="container">
+      <%= yield %>
+    </div>
 
 </body>
 </html>
