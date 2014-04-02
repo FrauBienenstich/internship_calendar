@@ -1,46 +1,41 @@
-<body class="start-page-background">
-  <h1 class="start-page-headline">
-    Welcome to<br>
-    Open Day @ Nugg.ad
-  </h1>
+<h1 class="start-page-headline">
+  Welcome to<br>
+  Open Day @ Nugg.ad
+</h1>
 
-  <div class="start-page">
-    <div class="container">
-      <div class="upcoming-days">
-        <ul>
-          <h3>Upcoming open days</h3>
-          <% @days.each do |day| %>
-
-            <% if day.upcoming_day %>
-              <div class="container">
-                <li><%= link_to day.date.strftime("%B %d, %Y"), day %></li>
-              </div>
-            <% end %>
-
-          <% end %>
-        </ul>
-      </div>
-     </div> 
-  </div>
-
-  <div class="past-events">
-    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
-      Past Events
-    </button>
-
-    <div id="demo" class="collapse">
+<div class="start-page">
+  <div class="container">
+    <div class="upcoming-days">
       <ul>
+        <h3>Upcoming open days</h3>
         <% @days.each do |day| %>
-          <% unless day.upcoming_day %>
-            <li>
-              <%= link_to day.date.strftime("%B %d, %Y"), day %>
-            </li>
+
+          <% if day.upcoming_day %>
+            <div class="container">
+              <li><%= link_to day.date.strftime("%B %d, %Y"), day %></li>
+            </div>
           <% end %>
+
         <% end %>
       </ul>
     </div>
+   </div> 
+</div>
+
+<div class="past-events">
+  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
+    Past Events
+  </button>
+
+  <div id="demo" class="collapse">
+    <ul>
+      <% @days.each do |day| %>
+        <% unless day.upcoming_day %>
+          <li>
+            <%= link_to day.date.strftime("%B %d, %Y"), day %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
   </div>
-</body>
-
-
-
+</div>

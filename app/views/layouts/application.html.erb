@@ -1,29 +1,18 @@
 <!DOCTYPE html>
-<html>
-<head>
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href='http://fonts.googleapis.com/css?family=Londrina+Solid'>
-  <title>InternshipCalender</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
 <%- klass = @start_page ? "start-page-background" : "" %>
 <html class="<%= klass %>">
 
-<% flash.each do |name, msg| %>
-  <% if msg.is_a?(String) %>
-    <div class="<%= flash_class(name) %> fade in">
-      <a href="#" data-dismiss="alert" class="close">×</a>
-      <%= msg %>
-    </div>
-  <% end %>
-<% end %>
+  <head>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href='http://fonts.googleapis.com/css?family=Londrina+Solid'>
+    <title>InternshipCalender</title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
 
-<div class="container">
-  <%= yield %>
-</div>
+  <body>
+
     <% flash.each do |name, msg| %>
       <% if msg.is_a?(String) %>
         <div class="<%= flash_class(name) %> fade in">
@@ -37,5 +26,5 @@
       <%= yield %>
     </div>
 
-</body>
+  </body>
 </html>
