@@ -1,5 +1,4 @@
 class ChangeEndTimeFormatInInternships < ActiveRecord::Migration
-  class Internship < ActiveRecord::Base end
 
   def up
     remove_column :internships, :end_time
