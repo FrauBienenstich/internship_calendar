@@ -4,9 +4,8 @@ class InternshipsController < ApplicationController
   respond_to :html
 
   def create
-    host = Person.find_or_initialize_by(email: params[:email])
-    host.name = params[:name] if host
-    puts "PARAMS #{params}"
+
+    host = Person.find_or_new(params[:email], params[:name])
 
     # start_time = Date.new *new_start_time_from_hash(params[:internship])
     # end_time = Date.new *new_end_time_from_hash(params[:internship])
@@ -81,7 +80,7 @@ class InternshipsController < ApplicationController
         PersonMailer.assign_intern_mail(@internship).deliver
         PersonMailer.confirmation_for_intern_mail(@internship).deliver
       else
-        flash[:error] = "Your application as an intern failed!"
+        flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join}"
       end
     end
     redirect_to day_path(@internship.day)

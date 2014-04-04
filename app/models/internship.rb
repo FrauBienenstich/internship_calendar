@@ -23,20 +23,13 @@ class Internship < ActiveRecord::Base
 
   def assign_intern(email, name)
 
-    self.intern = Person.find_or_initialize_by(:email => email, :name => name) # not yet saved!
-    self.intern.save
-    self.save
+    self.intern = Person.find_or_new(email, name)
 
-   #  self.intern.name = params[:name]
-    
-   # if self.intern.save && @internship.save
-   #    flash[:notice] = "You successfully became an intern!"
-   #   PersonMailer.assign_intern_mail(@internship).deliver
-
-   #  else
-   #    flash[:error] = "Your application as an intern failed!"
-   #    false
-   #  end
+    if self.intern.save && self.save
+      true
+    else
+      false
+    end
   end
 
   def get_timeslot
@@ -60,6 +53,4 @@ class Internship < ActiveRecord::Base
     # headers['Content-Type'] = "text/calendar; charset=UTF-8"
     @calendar.to_ical
   end
-
-
 end
