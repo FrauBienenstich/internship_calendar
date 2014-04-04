@@ -3,12 +3,12 @@ class ChangeStartTimeFormatInInternships < ActiveRecord::Migration
   end
 
   def up
-    Internship.update_all("start_time = NULL")
-    change_column :internships, :start_time, :datetime, :null => false
-    Internship.update_all("start_time = #{DateTime.now.to_s(:db)}")
+    remove_column :internships, :start_time
+    add_column :internships, :start_time, :datetime, :null => false
   end
 
   def down
+    remove_column :internships, :start_time
     change_column :internships, :start_time, :time
   end
 end
