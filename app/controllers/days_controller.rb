@@ -8,9 +8,4 @@ class DaysController < ApplicationController
     @day = Day.find(params[:id])
     @internships = @day.internships.order('start_time ASC')
   end
-
-  def current
-    @day = Day.last
-    render :show
-  end
 end
