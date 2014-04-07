@@ -26,4 +26,11 @@ class DaysController < ApplicationController
     @day = Day.find(params[:id])
     @internships = @day.internships.order('start_time ASC')
   end
+
+  def destroy
+    @day = Day.find(params[:id])
+
+    @day.destroy
+    redirect_to days_path, notice: "You just deleted an internship day"
+  end
 end
