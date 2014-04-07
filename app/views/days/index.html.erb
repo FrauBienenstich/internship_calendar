@@ -7,6 +7,9 @@
   <div class="container">
     <div class="upcoming-days">
       <ul>
+        <li>
+          <a href=<%= new_day_path %> data-toggle="modal" data-target="#new_day_modal" type="button" class="btn btn-primary" role="button">Create a new day</a>
+        </li>
         <h3>Upcoming open days</h3>
         <% @days.each do |day| %>
 
@@ -26,6 +29,7 @@
   <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
     Past Events
   </button>
+</div>
 
   <div id="demo" class="collapse">
     <ul>
@@ -38,4 +42,11 @@
       <% end %>
     </ul>
   </div>
+
+<div id="new_day_modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div>
