@@ -10,22 +10,21 @@ class InternshipsController < ApplicationController
     # start_time = Date.new *new_start_time_from_hash(params[:internship])
     # end_time = Date.new *new_end_time_from_hash(params[:internship])
 
-
-    start_time = DateTime.new(params["internship"]["start_time(1i)"].to_i, 
-                        params["internship"]["start_time(2i)"].to_i,
-                        params["internship"]["start_time(3i)"].to_i,
-                        params["internship"]["start_time(4i)"].to_i,
-                        params["internship"]["start_time(5i)"].to_i)
+    start_time = make_time("start_time")
+    end_time = make_time("end_time")
+    # start_time = DateTime.new(params["internship"]["start_time(1i)"].to_i, 
+    #                     params["internship"]["start_time(2i)"].to_i,
+    #                     params["internship"]["start_time(3i)"].to_i,
+    #                     params["internship"]["start_time(4i)"].to_i,
+    #                     params["internship"]["start_time(5i)"].to_i)
     # instead of getting day and month through params i could also access internship.day.date etc
 
-    end_time = DateTime.new(params["internship"]["end_time(1i)"].to_i, 
-                        params["internship"]["end_time(2i)"].to_i,
-                        params["internship"]["end_time(3i)"].to_i,
-                        params["internship"]["end_time(4i)"].to_i,
-                        params["internship"]["end_time(5i)"].to_i)
+    # end_time = DateTime.new(params["internship"]["end_time(1i)"].to_i, 
+    #                     params["internship"]["end_time(2i)"].to_i,
+    #                     params["internship"]["end_time(3i)"].to_i,
+    #                     params["internship"]["end_time(4i)"].to_i,
+    #                     params["internship"]["end_time(5i)"].to_i)
     #TODO Refactor!
-
-    puts "TIME #{start_time}"
     
     internship = Internship.new(:description => params[:description], 
                                 :day_id => params[:day_id],
@@ -33,14 +32,11 @@ class InternshipsController < ApplicationController
                                 :start_time => start_time,
                                 :end_time => end_time)
 
-
-
-
     if host && host.save && internship && internship.save
       ical = internship.to_ical
       PersonMailer.confirmation_mail(internship).deliver
       redirect_to day_path(internship.day), notice: "You successfully created an internship!"
-
+      puts "when saved #{internship.inspect}"
     else
       redirect_to days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
     end
@@ -101,16 +97,28 @@ class InternshipsController < ApplicationController
     redirect_to day_path(@internship.day), notice: "You successfully deleted an internship"
   end
 
+  private
 
+  def make_time(whut)
+    ts = make_time_string(whut)
+    puts "#{whut} -> #{ts}"
+    Time.zone.parse(ts)
+  end
 
+  def make_time_string(whut)
+    y = params["internship"]["#{whut}(1i)"]
+    m = params["internship"]["#{whut}(2i)"]
+    d = params["internship"]["#{whut}(3i)"]
+    hh = params["internship"]["#{whut}(4i)"]
+    mm = params["internship"]["#{whut}(5i)"]
 
-  # def new_start_time_from_hash(params)
-  #   %w(1 2 3 4 5).map {|e| params["start_time({e}i)"].to_i}
-  # end
+    "#{y}-#{pad(m)}-#{pad(d)} #{pad(hh)}:#{pad(mm)}"
+  end
 
-  # def new_end_time_from_hash(params)
-  #   %w(1 2 3 4 5).map {|e| params["end_time({e}i)"].to_i}
-  # end
+  def pad(num, len = 2)
+    num.to_s.rjust(len, '0')
+  end
+
 end
 
 
