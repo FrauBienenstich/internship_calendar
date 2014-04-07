@@ -2,10 +2,6 @@
   <%= @day.date.strftime("%A, %B %d, %Y") %> 
 </h1>
 
-<%= link_to @day, method: :delete, data: { confirm: 'Are you sure you want to delete a whole day AND its internships?' } do %>
-  <i class="fa fa-trash-o"></i>
-<% end %>
-
 <div class="row">
   <div class="col-md-4"></div>
   <div class="col-md-4">
