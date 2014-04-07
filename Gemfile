@@ -26,6 +26,8 @@ end
 
 group :test, :development do
 
+  gem "pry"
+  gem "pry-debugger"
   #gem "capybara"
   gem 'mysql2'
   gem "poltergeist", "~> 1.4.0"
@@ -38,6 +40,7 @@ group :test, :development do
   gem "database_cleaner"
 
   gem 'quiet_assets'
+  gem 'simplecov', '~> 0.7.1', :require => false
 end
 
 group :production do
