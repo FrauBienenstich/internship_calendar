@@ -37,7 +37,7 @@ class Internship < ActiveRecord::Base
   end
 
   def different_day
-    "#{start_time.strftime("%B %d, %Y")}" if start_time.to_date > day.date
+    "#{start_time.strftime("%B %d, %Y")}" if start_time.to_date != day.date
   end
 
   def to_ical
