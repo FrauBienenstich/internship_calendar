@@ -8,7 +8,11 @@ InternshipCalender::Application.routes.draw do
     end
   end
   resources :people
-  resources :days
+  resources :days do
+    member do
+      get 'delete_day', to: 'days#destroy' # i guess this is not really a good solution
+    end
+  end
 
 
   # The priority is based upon order of creation:
