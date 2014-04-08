@@ -57,4 +57,16 @@ describe Internship do
     #   @internship.assign_intern("susanne.dewein@gmail.com")
     # end
   end
+
+  describe '#different day' do
+    before do
+      @internship = FactoryGirl.create(:internship)
+
+    end
+
+    it 'shows the date of an internship if it differs from the actual internship day' do
+      expect(@internship.different_day).to be_true
+
+    end
+  end
 end
