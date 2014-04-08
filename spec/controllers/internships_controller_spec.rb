@@ -18,7 +18,19 @@ describe InternshipsController do
             email: "susanne@dewein.de",
             name: "Susanne Dewein",
             day_id: @day.id,
-            description: "Test" 
+            description: "Test",
+            internship: {
+              "start_time(1i)" => 2014,
+              "start_time(2i)" => 4,
+              "start_time(3i)" => 21,
+              "start_time(4i)" => 15,
+              "start_time(5i)" => 10,
+              "end_time(1i)" => 2014,
+              "end_time(2i)" => 4,
+              "end_time(3i)" => 21,
+              "end_time(4i)" => 16,
+              "end_time(5i)" => 10
+            }
           }   
         end
 
@@ -62,7 +74,19 @@ describe InternshipsController do
           email: person.email,
           name: person.name,
           day_id: @day.id,
-          description: "Test" 
+          description: "Test", 
+          internship: {
+            "start_time(1i)" => 2014,
+            "start_time(2i)" => 4,
+            "start_time(3i)" => 21,
+            "start_time(4i)" => 15,
+            "start_time(5i)" => 10,
+            "end_time(1i)" => 2014,
+            "end_time(2i)" => 4,
+            "end_time(3i)" => 21,
+            "end_time(4i)" => 16,
+            "end_time(5i)" => 10
+          }
         }
 
         expect do
