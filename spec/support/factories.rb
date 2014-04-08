@@ -15,6 +15,6 @@ FactoryGirl.define do
   end
 
   factory :day do
-    date "1986-21-04"
+    date Date.new(1986, 4, 21)
   end
 end
