@@ -25,11 +25,7 @@ class Internship < ActiveRecord::Base
 
     self.intern = Person.find_or_new(email, name)
 
-    if self.intern.save && self.save
-      true
-    else
-      false
-    end
+    self.intern.save && self.save
   end
 
   def get_timeslot
