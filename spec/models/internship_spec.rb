@@ -51,11 +51,6 @@ describe Internship do
       }.to change{Person.count}.by 1
     end
 
-    it 'sends out an email to host when intern saved' do
-      PersonMailer.any_instance.should_receive(:assign_intern_mail)
-      @internship.assign_intern("susanne.dewein@gmail.com", "Susanne")
-    end
-
     # it 'sends out an email to the intern when they assign themselves' do
     #   ical = @internship.to_ical
     #   PersonMailer.any_instance.should_receive(:confirmation_for_intern_mail).with(@internship, ical)
