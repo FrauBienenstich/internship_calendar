@@ -21,6 +21,25 @@ describe PersonMailer do
     end
   end
 
+  describe '#confirmation_for_intern_mail' do
+
+    before do
+      @internship.intern = FactoryGirl.create(:intern)
+    end
+
+    it 'sends out an email if intern signs up for an internship' do
+      mailer = described_class.confirmation_for_intern_mail(@internship)
+      expect do
+        mailer.deliver
+      end.to change {ActionMailer::Base.deliveries.size }.by(1)
+
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.subject).to eql "You are interning with #{@internship.host.name}!"
+      expect(mail.from).to eql ["openday@nugg.ad"]
+      expect(mail.to).to eql [@internship.intern.email]
+    end
+  end
+
 
   describe '#delete_intern_mail' do
     it 'sends out an email if intern was deleted' do
