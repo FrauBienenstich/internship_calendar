@@ -2,7 +2,7 @@ class Day < ActiveRecord::Base
   has_many :internships
 
   def upcoming_day
-    self.date > Date.today or self.date == Date.today
+    date > Date.today or date == Date.today
   end
 end
 
