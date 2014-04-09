@@ -5,16 +5,21 @@ class DaysController < ApplicationController
   end
 
   def create
+    date = nil
+    begin
+      date = Date.new(params["day"]["date(1i)"].to_i, params["day"]["date(2i)"].to_i, params["day"]["date(3i)"].to_i)
+    rescue
 
-    date = Date.new(params["day"]["date(1i)"].to_i, params["day"]["date(2i)"].to_i, params["day"]["date(3i)"].to_i)
+    end
 
     @day = Day.new(date: date)
 
     if @day.save
-      redirect_to days_path, notice: "You created a new internship day!"
+      flash[:notice] = "You created a new internship day!"
     else
-      redirect_to days_path, :flash => { :error => "Your new day could not be saved"}
+      flash[:error] = "Your new day could not be saved"
     end
+    redirect_to days_path
   end
 
   def new
