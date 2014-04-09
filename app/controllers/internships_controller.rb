@@ -100,18 +100,25 @@ class InternshipsController < ApplicationController
   private
 
   def make_time(whut)
-    ts = make_time_string(whut)
-    puts "#{whut} -> #{ts}"
-    Time.zone.parse(ts)
+    begin
+      ts = make_time_string(whut)
+      puts "#{whut} -> #{ts}"
+      puts "TS #{ts}" #is empty, WHY???
+      return Time.zone.parse(ts)
+    rescue
+      nil
+    end
   end
 
   def make_time_string(whut)
+    puts "PARAMS #{params}"
     y = params["internship"]["#{whut}(1i)"]
     m = params["internship"]["#{whut}(2i)"]
     d = params["internship"]["#{whut}(3i)"]
     hh = params["internship"]["#{whut}(4i)"]
     mm = params["internship"]["#{whut}(5i)"]
 
+    puts "STRING #{y}-#{pad(m)}-#{pad(d)} #{pad(hh)}:#{pad(mm)}"
     "#{y}-#{pad(m)}-#{pad(d)} #{pad(hh)}:#{pad(mm)}"
   end
 

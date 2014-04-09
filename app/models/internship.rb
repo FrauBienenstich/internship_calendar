@@ -3,7 +3,8 @@ class Internship < ActiveRecord::Base
   validates :host, presence: true
   validates :day_id, presence: true
   validates :description, presence: true
-
+  validates :start_time, presence: true
+  validates :end_time, presence: true
   belongs_to :day
   belongs_to :host, :class_name => "Person"
   belongs_to :intern, :class_name => "Person"
