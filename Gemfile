@@ -32,8 +32,6 @@ group :test, :development do
   gem 'mysql2'
   gem "poltergeist", "~> 1.4.0"
   gem "launchy"
-
-  gem "guard-rspec"
   gem 'rspec-rails'
 
   gem "factory_girl_rails"
@@ -41,6 +39,8 @@ group :test, :development do
 
   gem 'quiet_assets'
   gem 'simplecov', '~> 0.7.1', :require => false
+  gem 'guard-rspec', require: false
+  gem 'guard-livereload', require: false
 end
 
 group :production do
