@@ -14,6 +14,7 @@ describe InternshipsController do
       context "new person " do
 
         before do
+
           @params = {
             email: "susanne@dewein.de",
             name: "Susanne Dewein",
@@ -38,21 +39,24 @@ describe InternshipsController do
           expect do
             expect do
               post :create, @params
-              expect(assigns[:day]).not_to be_nil
-              #TODO
             end.to change{ Internship.count }.by(1)
           end.to change{ Person.count }.by(1)
-          response.should redirect_to day_path(day)
         end
+
+        it 'redirects to the day path' do
+          post :create, @params
+          response.should redirect_to day_path(@day)
+        end
+
+        #test also other redirects
 
 
         it 'sends out email' do
-
-          ical = Icalendar::Calendar.new.to_ical
+          # ical = Icalendar::Calendar.new.to_ical
           internship = double("my Internship").as_null_object
           Internship.stub(:new).and_return(internship)
-          internship.stub(:to_ical).and_return(ical)
-          PersonMailer.any_instance.should_receive(:confirmation_mail).with(internship, ical)
+          # internship.stub(:to_ical).and_return(ical)
+          PersonMailer.any_instance.should_receive(:confirmation_mail).with(internship)
           #puts @params
           post :create, @params
         end
@@ -110,14 +114,26 @@ describe InternshipsController do
               email: "susanne@dewein.de",
               name: "Susanne Dewein",
               day_id: @day.id,
-              description: "Test" 
+              description: "",
+              internship: {
+              "start_time(1i)" => 2014,
+              "start_time(2i)" => 4,
+              "start_time(3i)" => 21,
+              "start_time(4i)" => 15,
+              "start_time(5i)" => 10,
+              "end_time(1i)" => 2014,
+              "end_time(2i)" => 4,
+              "end_time(3i)" => 21,
+              "end_time(4i)" => 16,
+              "end_time(5i)" => 10
+              }
             }   
           end
 
       #why does this not go into model spec?
       it 'renders an error message and does not save' do
         expect do
-          post :create, internship: { title: ''}
+          post :create, @params
         end.not_to change{ Internship.count }
         response.should redirect_to days_path
         flash[:error].should_not be_blank
@@ -130,40 +146,136 @@ describe InternshipsController do
     before do
       @internship = double("my internship")
       Internship.stub(:find_by).with(id: "12").and_return(@internship)
+
+      @ical = double('ical')
+      @internship.stub(:to_ical).and_return(@ical)
+
       @day = double('day')
+      @mailer = double('mailer')
       @internship.stub(:day).and_return(@day)
-    end
 
-    context "when deleting an intern from an internship" do
+      PersonMailer.stub(:assign_intern_mail).and_return(@mailer)
 
-      it 'removes an intern from an internship' do
-        @internship.should_receive(:delete_intern!).and_return(@internship.as_null_object)
-        put :update, id: 12, commit: "Remove"
-      end
+      PersonMailer.stub(:confirmation_for_intern_mail).and_return(@mailer)
 
-      it 'shows a succes flash' do
-      end
-
+      @email = "susanne.dewein@gmail.com"
+      @name = "Susanne Dewein"
       
-      it 'redirects to day path' do
-        @internship.stub(:delete_intern).and_return(@internship.as_null_object)
-        put :update, id: 12, commit: "Remove"
-        response.should redirect_to day_path(@internship.slot.day)
+
+    end
+
+    context "when assigning and intern" do
+      context "in case of success" do
+
+        it 'adds an intern to an internship' do
+          @internship.should_receive(:assign_intern).with(@email, @name).and_return(true)
+          @mailer.should_receive(:deliver).twice
+          put :update, id: 12, email: @email, name: @name
+        end
+
+        it 'redirects to day path' do
+          @internship.stub(:assign_intern).and_return(true)
+          @mailer.should_receive(:deliver).twice
+          put :update, id: 12, email: @email, name: @name
+          response.should redirect_to day_path(@internship.day)
+        end
+
+        it 'sends out emails' do
+          @internship.stub(:assign_intern).and_return(true)
+          @mailer.should_receive(:deliver).twice
+          PersonMailer.should_receive(:assign_intern_mail).with(@internship)
+          put :update, id: 12, email: @email, name: @name
+        end
+
+        it "shows a success flash" do
+          @internship.stub(:assign_intern).and_return(true)
+          @mailer.should_receive(:deliver).twice
+          put :update, id: 12, email: @email, name: @name
+          flash[:notice].should_not be_blank
+        end
+
+      end
+
+      context "in case of error" do
+
+        before do
+          Internship.any_instance.should_receive(:delete_intern!).and_return(false)
+        end
+
+        it "should not send an email" do
+
+        end
+
+        it "shows an error flash" do
+          put :update, id: 12
+          flash[:error].should_not be_blank
+        end
+      end
+
+    end
+
+    # context "when deleting an intern" do
+    #   context "in case of success" do
+
+    #     it 'removes an intern from an internship' do
+    #       @internship.should_receive(:delete_intern!).and_return(@internship.as_null_object)
+    #       put :update, id: 12, commit: "Remove"
+    #     end
+
+    #     it 'redirects to day path' do
+    #       @internship.stub(:delete_intern).and_return(@internship.as_null_object)
+    #       put :update, id: 12, commit: "Remove"
+    #       response.should redirect_to day_path(@internship.slot.day)
+    #     end
+    #   end
+    # end
+  end
+
+
+  describe 'PUT update without stubbing' do
+    context "if user wants to delete intern" do
+      let(:internship) { 
+        intern = FactoryGirl.create(:intern)
+        internship = FactoryGirl.create(:internship) 
+        internship.assign_intern(intern.email, intern.name)
+        internship.save
+        internship
+      }
+      let(:params) { {id: internship.id, commit: "Remove"} }
+    
+      context "it does not work" do
+
+        before do
+          Internship.any_instance.should_receive(:delete_intern!).and_return(false)
+        end
+
+        it "does not delete the intern" do
+          put :update, params
+          expect(internship.reload.intern).not_to eql nil
+        end
+
+        it "shows an error flash" do
+          put :update, params
+          flash[:error].should_not be_blank
+        end
+      end
+
+      context "it works" do
+        it 'shows a success flash message' do
+          put :update, params
+          flash[:notice].should_not be_blank
+        end
+
+        it 'sets the intern_id to nil' do
+          put :update, params
+          expect(internship.reload.intern).to eql nil
+        end
       end
     end
 
-    context "when assigning an intern to an internship" do
+    context 'when user wants to assign intern' do
 
-      it 'adds an intern to an internship' do
-        @internship.should_receive(:assign_intern).and_return(@internship.as_null_object)
-        put :update, id: 12
-      end
 
-      it 'redirects to day path' do
-        @internship.stub(:assign_intern).and_return(@internship.as_null_object)
-        put :update, id: 12
-        response.should redirect_to day_path(@internship.slot.day)
-      end
     end
   end
 
