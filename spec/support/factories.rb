@@ -15,6 +15,7 @@ FactoryGirl.define do
   end
 
   factory :day do
-    date Date.new(1986, 4, 21)
+    #date Date.new(1986, 4, 21)
+    sequence (:date) { |n| n.days.from_now}
   end
 end
