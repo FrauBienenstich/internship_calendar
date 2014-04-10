@@ -9,8 +9,7 @@ describe Day do
 
 
     it 'returns false if day is not today and not in the future' do
-      @day.upcoming_day
-      expect(@day.upcoming_day).to be_false
+      expect(@day.upcoming_day).to be_true
     end
   end
   
