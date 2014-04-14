@@ -9,31 +9,28 @@ describe InternshipsController do
 
       before do 
         @day = FactoryGirl.create(:day)
+
+        @params = {
+          email: "susanne@dewein.de",
+          name: "Susanne Dewein",
+          day_id: @day.id,
+          description: "Test",
+          internship: {
+            "start_time(1i)" => 2014,
+            "start_time(2i)" => 4,
+            "start_time(3i)" => 21,
+            "start_time(4i)" => 15,
+            "start_time(5i)" => 10,
+            "end_time(1i)" => 2014,
+            "end_time(2i)" => 4,
+            "end_time(3i)" => 21,
+            "end_time(4i)" => 16,
+            "end_time(5i)" => 10
+          }
+        }
       end
 
       context "new person " do
-
-        before do
-
-          @params = {
-            email: "susanne@dewein.de",
-            name: "Susanne Dewein",
-            day_id: @day.id,
-            description: "Test",
-            internship: {
-              "start_time(1i)" => 2014,
-              "start_time(2i)" => 4,
-              "start_time(3i)" => 21,
-              "start_time(4i)" => 15,
-              "start_time(5i)" => 10,
-              "end_time(1i)" => 2014,
-              "end_time(2i)" => 4,
-              "end_time(3i)" => 21,
-              "end_time(4i)" => 16,
-              "end_time(5i)" => 10
-            }
-          }   
-        end
 
         it 'creates a new internship and a new person' do
           expect do
@@ -48,16 +45,10 @@ describe InternshipsController do
           response.should redirect_to day_path(@day)
         end
 
-        #test also other redirects
-
-
         it 'sends out email' do
-          # ical = Icalendar::Calendar.new.to_ical
           internship = double("my Internship").as_null_object
           Internship.stub(:new).and_return(internship)
-          # internship.stub(:to_ical).and_return(ical)
           PersonMailer.any_instance.should_receive(:confirmation_mail).with(internship)
-          #puts @params
           post :create, @params
         end
 
@@ -130,7 +121,6 @@ describe InternshipsController do
             }   
           end
 
-      #why does this not go into model spec?
       it 'renders an error message and does not save' do
         expect do
           post :create, @params
@@ -199,21 +189,6 @@ describe InternshipsController do
       context "in case of error" do
 
         before do
-
-          @internship = double("my internship")
-          Internship.stub(:find_by).with(id: "12").and_return(@internship)
-
-          @ical = double('ical')
-          @internship.stub(:to_ical).and_return(@ical)
-
-          @day = double('day')
-          @mailer = double('mailer')
-          @internship.stub(:day).and_return(@day)
-
-          PersonMailer.stub(:assign_intern_mail).and_return(@mailer)
-
-          PersonMailer.stub(:confirmation_for_intern_mail).and_return(@mailer)
-
           @internship.stub(:errors).and_return(ActiveModel::Errors.new(@internship))
         end
 
@@ -232,22 +207,6 @@ describe InternshipsController do
       end
 
     end
-
-    # context "when deleting an intern" do
-    #   context "in case of success" do
-
-    #     it 'removes an intern from an internship' do
-    #       @internship.should_receive(:delete_intern!).and_return(@internship.as_null_object)
-    #       put :update, id: 12, commit: "Remove"
-    #     end
-
-    #     it 'redirects to day path' do
-    #       @internship.stub(:delete_intern).and_return(@internship.as_null_object)
-    #       put :update, id: 12, commit: "Remove"
-    #       response.should redirect_to day_path(@internship.slot.day)
-    #     end
-    #   end
-    # end
   end
 
 
@@ -291,11 +250,6 @@ describe InternshipsController do
         end
       end
     end
-
-    context 'when user wants to assign intern' do
-
-
-    end
   end
 
 
@@ -322,7 +276,7 @@ describe InternshipsController do
       internship = double("my Internship").as_null_object
       Internship.stub(:find).with("9").and_return(internship)
       delete :destroy, id: 9
-      expect(response).to redirect_to day_path(internship.slot.day)#i am confused why this works(internship.slot.day) where do slot and day come from?
+      expect(response).to redirect_to day_path(internship.slot.day)
     end
   end
 
