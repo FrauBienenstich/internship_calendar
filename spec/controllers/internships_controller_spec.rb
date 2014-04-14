@@ -199,15 +199,34 @@ describe InternshipsController do
       context "in case of error" do
 
         before do
-          Internship.any_instance.should_receive(:delete_intern!).and_return(false)
+
+          @internship = double("my internship")
+          Internship.stub(:find_by).with(id: "12").and_return(@internship)
+
+          @ical = double('ical')
+          @internship.stub(:to_ical).and_return(@ical)
+
+          @day = double('day')
+          @mailer = double('mailer')
+          @internship.stub(:day).and_return(@day)
+
+          PersonMailer.stub(:assign_intern_mail).and_return(@mailer)
+
+          PersonMailer.stub(:confirmation_for_intern_mail).and_return(@mailer)
+
+          @internship.stub(:errors).and_return(ActiveModel::Errors.new(@internship))
         end
 
         it "should not send an email" do
-
+          @internship.stub(:assign_intern).and_return(false)
+          @mailer.should_not_receive(:deliver)
+          PersonMailer.should_not_receive(:assign_intern_mail).with(@internship)
+          put :update, id: 12, email: "", name: ""
         end
 
         it "shows an error flash" do
-          put :update, id: 12
+          @internship.stub(:assign_intern).and_return(false)
+          put :update, id: 12, email: "", name: ""
           flash[:error].should_not be_blank
         end
       end

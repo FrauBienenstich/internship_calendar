@@ -33,7 +33,6 @@ class InternshipsController < ApplicationController
                                 :end_time => end_time)
 
     if host && host.save && internship && internship.save
-      ical = internship.to_ical
       PersonMailer.confirmation_mail(internship).deliver
       redirect_to day_path(internship.day), notice: "You successfully created an internship!"
       puts "when saved #{internship.inspect}"
@@ -68,15 +67,12 @@ class InternshipsController < ApplicationController
       end
     else
       
-      #still have to write tests for this:
-  
-          
       if @internship.assign_intern(params[:email], params[:name])
         flash[:notice] = "You successfully became an intern."
         PersonMailer.assign_intern_mail(@internship).deliver
         PersonMailer.confirmation_for_intern_mail(@internship).deliver
       else
-        flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join}"
+        flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join(', ')}"
       end
     end
     redirect_to day_path(@internship.day)
