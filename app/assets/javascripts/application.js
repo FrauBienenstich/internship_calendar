@@ -13,7 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require bootstrap-timepicker
+//= require moment
+//= require eonasdan-bootstrap-datetimepicker
 //= require_tree .
 
 $(document).ready(function() {

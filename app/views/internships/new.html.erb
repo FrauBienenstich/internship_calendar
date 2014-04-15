@@ -30,6 +30,20 @@
           <%= datetime_select :internship, :end_time, start_year: 2014, minute_step: 15, default: @day.date %>
         </div>
 
+        <div class="form-group">
+          <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" name="internship[time]" />
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+
+          <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+          </script>
+        </div>
+        
       </div>
 
 

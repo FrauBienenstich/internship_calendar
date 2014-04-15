@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 ruby "2.0.0"
 
 gem 'rails', '4.0.3'
@@ -21,7 +22,8 @@ group :assets do
   gem "font-awesome-rails"
   gem 'jquery-rails'
   gem 'uglifier', '>= 2.1.1'
-  gem 'bootstrap-timepicker-rails'
+  gem 'rails-assets-moment'
+  gem 'rails-assets-Eonasdan--bootstrap-datetimepicker'
 end
 
 group :test, :development do
