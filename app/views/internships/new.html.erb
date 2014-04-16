@@ -22,24 +22,59 @@
           <label for: :email> Name</label>
           <%= text_field_tag :name, nil, placeholder: 'Name', :class => 'form-control' %>
         </div>
-        <div class="form-group">
+<!--         <div class="form-group">
           <%= datetime_select :internship, :start_time, start_year: 2014, minute_step: 15, default: @day.date %>
         </div>
           until
         <div class="form-group">
           <%= datetime_select :internship, :end_time, start_year: 2014, minute_step: 15, default: @day.date %>
+        </div> -->
+
+        <div class="form-group">
+          <label for: :start_time> Start Time</label>
+          <div class='input-group date' id='datetimepicker1' data-date-format="DD/MM/YYYY, HH:MM">
+            <input type='text' class="form-control" name="internship[start_time]" />
+            <span class="input-group-addon"><span class="fa fa-calendar"></span>
+            </span>
+          </div>
         </div>
 
         <div class="form-group">
-          <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" name="internship[time]" />
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+          <label for: :end_time> End Time</label>
+          <div class='input-group date' id='datetimepicker2' data-date-format="DD/MM/YYYY, HH:MM">
+            <input type='text' class="form-control" name="internship[end_time]" />
+            <span class="input-group-addon"><span class="fa fa-calendar"></span>
             </span>
           </div>
+        </div>
 
           <script type="text/javascript">
             $(function () {
-                $('#datetimepicker1').datetimepicker();
+                $('#datetimepicker1').datetimepicker({
+                    icons: {
+                      time: "fa fa-clock-o",
+                      date: "fa fa-calendar",
+                      up: "fa fa-arrow-up",
+                      down: "fa fa-arrow-down"
+                    }
+                  });
+                $('#datetimepicker2').datetimepicker({
+                    defaultDate: "",
+                    icons: {
+                      time: "fa fa-clock-o",
+                      date: "fa fa-calendar",
+                      up: "fa fa-arrow-up",
+                      down: "fa fa-arrow-down"
+                    }
+                  });
+                $("#datetimepicker1").on("dp.change",function (e) {
+                  $('#datetimepicker2').data("DateTimePicker").setMinDate(e.date);
+                });
+
+                // $("#datetimepicker1").on("dp.change",function (e) {
+                //   $('#datetimepicker2').data("DateTimePicker").setMaxDate(e.date);
+                // });
+  // TODO this does not yet work like I want it to work
             });
           </script>
         </div>
