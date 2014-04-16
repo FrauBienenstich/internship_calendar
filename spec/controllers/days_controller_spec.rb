@@ -14,9 +14,7 @@ describe DaysController do
     before do
       @params = {
         day: {
-          "date(1i)" => 2000,
-          "date(2i)" => 10,
-          "date(3i)" => 1
+          date: "2014-04-01"
         }
       }
     end

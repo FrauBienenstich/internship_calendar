@@ -16,7 +16,7 @@ describe InternshipsController do
           day_id: @day.id,
           description: "Test",
           internship: {
-            start_time: "01/04/2014, 12:0",
+            start_time: "01/04/2014, 12:00",
             end_time: "01/04/2014, 12:05"
           }
         }

@@ -5,14 +5,9 @@ class DaysController < ApplicationController
   end
 
   def create
-    date = nil
-    begin
-      date = Date.new(params["day"]["date(1i)"].to_i, params["day"]["date(2i)"].to_i, params["day"]["date(3i)"].to_i)
-    rescue
+    puts "PARAMZZZ #{params}"
 
-    end
-
-    @day = Day.new(date: date)
+    @day = Day.new(date: params[:day][:date])
 
     if @day.save
       flash[:notice] = "You created a new internship day!"

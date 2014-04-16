@@ -1,4 +1,4 @@
-<%= form_for (@day), url: {action: "create"} do |f| %>
+<%= form_tag('/days') do %>
 
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -6,8 +6,24 @@
   </div>
 
   <div class="modal-body">
-  <%= date_select :day, :date %>
-  </div>
+
+    <div class="form-group">
+      <label for: :date> Date</label>
+      <div class='input-group date' id='datetimepicker_day' data-date-format="DD/MM/YYYY">
+        <input type='text' class="form-control" name="day[date]" />
+        <span class="input-group-addon"><span class="fa fa-calendar"></span>
+        </span>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(function () {
+        $('#datetimepicker_day').datetimepicker({
+          pickTime: false
+          });
+        });
+    </script>
+
 
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
