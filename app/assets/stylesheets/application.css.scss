@@ -46,6 +46,18 @@ html.start-page-background {
   }
 }
 
+.start-page-text {
+  text-align: center;
+}
+
+.black-box {
+  li {margin: 0;
+  }
+  background-color: black;
+  // width: 40%;
+  background-color: rgba(0,0,0,.7);
+}
+
 .text-field {
   //border: 1px dotted black;
 }
