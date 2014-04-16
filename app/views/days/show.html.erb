@@ -1,6 +1,13 @@
-<h1>
-  <%= @day.date.strftime("%A, %B %d, %Y") %> 
-</h1>
+<div class="row">
+  <div class="col-md-5">
+    <div class="text-left"><a href=<%= root_path%>><i class="fa fa-arrow-left"></i>
+      </a>
+    </div>
+    <h1>
+      <%= @day.date.strftime("%A, %B %d, %Y") %> 
+    </h1>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-md-4"></div>
