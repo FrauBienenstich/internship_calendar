@@ -5,8 +5,6 @@ class DaysController < ApplicationController
   end
 
   def create
-    puts "PARAMZZZ #{params}"
-
     @day = Day.new(date: params[:day][:date])
 
     if @day.save
