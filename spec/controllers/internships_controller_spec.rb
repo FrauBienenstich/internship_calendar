@@ -16,16 +16,8 @@ describe InternshipsController do
           day_id: @day.id,
           description: "Test",
           internship: {
-            "start_time(1i)" => 2014,
-            "start_time(2i)" => 4,
-            "start_time(3i)" => 21,
-            "start_time(4i)" => 15,
-            "start_time(5i)" => 10,
-            "end_time(1i)" => 2014,
-            "end_time(2i)" => 4,
-            "end_time(3i)" => 21,
-            "end_time(4i)" => 16,
-            "end_time(5i)" => 10
+            start_time: "01/04/2014, 12:0",
+            end_time: "01/04/2014, 12:05"
           }
         }
       end
@@ -71,16 +63,8 @@ describe InternshipsController do
           day_id: @day.id,
           description: "Test", 
           internship: {
-            "start_time(1i)" => 2014,
-            "start_time(2i)" => 4,
-            "start_time(3i)" => 21,
-            "start_time(4i)" => 15,
-            "start_time(5i)" => 10,
-            "end_time(1i)" => 2014,
-            "end_time(2i)" => 4,
-            "end_time(3i)" => 21,
-            "end_time(4i)" => 16,
-            "end_time(5i)" => 10
+            start_time: "01/04/2014, 12:0",
+            end_time: "01/04/2014, 12:05"
           }
         }
 
