@@ -1,6 +1,6 @@
 InternshipCalender::Application.routes.draw do
 
-  root :to => 'days#index'
+  root :to => 'days#welcome'
   resources :internships do
     member do
       get :sign_up_form #generiert path und url helper
