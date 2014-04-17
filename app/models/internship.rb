@@ -22,6 +22,10 @@ class Internship < ActiveRecord::Base
     end
   end
 
+  def open?
+    true if self.intern_id == nil
+  end
+
   def assign_intern(email, name)
 
     self.intern = Person.find_or_new(email, name)

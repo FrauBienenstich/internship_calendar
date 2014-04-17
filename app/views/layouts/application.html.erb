@@ -12,7 +12,7 @@
   </head>
 
   <body>
-
+    <%= render 'layouts/nav' %>
     <% flash.each do |name, msg| %>
       <% if msg.is_a?(String) %>
         <div class="<%= flash_class(name) %> fade in">
@@ -24,6 +24,14 @@
 
     <div class="container">
       <%= yield %>
+    </div>
+
+    <div id="new_day_modal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
     </div>
 
   </body>

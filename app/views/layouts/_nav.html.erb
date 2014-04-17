@@ -1,0 +1,21 @@
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-menue">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="<%= root_path %>">Open Day @ Nugg.ad</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="nav-menue">
+      <ul class="nav navbar-nav">
+        <li><a href=<%= new_day_path %> data-toggle="modal" data-target="#new_day_modal">Create Open Day</a></li>
+        <li><a href=<%= days_path(:future => true) %> >Upcoming Open Days</a></li>
+        <li><a href=<%= days_path(:past => true) %> >Past Open Days</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

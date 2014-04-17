@@ -1,7 +1,20 @@
 class DaysController < ApplicationController
-  def index
-    @days = Day.all
+  
+  def welcome
     @start_page = true
+    @upcoming_day = Day.upcoming_day
+  end
+
+  def index
+    if params.has_key? :past
+      @days = Day.past
+    elsif params.has_key? :future
+      @days = Day.future
+    else
+      @days = Day.all
+    end
+
+    @days = @days.order("date ASC")
   end
 
   def create
