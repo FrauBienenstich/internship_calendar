@@ -16,22 +16,14 @@
 @import "font-awesome";
 @import "bootstrap";
 
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-ul li {
-    display: block;
-    overflow: hidden;
-    padding: 15px;
-    margin: 5px;
-}
 
 .nb {
   font-size: small;
 }
 
+body {
+  padding-top: 70px;
+}
 
 html.start-page-background {
   background: image-url("merapi.jpg") no-repeat center center fixed;
@@ -43,18 +35,24 @@ html.start-page-background {
 
   body {
     background-color: transparent;
+
   }
 }
 
+.jumbotron {
+  background-color: rgba(253, 253, 253, 0.48);
+}
 .start-page-text {
   text-align: center;
 }
 
 .black-box {
-  li {margin: 0;
+  li {
+    margin: 0;
+    padding: 10px;
   }
   background-color: black;
-  // width: 40%;
+  margin: 15px;
   background-color: rgba(0,0,0,.7);
 }
 
@@ -62,12 +60,14 @@ html.start-page-background {
   //border: 1px dotted black;
 }
 
+.past-events {
+  margin: 10px;
+}
+
 .start-page-headline {
-  text-align: center;
   line-height: 1;
   font-size: 60px;
-  margin-top: 90px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   font-family: 'Londrina Solid', cursive;
   color: black;
 }
@@ -83,10 +83,7 @@ html.start-page-background {
   color: black;
 
 }
-li {
-  // border: 1px solid black;
 
-}
 
 #days {
   text-align: center;
@@ -132,12 +129,29 @@ header {
   margin-bottom: 20px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-ul.nav li {
-  display: inline;
+
+
+.calendar-date:hover .calender-thingy {
+
 }
-ul.nav li a {
-  padding: 10px 15px 10px;
-  color: #777777;
-  text-decoration: none;
-  text-shadow: 0 1px 0 white;
+
+.calendar-date {
+  
+  &:hover {
+    text-decoration: none;
+    > span {
+      background: white;
+      color: black;
+    }
+  }
+
+  > span {
+    margin-right: 10px;
+    background: black;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 2em;
+  }
 }
+
