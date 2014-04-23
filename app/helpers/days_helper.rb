@@ -28,6 +28,6 @@ module DaysHelper
 
   def percent(day)
     cnt = day.internships.count
-    percent = (cnt > 0) ? (day.open_internships.to_f / cnt.to_f) * 100 : 0
+    percent = (cnt > 0) ? (day.occupied_internships.to_f / cnt.to_f) * 100 : 0
   end
 end
