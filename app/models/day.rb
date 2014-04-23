@@ -22,5 +22,23 @@ class Day < ActiveRecord::Base
     internships.where(intern_id: nil).count
   end
 
+  def occupied_internships
+    internships.count - open_internships
+  end
+
+  def no_internships?
+    true if internships.count == 0
+  end
+
+  def no_interns?
+    interns = []
+
+    internships.each do |internship|
+      interns << internship.intern unless internship.intern == nil
+    end
+    
+    true if interns.empty?
+  end
+
 end
 
