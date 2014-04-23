@@ -36,8 +36,6 @@ class InternshipsController < ApplicationController
 
   def update
     @internship = Internship.find_by(id: params[:id])
-
-
     if params[:commit] == "Remove"
       if @internship.delete_intern!
         flash[:notice] = "Worked"
