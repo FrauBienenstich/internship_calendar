@@ -25,7 +25,7 @@ describe Internship do
     end
   end
 
-  describe '#open' do
+  describe '#open?' do
 
     before do
       @internship = FactoryGirl.create(:internship)
