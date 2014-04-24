@@ -17,6 +17,15 @@
 @import "bootstrap";
 
 
+.panel {
+  margin: 15px;
+}
+
+.panel-body {
+  word-wrap: break-word;
+  overflow: auto;
+}
+
 .nb {
   font-size: small;
 }
@@ -72,7 +81,7 @@ html.start-page-background {
   line-height: 1;
   font-size: 60px;
   margin-bottom: 50px;
-  font-family: 'Londrina Solid', cursive;
+  // font-family: 'Londrina Solid', cursive;
   color: black;
 }
 

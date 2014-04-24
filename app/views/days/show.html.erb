@@ -1,80 +1,91 @@
 <div class="row">
-  <div class="col-md-5">
-    <div class="text-left"><a href=<%= root_path%>><i class="fa fa-arrow-left"></i>
+<!--     <div class="text-left">
+      <a href=<%= root_path%>><i class="fa fa-arrow-left"></i>
       </a>
     </div>
+ -->    
     <h1>
       <%= @day.date.strftime("%A, %B %d, %Y") %> 
     </h1>
+  
+  <div class="row">
+    <div class="col-xs-6 col-sm-4"></div>
+    <div class="col-xs-6 col-sm-4">
+      <a href=<%= new_internship_path(:day_id => @day.id) %> data-toggle="modal" data-target="#myModal2" type="button" class="btn btn-primary btn-lg" role="button">I want to offer a new internship!</a>
+    </div>
+    <div class="col-xs-6 col-sm-4"></div>
   </div>
+
 </div>
 
 <div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4">
-    <a href=<%= new_internship_path(:day_id => @day.id) %> data-toggle="modal" data-target="#myModal2" type="button" class="btn btn-primary btn-lg" role="button">I want to offer a new internship!</a>
-  </div>
-  <div class="col-md-4"></div>
-</div>
 
-<%- @internships.each do |internship| %>
-  <div class="internship" id="internship_">
-  <!-- the line above is still unclear to me -->
-    <!-- button trigger modal -->
-    <h4>
-      <i class="fa fa-clock-o fa-2x"></i>
-      <%= internship.get_timeslot %>
-    </h4>
+  <%- @internships.each do |internship| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa-clock-o fa-2x"></i>
+        <%= internship.get_timeslot %>
+      </div>
+      
+      <div class="nb">
+        <% if internship.different_day %>
+          <br>
+          <i class="fa fa-exclamation-triangle"> This internship is actually scheduled for <%= internship.different_day %></i>
+        <% end %>
+      </div>
 
-    <div class="nb">
-      <% if internship.different_day %>
-        <br>
-        <i class="fa fa-exclamation-triangle"> This internship is actually scheduled for <%= internship.different_day %></i>
-      <% end %>
-    </div>
 
-      <div class="row">
-        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-          <div class="text-field">
-            <blockquote class="pull-right">
-              <p>"<%= internship.description %>"</p>
-              <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-              <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <i class="fa fa-trash-o"></i>
-              <% end %>
-            </blockquote>
+            <div class="text-field">
+              <blockquote class="pull-right">
+                <p>"<%= internship.description %>"</p>
+                <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
+
+                <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class="fa fa-trash-o"></i>
+                <% end %>
+              </blockquote>
+            </div>
+
           </div>
+          
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+
+            <% unless internship.intern %>
+              <a href=<%=sign_up_form_internship_path(internship)%> data-toggle="modal" data-target="#myModal" type="button" class="btn btn-primary">I want to become <%= internship.host.name %>'s intern!</a>
+
+            <% else %>
+              <p class="text-center">
+                Lucky Intern:</br>
+                <%= internship.intern.name %></br>
+                <%= mail_to internship.intern.email %>
+              </p>
+              
+              <p>
+                <a href=<%=edit_internship_path(internship)%> data-toggle="modal" data-target="#myModal3">
+                   <i class="fa fa-pencil"></i>
+                </a>             
+              </p>
+              <p>
+
+                <%= form_for internship do |f| %>
+
+                  <%= f.submit "Remove" %>
+                <% end %>
+              </p>
+
+            <% end %>
+          </div> 
+
         </div>
 
-        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-          <% unless internship.intern %>
-            <a href=<%=sign_up_form_internship_path(internship)%> data-toggle="modal" data-target="#myModal" type="button" class="btn btn-primary">Yes, I want to become <%= internship.host.name %>'s intern!</a>
-          <% else %>
-            <p class="text-center">
-              Lucky Intern:</br>
-              <%= internship.intern.name %></br>
-              <%= mail_to internship.intern.email %>
-            </p>
-            
-            <p>
-              <a href=<%=edit_internship_path(internship)%> data-toggle="modal" data-target="#myModal3">
-                 <i class="fa fa-pencil"></i>
-              </a>             
-            </p>
-            <p>
-
-
-              <%= form_for internship do |f| %>
-
-                <%= f.submit "Remove" %>
-              <% end %>
-            </p>
-          <% end %>
-        </div> 
       </div>
-  </div>
-<% end %>
+    </div>
+  <% end %>
+</div>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade">
