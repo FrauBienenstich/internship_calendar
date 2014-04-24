@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Day do
 
-  context 'scopes' do
+  describe 'scopes' do
 
     before do
       @future_day = FactoryGirl.create(:day, date: "2200-05-14")
