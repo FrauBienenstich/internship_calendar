@@ -25,6 +25,25 @@ describe Internship do
     end
   end
 
+  describe '#open' do
+
+    before do
+      @internship = FactoryGirl.create(:internship)
+    end
+
+    it 'returns true if an internship is still free' do
+      @internship.intern_id = nil
+
+      expect(@internship.open?).to be_true
+    end
+
+    it 'returns false if an internship already has an intern' do
+      @internship.intern_id = 5
+
+      expect(@internship.open?).to be_false
+    end
+  end
+
   describe '#assign_intern' do
     
     before do
