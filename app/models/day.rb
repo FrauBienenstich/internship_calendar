@@ -14,6 +14,8 @@ class Day < ActiveRecord::Base
   #   date < Date.today
   # end
 
+  #NB: scopes sind Klassenmethode!!
+
   def self.upcoming_day
     future.order("date ASC").first
   end
