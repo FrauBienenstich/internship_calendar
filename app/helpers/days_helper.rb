@@ -1,6 +1,7 @@
 module DaysHelper
 
   def remaining_time_in_words(day)
+    return "Invalid time" unless day.kind_of? Day
     rel_date = distance_of_time_in_words_to_now(day.date)
     now = Date.today
     if day.date < now
