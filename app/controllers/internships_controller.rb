@@ -17,8 +17,10 @@ class InternshipsController < ApplicationController
       PersonMailer.confirmation_mail(internship).deliver
       redirect_to day_path(internship.day), notice: "You successfully created an internship!"
       puts "when saved #{internship.inspect}"
-    else
-      redirect_to days_path, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
+    else  
+      day = Day.find_by_id(params[:day_id])
+      url = day ? day_path(day) : days_path
+      redirect_to url, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
     end
   end
 
