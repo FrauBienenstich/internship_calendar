@@ -25,7 +25,7 @@
 
         <div class="form-group">
           <label for: :start_time> Start Time</label>
-          <div class='input-group date' id='datetimepicker1' data-date-format="DD/MM/YYYY, HH:MM">
+          <div class='input-group date' id='datetimepicker1' data-date-format="DD/MM/YYYY, HH:mm">
             <input type='text' class="form-control" name="internship[start_time]" />
             <span class="input-group-addon"><span class="fa fa-calendar"></span>
             </span>
@@ -34,7 +34,7 @@
 
         <div class="form-group">
           <label for: :end_time> End Time</label>
-          <div class='input-group date' id='datetimepicker2' data-date-format="DD/MM/YYYY, HH:MM">
+          <div class='input-group date' id='datetimepicker2' data-date-format="DD/MM/YYYY, HH:mm">
             <input type='text' class="form-control" name="internship[end_time]" />
             <span class="input-group-addon"><span class="fa fa-calendar"></span>
             </span>
@@ -44,6 +44,9 @@
           <script type="text/javascript">
             $(function () {
                 $('#datetimepicker1').datetimepicker({
+                    defaultDate: moment("<%= @day.date.strftime('%-d/%-m/%Y 09:00') %>", "DD/MM/YYYY HH:mm"),
+                    pickDate: false,
+                    minuteStepping: 15,
                     icons: {
                       time: "fa fa-clock-o",
                       date: "fa fa-calendar",
@@ -52,7 +55,9 @@
                     }
                   });
                 $('#datetimepicker2').datetimepicker({
-                    defaultDate: "",
+                    defaultDate: moment("<%= @day.date.strftime('%-d/%-m/%Y 10:00')%>", "DD/MM/YYYY HH:mm"),
+                    pickDate: false,
+                    minuteStepping: 15,
                     icons: {
                       time: "fa fa-clock-o",
                       date: "fa fa-calendar",
@@ -61,13 +66,16 @@
                     }
                   });
                 $("#datetimepicker1").on("dp.change",function (e) {
-                  $('#datetimepicker2').data("DateTimePicker").setMinDate(e.date);
+                  console.log(e);
+                  picker2 = $('#datetimepicker2').data("DateTimePicker");
+                  // var m = moment(e.date);
+                  // m = m.add('hours', 1).startOf('hour');
+                  // console.log(m.toDate());
+                  // picker.setDate(m.toDate());
                 });
+                $("#datetimepicker2").on("dp.change",function (e) {
 
-                // $("#datetimepicker1").on("dp.change",function (e) {
-                //   $('#datetimepicker2').data("DateTimePicker").setMaxDate(e.date);
-                // });
-  // TODO this does not yet work like I want it to work
+                });
             });
           </script>
         </div>
