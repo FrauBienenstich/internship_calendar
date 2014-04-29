@@ -24,20 +24,20 @@ describe Internship do
 
         @internship.delete_intern!
       end
+
     end
 
     context 'in case of no success' do
 
       before do
-        @internship = double("my internship")
-        @internship.stub(:open?)
-        @internship.stub(:errors).and_return(ActiveModel::Errors.new(@internship))
+        @internship = FactoryGirl.create(:internship)
+        @internship.stub(:save).and_return(false)
       end
 
 
       it 'returns false' do
 
-        expect(@internship.open?).to be_false #TODO this does not cover my test!!!
+        expect(@internship.delete_intern!).to be_false #TODO this does not cover my test!!!
       end
     end
   end
