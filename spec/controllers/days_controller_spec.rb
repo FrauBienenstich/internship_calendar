@@ -1,12 +1,44 @@
 require 'spec_helper'
 
 describe DaysController do
+  render_views
 
-  describe "GET 'index'" do
-    it "returns http success" do
-      get 'index'
-      expect(response).to render_template 'index'
+  describe "GET 'welcome'" do
+
+    it 'returns http success' do
+      get 'welcome'
+      expect(response).to render_template 'welcome'
     end
+  end
+  
+  describe "GET 'index'" do
+
+    before :each do
+      @future_day = FactoryGirl.create(:day)
+      @past_day = FactoryGirl.create(:day, date: "2000-01-01")
+
+    end
+
+    def test_index_action(params, expected_length)
+      get :index, params
+      expect {get :index }.to render_template(:index)
+      assigns(:days).should_not be_nil
+      expect(assigns(:days).length).to eql expected_length
+    end
+
+    it "shows past days" do
+      test_index_action({past: true}, 1)
+    end
+
+    it "shows future days" do
+      test_index_action({future: true}, 1)
+    end
+
+    it 'shows all days' do
+      test_index_action({}, 2)
+    end
+
+    
   end
 
   describe "POST create" do
@@ -38,14 +70,12 @@ describe DaysController do
     end
 
     it 'renders a flash message if not saved' do
-
-      params = {
-
-      }
+      params = { }
 
       expect do
         post :create, params
       end.not_to change{ Day.count }
+      response.should redirect_to days_path
       flash[:error].should_not be_blank
     end
   end
