@@ -66,15 +66,22 @@
                     }
                   });
                 $("#datetimepicker1").on("dp.change",function (e) {
-                  console.log(e);
-                  picker2 = $('#datetimepicker2').data("DateTimePicker");
-                  // var m = moment(e.date);
-                  // m = m.add('hours', 1).startOf('hour');
-                  // console.log(m.toDate());
-                  // picker.setDate(m.toDate());
+                  var startPicker = $('#datetimepicker1').data("DateTimePicker");
+                  var endPicker = $('#datetimepicker2').data("DateTimePicker");
+                  startDate = e.date;
+                  endDate = endPicker.getDate();
+                  if (endDate < startDate) {
+                    endPicker.setDate(startDate);
+                  }
                 });
                 $("#datetimepicker2").on("dp.change",function (e) {
-
+                  var startPicker = $('#datetimepicker1').data("DateTimePicker");
+                  var endPicker = $('#datetimepicker2').data("DateTimePicker");
+                  startDate = startPicker.getDate();
+                  endDate = e.date;
+                  if (startDate > endDate) {
+                    startPicker.setDate(endDate);
+                  }
                 });
             });
           </script>
