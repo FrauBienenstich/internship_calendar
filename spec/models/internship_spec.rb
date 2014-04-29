@@ -6,22 +6,39 @@ describe Internship do
 
   describe '#delete_intern' do
 
-    before do
-      @internship = FactoryGirl.create(:internship)
-      @intern = FactoryGirl.create(:intern)
-      @internship.update_attributes(:intern => @intern)
+    context 'in case of success' do
+      before do
+        @internship = FactoryGirl.create(:internship)
+        @intern = FactoryGirl.create(:intern)
+        @internship.update_attributes(:intern => @intern)
+      end
+
+      it 'sets the intern_id in an internship to nil' do
+        @internship.delete_intern!
+
+        expect(@internship.reload.intern_id).to eql nil
+      end
+
+      it 'sends an email if intern was deleted' do
+        PersonMailer.any_instance.should_receive(:delete_intern_mail).with(@internship, @intern)
+
+        @internship.delete_intern!
+      end
     end
 
-    it 'sets the intern_id in an internship to nil' do
-      @internship.delete_intern!
+    context 'in case of no success' do
 
-      expect(@internship.reload.intern_id).to eql nil
-    end
+      before do
+        @internship = double("my internship")
+        @internship.stub(:open?)
+        @internship.stub(:errors).and_return(ActiveModel::Errors.new(@internship))
+      end
 
-    it 'sends an email if intern was deleted' do
-      PersonMailer.any_instance.should_receive(:delete_intern_mail).with(@internship, @intern)
 
-      @internship.delete_intern!
+      it 'returns false' do
+
+        expect(@internship.open?).to be_false #TODO this does not cover my test!!!
+      end
     end
   end
 
