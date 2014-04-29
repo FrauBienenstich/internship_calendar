@@ -18,9 +18,13 @@ class DaysController < ApplicationController
   end
 
   def create
-    @day = Day.new(date: params[:day][:date])
+    @day = nil
+    begin
+      @day = Day.new(date: params[:day][:date])
+    rescue
+    end
 
-    if @day.save
+    if @day && @day.save
       flash[:notice] = "You created a new internship day!"
     else
       flash[:error] = "Your new day could not be saved"
