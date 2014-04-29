@@ -66,5 +66,12 @@ describe DaysHelper do
       expect(results[0]).to match "Invalid time"
     end
   end
+
+
+  describe '#percent(day)' do
+    it 'returns the percentage of occupied internships' do
+      expect(percent(4, 8)).to eql 50.0
+    end
+  end
   
 end
