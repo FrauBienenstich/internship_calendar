@@ -33,11 +33,10 @@ describe Day do
   describe '#open_internships' do
 
     before do
-      @internship_1 = FactoryGirl.create(:internship, intern_id: nil)
-      @internship_2 = FactoryGirl.create(:internship, intern_id: 5)
-      @internship_3 = FactoryGirl.create(:internship, intern_id: nil)
       @day = FactoryGirl.create(:day)
-      @day.internships = [@internship_1, @internship_2, @internship_3]
+      @internship_1 = FactoryGirl.create(:internship, day: @day, intern_id: nil)
+      @internship_2 = FactoryGirl.create(:internship, day: @day,  intern_id: 5)
+      @internship_3 = FactoryGirl.create(:internship, day: @day,  intern_id: nil)
     end
 
     it 'returns number of internships that have no intern' do
@@ -48,11 +47,10 @@ describe Day do
   describe '#occupied_internships' do
 
     before do
-      @internship_1 = FactoryGirl.create(:internship, intern_id: nil)
-      @internship_2 = FactoryGirl.create(:internship, intern_id: 5)
-      @internship_3 = FactoryGirl.create(:internship, intern_id: nil)
       @day = FactoryGirl.create(:day)
-      @day.internships = [@internship_1, @internship_2, @internship_3]
+      @internship_1 = FactoryGirl.create(:internship, day: @day,  intern_id: nil)
+      @internship_2 = FactoryGirl.create(:internship, day: @day,  intern_id: 5)
+      @internship_3 = FactoryGirl.create(:internship, day: @day,  intern_id: nil)
     end
 
     it 'returns the number of internships that are taken already' do
@@ -75,22 +73,18 @@ describe Day do
 
     it 'returns true if a day has no interns yet' do
       @day = FactoryGirl.create(:day)
-      @internship_1 = FactoryGirl.create(:internship)
-      @internship_2 = FactoryGirl.create(:internship)
+      @internship_1 = FactoryGirl.create(:internship, day: @day)
+      @internship_2 = FactoryGirl.create(:internship, day: @day)
       @internship_1.intern = nil
       @internship_2.intern = nil
-      @day.internships = [@internship_1, @internship_2]
 
       expect(@day.no_interns?).to be_true
     end
 
     it 'returns false if a day has interns' do
       @day = FactoryGirl.create(:day)
-      @internship_1 = FactoryGirl.create(:internship)
-      @internship_2 = FactoryGirl.create(:internship)
-      @internship_1.intern = nil
-      @internship_2.intern = FactoryGirl.create(:intern)
-      @day.internships = [@internship_1, @internship_2]
+      @internship_1 = FactoryGirl.create(:internship, day: @day, intern: nil)
+      @internship_2 = FactoryGirl.create(:internship, day: @day, intern: FactoryGirl.create(:intern))
 
       expect(@day.no_interns?).to be_false
     end

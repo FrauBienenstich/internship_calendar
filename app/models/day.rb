@@ -33,13 +33,8 @@ class Day < ActiveRecord::Base
   end
 
   def no_interns?
-    interns = []
-
-    internships.each do |internship|
-      interns << internship.intern unless internship.intern == nil
-    end
-    
-    true if interns.empty?
+    puts "open: #{open_internships} vs. #{internships.count}"
+    open_internships == internships.count
   end
 
 end
