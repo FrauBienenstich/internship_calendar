@@ -1,16 +1,23 @@
-<%= form_for (@internship) do  |f| %>
+<%= form_tag internship_path, :method => :put do %>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">Update your internship</h4>
   </div>
   <div class="modal-body">
+
     <%= hidden_field_tag :day_id, @internship.day.id %> 
 
-    <%= text_field_tag :email, @internship.intern.email, placeholder: 'Email' %>
-    <br/>
+    <div class="form-group">
+      <label for: :email> Email</label>
+      <%= text_field_tag :email, @internship.intern.email, placeholder: 'Email', :class => 'form-control' %>
+    </div>
 
-    <%= text_field_tag :name, @internship.intern.name, placeholder: 'Name' %>
+    <div class="form-group">
+      <label for: :name> Name</label>
+      <%= text_field_tag :name, @internship.intern.name, placeholder: 'Name', :class => 'form-control' %>
+    </div>
   </div>
+  
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     <button type="submit" class="btn btn-primary">Update</button>
