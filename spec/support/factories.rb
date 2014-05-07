@@ -10,8 +10,8 @@ FactoryGirl.define do
     description "Blabla"
     host
     day { FactoryGirl.create(:day)}
-    start_time Time.now
-    end_time Time.now + 1.hour
+    start_time {day.date + 4.hours}
+    end_time {day.date + 5.hours}
   end
 
   factory :day do
