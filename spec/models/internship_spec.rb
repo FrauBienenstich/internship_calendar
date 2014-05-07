@@ -97,11 +97,13 @@ describe Internship do
   describe '#different day' do
     before do
       @internship = FactoryGirl.create(:internship)
-
+      #make the internship day differ from the day date
+      @internship.start_time = 1.day.ago
+      @internship.end_time = @internship.start_time - 1.hour
     end
 
     it 'shows the date of an internship if it differs from the actual internship day' do
-      expect(@internship.different_day).to be_true
+      expect(@internship.valid?).to be_false
 
     end
   end
