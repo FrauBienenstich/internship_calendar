@@ -16,8 +16,8 @@ describe InternshipsController do
           day_id: @day.id,
           description: "Test",
           internship: {
-            start_time: "01/04/2014, 12:00",
-            end_time: "01/04/2014, 12:05"
+            start_time: @day.date + 4.hours,
+            end_time: @day.date + 5.hours
           }
         }
       end
@@ -63,8 +63,8 @@ describe InternshipsController do
           day_id: @day.id,
           description: "Test", 
           internship: {
-            start_time: "01/04/2014, 12:0",
-            end_time: "01/04/2014, 12:05"
+            start_time: @day.date + 4.hours,
+            end_time: @day.date + 5.hours
           }
         }
 
@@ -109,7 +109,7 @@ describe InternshipsController do
         expect do
           post :create, @params
         end.not_to change{ Internship.count }
-        response.should redirect_to days_path
+        response.should redirect_to day_path(@day)
         flash[:error].should_not be_blank
       end
     end
