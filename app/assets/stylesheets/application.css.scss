@@ -52,8 +52,13 @@ html.start-page-background {
   }
 }
 
+.navbar {
+  font-family: DINFonts;
+}
+
 .jumbotron {
   background-color: rgba(253, 253, 253, 0.48);
+  font-family: DINFonts;
 }
 .start-page-text {
   text-align: center;
@@ -80,6 +85,7 @@ html.start-page-background {
 .start-page-headline {
   line-height: 1;
   font-size: 60px;
+  font-family: DINFonts;
   margin-bottom: 50px;
   // font-family: 'Londrina Solid', cursive;
   color: black;
