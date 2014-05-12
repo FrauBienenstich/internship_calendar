@@ -65,5 +65,7 @@ module InternshipCalender
     config.assets.version = '1.0'
 
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
+    config.assets.precompile += [/.(css)$/, /.(eot|svg|woff|ttf)/]
   end
 end
