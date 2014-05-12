@@ -1,0 +1,4 @@
+
+$("#internship_<%= @internship.id%>").replaceWith("<%= j render :partial => 'internships/show', :locals => {:internship => @internship}%>");
+
+$("#myModal").modal('hide');
