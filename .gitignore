@@ -18,3 +18,4 @@
 # Ignore application-specific config files
 /coverage
 .DS_Store
+.env
