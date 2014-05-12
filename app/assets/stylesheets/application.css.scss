@@ -21,6 +21,22 @@
   margin: 15px;
 }
 
+.btn {
+  background-color: rgb(237, 217, 92);
+  border: none;
+  color: black;
+    
+    &:hover {
+      text-decoration: none;
+
+        background-color: rgb(19, 86, 119);
+        color: white;
+
+    }
+
+
+}
+
 .panel-body {
   word-wrap: break-word;
   overflow: auto;
@@ -36,6 +52,7 @@
 
 body {
   padding-top: 70px;
+  font-family: DINFonts;
 }
 
 html.start-page-background {
@@ -54,6 +71,14 @@ html.start-page-background {
 
 .navbar {
   font-family: DINFonts;
+
+}
+
+.navbar-brand {
+    max-height: 40px;
+    overflow: visible;
+    padding-top: 2px;
+    padding-bottom: 0;
 }
 
 .jumbotron {
@@ -146,7 +171,7 @@ header {
   -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: DINFonts;
 }
 
 
@@ -174,3 +199,18 @@ header {
   }
 }
 
+.fa-input {
+  font-family: FontAwesome, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  border: none;
+  background-color: transparent;
+  color: #428bca;
+
+  &:hover {
+    color: #2a6496;
+
+    }
+}
+
+.form-right {
+  float: right;
+}
