@@ -1,7 +1,6 @@
 class InternshipsController < ApplicationController
 
-
-  respond_to :html
+  respond_to :html, :js
 
   def create
 
@@ -54,7 +53,12 @@ class InternshipsController < ApplicationController
         flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join(', ')}"
       end
     end
-    redirect_to day_path(@internship.day)
+    
+
+    respond_with(@internship) do |format|
+      format.html { redirect_to day_path(@internship.day) }
+      format.js
+    end
   end
   
 
