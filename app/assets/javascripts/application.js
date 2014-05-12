@@ -16,7 +16,3 @@
 //= require moment
 //= require eonasdan-bootstrap-datetimepicker
 //= require_tree .
-
-$(document).ready(function() {
-  
-})
