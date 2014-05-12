@@ -66,6 +66,6 @@ module InternshipCalender
 
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
-    config.assets.precompile += [/.(css)$/, /.(eot|svg|woff|ttf)/]
+    config.assets.precompile += [/.(eot|svg|woff|ttf)/]
   end
 end
