@@ -1,0 +1,52 @@
+    <div id="internship_<%= internship.id %>" class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa-clock-o fa-2x"></i>
+        <%= internship.get_timeslot %>
+      </div>
+    
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+
+            <div class="text-field">
+              <blockquote class="pull-right">
+                <p>"<%= internship.description %>"</p>
+                <small><%= internship.host.name %> <%= mail_to internship.host.email %></small>
+
+                <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <i class="fa fa-trash-o"></i>
+                <% end %>
+              </blockquote>
+            </div>
+
+          </div>
+          
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+
+            <% unless internship.intern %>
+              <a href=<%=sign_up_form_internship_path(internship)%> data-toggle="modal" data-target="#myModal" type="button" class="btn btn-primary">I want to become <%= internship.host.name %>'s intern!</a>
+
+            <% else %>
+              <p class="text-center">
+                Lucky Intern:</br>
+                <%= internship.intern.name %></br>
+                <%= mail_to internship.intern.email %>
+              </p>
+              
+
+              <a href=<%=edit_internship_path(internship)%> data-toggle="modal" data-target="#myModal3">
+                 <i class="fa fa-pencil"></i>
+              </a> 
+
+              <%= link_to internship_path(internship, :commit => "Remove"), remote: true, method: :put, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash-o"></i>
+              <% end %> 
+                          
+
+            <% end %>
+          </div> 
+
+        </div>
+
+      </div>
+    </div>
