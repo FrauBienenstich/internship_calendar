@@ -12,15 +12,15 @@
 
         <div class="form-group">
           <label for: :description> Description</label>
-          <%= text_area_tag :description, nil, placeholder: 'Description', :class => 'form-control' %>
+          <%= text_area_tag :description, nil, placeholder: 'Description', :class => 'form-control', required: true %>
         </div>
         <div class="form-group">
           <label for: :email> Email</label>
-          <%= text_field_tag :email, nil, placeholder: 'Email', :class => 'form-control' %>
+          <%= text_field_tag :email, nil, placeholder: 'Email', :class => 'form-control', required: true %>
         </div>
         <div class="form-group">
           <label for: :email> Name</label>
-          <%= text_field_tag :name, nil, placeholder: 'Name', :class => 'form-control' %>
+          <%= text_field_tag :name, nil, placeholder: 'Name', :class => 'form-control', required: true %>
         </div>
 
         <div class="form-group">
