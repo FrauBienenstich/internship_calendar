@@ -193,6 +193,9 @@ describe InternshipsController do
     end
   end
 
+  describe 'PUT update_intern' do
+
+  end
 
   describe 'PUT update without stubbing' do
     context "if user wants to delete intern" do
@@ -236,7 +239,6 @@ describe InternshipsController do
     end
   end
 
-
   describe 'DELETE destroy' do
 
     it 'deletes the whole internship' do
@@ -276,7 +278,6 @@ describe InternshipsController do
       assigns(:internship).should be_a_new(Internship)
       expect { get :new }.to_not render_template(layout: "application")
     end
-
   end
 
   describe 'GET sign_up_form' do
@@ -288,6 +289,7 @@ describe InternshipsController do
     it "renders the sign_up form" do
       get :sign_up_form, :id => @internship.id
       expect { get :sign_up_form }.to_not render_template(layout: "application")
+      expect { get :edit }.to render_template :sign_up_form
     end
   end
 
@@ -295,13 +297,27 @@ describe InternshipsController do
 
     before do
       @internship = FactoryGirl.create(:internship)
-      @internship.create_intern( FactoryGirl.attributes_for(:intern) ) # WICHTIG!!!
-      @internship.save
     end
 
     it "renders the edit form" do
       get :edit, :id => @internship.id
       expect { get :edit }.to_not render_template(layout: "application")
+      expect { get :edit }.to render_template :edit
+    end
+
+  end
+
+  describe 'GET edit_intern' do
+    before do
+      @internship = FactoryGirl.create(:internship)
+      @internship.create_intern( FactoryGirl.attributes_for(:intern) ) # WICHTIG!!!
+      @internship.save
+    end
+
+    it "renders the edit_intern form" do
+      get :edit_intern, :id => @internship.id
+      expect { get :edit }.to_not render_template(layout: "application")
+      expect { get :edit }.to render_template :edit_intern
     end
   end
 
