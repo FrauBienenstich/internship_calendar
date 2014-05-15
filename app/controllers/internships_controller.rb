@@ -3,14 +3,11 @@ class InternshipsController < ApplicationController
   respond_to :html, :js
 
   def create
+    host = Person.find_or_new(params[:host][:email], params[:host][:name])
 
-    host = Person.find_or_new(params[:email], params[:name])
+    internship_attr = params[:internship].merge(:host => host)
 
-    internship = Internship.new(:description => params[:description], 
-                                :day_id => params[:day_id],
-                                :host => host,
-                                :start_time => params[:internship][:start_time],
-                                :end_time => params[:internship][:end_time])
+    internship = Internship.new(internship_attr)
 
     if host && host.save && internship && internship.save
       PersonMailer.confirmation_mail(internship).deliver
@@ -26,6 +23,7 @@ class InternshipsController < ApplicationController
     @day = Day.find_by(id: params[:day_id])
 
     @internship = Internship.new
+    @internship.host = Person.new
     render :layout => false
   end
 
@@ -37,17 +35,19 @@ class InternshipsController < ApplicationController
   def update
     puts "PARAMS #{params}"
     @internship = Internship.find_by(id: params[:id])
-    host = Person.find_by_email(params[:email])
-    #puts "internship_params #{internship_params}" contains only start_time and end_time, HOW DOES STRONG PARAMETERS WORK WITH MY WEIRD HASH??? and why is it weird?
 
-    @internship.update(:description => params[:description], 
-                                :day_id => params[:day_id],
-                                :host => host,
-                                :start_time => params[:internship][:start_time],
-                                :end_time => params[:internship][:end_time]) # actuallly this should be sth like internship_params
+    # host = @internship.host
+    # host.update_attributes(params[:host])
 
     respond_with(@internship) do |format|
-      format.html { redirect_to day_path(@internship.day), notice: 'Internship was successfully updated!' }
+      internship_attr = params[:internship].merge(:host => @internship.host)
+
+      if @internship.update_attributes(internship_attr)
+        flash[:notice] = 'Internship was successfully updated!'
+      else
+        flash[:error] = "Internship could not be updated! #{@internship.errors.full_messages.join('. ')}"
+      end
+      format.html { redirect_to day_path(@internship.day) }
       format.js
     end
   end
@@ -90,6 +90,7 @@ class InternshipsController < ApplicationController
 
   def edit
     @internship = Internship.find_by(id: params[:id])
+    @day = @internship.day
     render :layout => false
   end
 
@@ -101,16 +102,6 @@ class InternshipsController < ApplicationController
     PersonMailer.delete_internship_mail(@internship).deliver
     redirect_to day_path(@internship.day), notice: "You successfully deleted an internship"
   end
-
-  private
-
-  # def internship_params
-  #   params.require(:internship).permit(:host, :intern, :description, :start_time, :end_time, :day_id)
-  # end
-
-  # def intern_params
-  #   params.require(:intern).permit(:name, :email)
-  # end
 
 end
 
