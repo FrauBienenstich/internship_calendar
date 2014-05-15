@@ -15,7 +15,6 @@ class InternshipsController < ApplicationController
     if host && host.save && internship && internship.save
       PersonMailer.confirmation_mail(internship).deliver
       redirect_to day_path(internship.day), notice: "You successfully created an internship!"
-      puts "when saved #{internship.inspect}"
     else  
       day = Day.find_by_id(params[:day_id])
       url = day ? day_path(day) : days_path
@@ -36,15 +35,37 @@ class InternshipsController < ApplicationController
   end
 
   def update
+    puts "PARAMS #{params}"
     @internship = Internship.find_by(id: params[:id])
+    host = Person.find_by_email(params[:email])
+    #puts "internship_params #{internship_params}" contains only start_time and end_time, HOW DOES STRONG PARAMETERS WORK WITH MY WEIRD HASH??? and why is it weird?
+
+    @internship.update(:description => params[:description], 
+                                :day_id => params[:day_id],
+                                :host => host,
+                                :start_time => params[:internship][:start_time],
+                                :end_time => params[:internship][:end_time]) # actuallly this should be sth like internship_params
+
+    respond_with(@internship) do |format|
+      format.html { redirect_to day_path(@internship.day), notice: 'Internship was successfully updated!' }
+      format.js
+    end
+  end
+
+  def update_intern
+    puts "wird diese methode je gerufen???"
+    puts "params!!! #{params}"
+    @internship = Internship.find_by(id: params[:id])
+    intern = @internship.intern
+
     if params[:commit] == "Remove"
       if @internship.delete_intern!
         flash[:notice] = "Worked"
       else
         flash[:error] = "Did not work"
       end
-    else
-      
+    elsif
+      # variable setzen, zum checken ob updaten oder nicht
       if @internship.assign_intern(params[:email], params[:name])
         flash[:notice] = "You successfully became an intern."
         PersonMailer.assign_intern_mail(@internship).deliver
@@ -52,8 +73,10 @@ class InternshipsController < ApplicationController
       else
         flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join(', ')}"
       end
+    else
+      put "INTERN PARAMS #{intern_params}" #pretty much useless
+      intern.update(:name => params[:name], :email => params[:email])
     end
-    
 
     respond_with(@internship) do |format|
       format.html { redirect_to day_path(@internship.day) }
@@ -61,6 +84,11 @@ class InternshipsController < ApplicationController
     end
   end
   
+
+  def edit_intern
+    @internship = Internship.find_by(id: params[:id])
+    render :layout => false
+  end
 
   def edit
     @internship = Internship.find_by(id: params[:id])
@@ -75,6 +103,16 @@ class InternshipsController < ApplicationController
     PersonMailer.delete_internship_mail(@internship).deliver
     redirect_to day_path(@internship.day), notice: "You successfully deleted an internship"
   end
+
+  private
+
+  # def internship_params
+  #   params.require(:internship).permit(:host, :intern, :description, :start_time, :end_time, :day_id)
+  # end
+
+  # def intern_params
+  #   params.require(:intern).permit(:name, :email)
+  # end
 
 end
 

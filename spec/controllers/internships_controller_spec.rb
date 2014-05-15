@@ -115,11 +115,19 @@ describe InternshipsController do
     end
   end
 
+
   describe 'PUT update' do
+
+  end
+
+  describe 'PUT update_intern' do
 
     before do
       @internship = double("my internship")
       Internship.stub(:find_by).with(id: "12").and_return(@internship)
+
+      @intern = double("my_intern")
+      Internship.stub(:intern).and_return(@intern)
 
       @ical = double('ical')
       @internship.stub(:to_ical).and_return(@ical)
@@ -144,13 +152,13 @@ describe InternshipsController do
         it 'adds an intern to an internship' do
           @internship.should_receive(:assign_intern).with(@email, @name).and_return(true)
           @mailer.should_receive(:deliver).twice
-          put :update, id: 12, email: @email, name: @name
+          put :update_intern, id: 12, email: @email, name: @name
         end
 
         it 'redirects to day path' do
           @internship.stub(:assign_intern).and_return(true)
           @mailer.should_receive(:deliver).twice
-          put :update, id: 12, email: @email, name: @name
+          put :update_intern, id: 12, email: @email, name: @name
           response.should redirect_to day_path(@internship.day)
         end
 
@@ -158,13 +166,13 @@ describe InternshipsController do
           @internship.stub(:assign_intern).and_return(true)
           @mailer.should_receive(:deliver).twice
           PersonMailer.should_receive(:assign_intern_mail).with(@internship)
-          put :update, id: 12, email: @email, name: @name
+          put :update_intern, id: 12, email: @email, name: @name
         end
 
         it "shows a success flash" do
           @internship.stub(:assign_intern).and_return(true)
           @mailer.should_receive(:deliver).twice
-          put :update, id: 12, email: @email, name: @name
+          put :update_intern, id: 12, email: @email, name: @name
           flash[:notice].should_not be_blank
         end
 
@@ -180,12 +188,12 @@ describe InternshipsController do
           @internship.stub(:assign_intern).and_return(false)
           @mailer.should_not_receive(:deliver)
           PersonMailer.should_not_receive(:assign_intern_mail).with(@internship)
-          put :update, id: 12, email: "", name: ""
+          put :update_intern, id: 12, email: "", name: ""
         end
 
         it "shows an error flash" do
           @internship.stub(:assign_intern).and_return(false)
-          put :update, id: 12, email: "", name: ""
+          put :update_intern, id: 12, email: "", name: ""
           flash[:error].should_not be_blank
         end
       end
@@ -193,12 +201,10 @@ describe InternshipsController do
     end
   end
 
-  describe 'PUT update_intern' do
 
-  end
+  describe 'PUT update_intern without mocks and stubs' do
+    context 'if user wants to delete intern' do
 
-  describe 'PUT update without stubbing' do
-    context "if user wants to delete intern" do
       let(:internship) { 
         intern = FactoryGirl.create(:intern)
         internship = FactoryGirl.create(:internship) 
@@ -207,35 +213,60 @@ describe InternshipsController do
         internship
       }
       let(:params) { {id: internship.id, commit: "Remove"} }
-    
-      context "it does not work" do
 
+      context 'deletion successful' do
+        context "it works" do
+          it 'shows a success flash message' do
+            put :update_intern, params
+            flash[:notice].should_not be_blank
+          end
+
+          it 'sets the intern_id to nil' do
+            put :update_intern, params
+            expect(internship.reload.intern).to eql nil
+          end
+        end
+      end
+
+      context 'deleting does not work' do
         before do
           Internship.any_instance.should_receive(:delete_intern!).and_return(false)
         end
 
         it "does not delete the intern" do
-          put :update, params
+          put :update_intern, params
           expect(internship.reload.intern).not_to eql nil
         end
 
         it "shows an error flash" do
-          put :update, params
+          put :update_intern, params
           flash[:error].should_not be_blank
         end
       end
+    end
 
-      context "it works" do
+    context 'if user wants to change email or name' do
+
+      let(:internship) { 
+        intern = FactoryGirl.create(:intern)
+        internship = FactoryGirl.create(:internship) 
+        internship.assign_intern(intern.email, intern.name)
+        internship.save
+        internship
+      }
+
+      context 'change is successful' do
         it 'shows a success flash message' do
-          put :update, params
+          put :update_intern, { :name => "Test Person", :email => "test@person.de" }
+          expect(internship.reload.intern.email).to eql "test@person.de"
           flash[:notice].should_not be_blank
         end
-
-        it 'sets the intern_id to nil' do
-          put :update, params
-          expect(internship.reload.intern).to eql nil
-        end
       end
+
+      context 'change does not work' do
+
+      end
+
     end
   end
 
