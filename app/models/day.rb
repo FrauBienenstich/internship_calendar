@@ -33,7 +33,6 @@ class Day < ActiveRecord::Base
   end
 
   def no_interns?
-    puts "open: #{open_internships} vs. #{internships.count}"
     open_internships == internships.count
   end
 
