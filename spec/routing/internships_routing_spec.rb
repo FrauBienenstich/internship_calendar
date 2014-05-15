@@ -12,7 +12,7 @@ describe InternshipsController do
     end
 
     it 'routes to update_intern' do
-      get('internships/4/update_intern').should route_to('internships#update_intern', id: '4')
+      put('internships/4/update_intern').should route_to('internships#update_intern', id: '4')
     end
 
   end
