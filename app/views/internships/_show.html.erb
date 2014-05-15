@@ -16,6 +16,11 @@
                 <%= link_to internship, method: :delete, data: { confirm: 'Are you sure?' } do %>
                   <i class="fa fa-trash-o"></i>
                 <% end %>
+
+                <a href=<%=edit_internship_path(internship, :commit => "Update") %> data-toggle="modal" data-target="#myModal3">
+                   <i class="fa fa-pencil"></i>
+                </a> 
+
               </blockquote>
             </div>
 
@@ -34,11 +39,11 @@
               </p>
               
 
-              <a href=<%=edit_internship_path(internship)%> data-toggle="modal" data-target="#myModal3">
+              <a href=<%=edit_intern_internship_path(internship)%> data-toggle="modal" data-target="#myModal4">
                  <i class="fa fa-pencil"></i>
               </a> 
 
-              <%= link_to internship_path(internship, :commit => "Remove"), remote: true, method: :put, data: { confirm: 'Are you sure?' } do %>
+              <%= link_to update_intern_internship_path(internship, :commit => "Remove"), remote: true, method: :put, data: { confirm: 'Are you sure?' } do %>
                 <i class="fa fa-trash-o"></i>
               <% end %> 
                           
