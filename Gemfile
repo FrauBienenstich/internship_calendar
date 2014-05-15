@@ -11,6 +11,7 @@ gem 'pg'
 gem 'icalendar'
 gem 'tod', '~> 1.3.0'
 gem 'protected_attributes'
+gem 'haml-rails'
 
 
 # Gems used only for assets and not required
