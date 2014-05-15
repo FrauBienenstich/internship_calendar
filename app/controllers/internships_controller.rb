@@ -53,10 +53,9 @@ class InternshipsController < ApplicationController
   end
 
   def update_intern
-    puts "wird diese methode je gerufen???"
-    puts "params!!! #{params}"
     @internship = Internship.find_by(id: params[:id])
-    intern = @internship.intern
+
+    new_intern = false if @internship.intern
 
     if params[:commit] == "Remove"
       if @internship.delete_intern!
@@ -64,23 +63,22 @@ class InternshipsController < ApplicationController
       else
         flash[:error] = "Did not work"
       end
-    elsif
-      # variable setzen, zum checken ob updaten oder nicht
-      if @internship.assign_intern(params[:email], params[:name])
+    else
+      if @internship.assign_intern(params[:email], params[:name]) and new_intern
         flash[:notice] = "You successfully became an intern."
         PersonMailer.assign_intern_mail(@internship).deliver
         PersonMailer.confirmation_for_intern_mail(@internship).deliver
+      elsif @internship.assign_intern(params[:email], params[:name]) and new_intern == false
+        flash[:notice] = "You successfully updated your position as an intern!"
+      #TODO schöner machen
       else
         flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join(', ')}"
-      end
-    else
-      put "INTERN PARAMS #{intern_params}" #pretty much useless
-      intern.update(:name => params[:name], :email => params[:email])
+      end  
     end
 
     respond_with(@internship) do |format|
       format.html { redirect_to day_path(@internship.day) }
-      format.js
+      format.js { render :action => "update" }
     end
   end
   
