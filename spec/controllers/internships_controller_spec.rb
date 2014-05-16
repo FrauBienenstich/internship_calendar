@@ -11,11 +11,16 @@ describe InternshipsController do
         @day = FactoryGirl.create(:day)
 
         @params = {
-          email: "susanne@dewein.de",
-          name: "Susanne Dewein",
-          day_id: @day.id,
-          description: "Test",
+
+          host: {
+            email: "susanne@dewein.de",
+            name: "Susanne Dewein"
+
+          },
+
           internship: {
+            day_id: @day.id,
+            description: "Test",
             start_time: @day.date + 4.hours,
             end_time: @day.date + 5.hours
           }
@@ -58,11 +63,15 @@ describe InternshipsController do
         person = FactoryGirl.create(:person)
 
         params = {
-          email: person.email,
-          name: person.name,
-          day_id: @day.id,
-          description: "Test", 
+
+          host: {
+            email: person.email,
+            name: person.name
+          },
+
           internship: {
+            day_id: @day.id,
+            description: "Test", 
             start_time: @day.date + 4.hours,
             end_time: @day.date + 5.hours
           }
@@ -84,26 +93,29 @@ describe InternshipsController do
       before do
         @day = FactoryGirl.create(:day)
         
-            @params = {
+        @params = {
 
-              email: "susanne@dewein.de",
-              name: "Susanne Dewein",
-              day_id: @day.id,
-              description: "",
-              internship: {
-              "start_time(1i)" => 2014,
-              "start_time(2i)" => 4,
-              "start_time(3i)" => 21,
-              "start_time(4i)" => 15,
-              "start_time(5i)" => 10,
-              "end_time(1i)" => 2014,
-              "end_time(2i)" => 4,
-              "end_time(3i)" => 21,
-              "end_time(4i)" => 16,
-              "end_time(5i)" => 10
-              }
-            }   
-          end
+          host: {
+            email: "susanne@dewein.de",
+            name: "Susanne Dewein"
+          },
+          
+          internship: {
+            day_id: @day.id,
+            description: "",
+            "start_time(1i)" => 2014,
+            "start_time(2i)" => 4,
+            "start_time(3i)" => 21,
+            "start_time(4i)" => 15,
+            "start_time(5i)" => 10,
+            "end_time(1i)" => 2014,
+            "end_time(2i)" => 4,
+            "end_time(3i)" => 21,
+            "end_time(4i)" => 16,
+            "end_time(5i)" => 10
+          }
+        }   
+      end
 
       it 'renders an error message and does not save' do
         expect do
@@ -114,7 +126,6 @@ describe InternshipsController do
       end
     end
   end
-
 
   describe 'PUT update' do
 
@@ -132,6 +143,8 @@ describe InternshipsController do
       @ical = double('ical')
       @internship.stub(:to_ical).and_return(@ical)
 
+      #@internship.stub(:intern)
+
       @day = double('day')
       @mailer = double('mailer')
       @internship.stub(:day).and_return(@day)
@@ -146,10 +159,11 @@ describe InternshipsController do
 
     end
 
-    context "when assigning and intern" do
+    context "when assigning an intern" do
       context "in case of success" do
 
         it 'adds an intern to an internship' do
+          #@internship.stub(:intern).and_return(:false)
           @internship.should_receive(:assign_intern).with(@email, @name).and_return(true)
           @mailer.should_receive(:deliver).twice
           put :update_intern, id: 12, email: @email, name: @name
@@ -174,6 +188,10 @@ describe InternshipsController do
           @mailer.should_receive(:deliver).twice
           put :update_intern, id: 12, email: @email, name: @name
           flash[:notice].should_not be_blank
+        end
+
+        it 'updates an already existing intern' do
+
         end
 
       end
@@ -201,6 +219,96 @@ describe InternshipsController do
     end
   end
 
+  describe 'PUT update_intern version 2' do
+
+    let(:internship) { 
+      intern = FactoryGirl.create(:intern)
+      internship = FactoryGirl.create(:internship) 
+      internship.assign_intern(intern.email, intern.name)
+      internship.save
+      internship
+    }
+
+    before :each do
+      internship
+    end
+
+    shared_examples "for updating interns" do
+      it 'assigns the internship' do
+        do_request
+        expect(assigns(:internship)).not_to eq nil
+      end
+      it 'redirects on html requests' do
+        do_request
+        response.should redirect_to day_path(internship.day)
+      end
+
+      it 'renders update javascript' do
+        do_request({}, true)
+        response.should render_template :update
+      end
+      # render udpate.js bei xhr requests
+    end
+
+    def do_request(params = { }, ajax = false)
+      params = params.reverse_merge({:id => internship.id, :name => "Horst", :email => "horst@horst.de"})
+      if ajax
+        xhr :put, :update_intern, params
+      else
+        put :update_intern, params
+      end
+    end
+
+
+    context 'remove an intern' do
+      include_examples "for updating interns"
+
+      it "worked" do
+        do_request(:commit => 'Remove')
+        expect(internship.reload.intern).to eql nil
+      end
+
+      it "didnt work" do
+        Internship.any_instance.should_receive(:delete_intern!).and_return(false)
+        do_request(:commit => 'Remove')
+        expect(flash[:error]).to eql 'Did not work'
+      end
+    end
+
+    context 'add an intern' do
+
+
+
+      context 'that exists' do
+        include_examples "for updating interns"
+
+        it 'reuses existing people' do
+          intern = FactoryGirl.create(:intern)
+          expect {
+            do_request(:email => intern.email, :name => intern.name)
+            expect(internship.reload.intern).not_to eql nil
+          }.not_to change {Person.count}
+        end
+      end
+
+      context 'that does not exist' do
+        include_examples "for updating interns"
+
+        it 'creates a new intern' do
+          expect {
+            do_request(:email => "new@domain.com", :name => "Neui Neumann")
+            expect(internship.reload.intern).not_to eql nil
+          }.to change {Person.count}.by(1)
+        end
+      end
+
+      it "didnt work" do
+        Internship.any_instance.should_receive(:assign_intern).and_return(false)
+        do_request
+        flash[:error].should match /Your application as an intern failed!/
+      end
+    end
+  end
 
   describe 'PUT update_intern without mocks and stubs' do
     context 'if user wants to delete intern' do
@@ -243,30 +351,6 @@ describe InternshipsController do
           flash[:error].should_not be_blank
         end
       end
-    end
-
-    context 'if user wants to change email or name' do
-
-      let(:internship) { 
-        intern = FactoryGirl.create(:intern)
-        internship = FactoryGirl.create(:internship) 
-        internship.assign_intern(intern.email, intern.name)
-        internship.save
-        internship
-      }
-
-      context 'change is successful' do
-        it 'shows a success flash message' do
-          put :update_intern, { :name => "Test Person", :email => "test@person.de" }
-          expect(internship.reload.intern.email).to eql "test@person.de"
-          flash[:notice].should_not be_blank
-        end
-      end
-
-      context 'change does not work' do
-
-      end
-
     end
   end
 
@@ -335,7 +419,6 @@ describe InternshipsController do
       expect { get :edit }.to_not render_template(layout: "application")
       expect { get :edit }.to render_template :edit
     end
-
   end
 
   describe 'GET edit_intern' do

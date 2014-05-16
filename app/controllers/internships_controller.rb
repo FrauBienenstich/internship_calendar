@@ -13,7 +13,8 @@ class InternshipsController < ApplicationController
       PersonMailer.confirmation_mail(internship).deliver
       redirect_to day_path(internship.day), notice: "You successfully created an internship!"
     else  
-      day = Day.find_by_id(params[:day_id])
+      day = Day.find_by_id(params[:internship][:day_id])
+      puts day.inspect
       url = day ? day_path(day) : days_path
       redirect_to url, :flash => { :error => "Your internship could not be saved: #{internship.errors.full_messages.join(', ')} #{host.errors.full_messages.join(', ')}" }
     end
@@ -55,8 +56,6 @@ class InternshipsController < ApplicationController
   def update_intern
     @internship = Internship.find_by(id: params[:id])
 
-    new_intern = false if @internship.intern
-
     if params[:commit] == "Remove"
       if @internship.delete_intern!
         flash[:notice] = "Worked"
@@ -64,16 +63,24 @@ class InternshipsController < ApplicationController
         flash[:error] = "Did not work"
       end
     else
-      if @internship.assign_intern(params[:email], params[:name]) and new_intern
+      if @internship.assign_intern(params[:email], params[:name])
         flash[:notice] = "You successfully became an intern."
         PersonMailer.assign_intern_mail(@internship).deliver
         PersonMailer.confirmation_for_intern_mail(@internship).deliver
-      elsif @internship.assign_intern(params[:email], params[:name]) and new_intern == false
-        flash[:notice] = "You successfully updated your position as an intern!"
-      #TODO schöner machen
       else
         flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join(', ')}"
-      end  
+      end
+
+      # if @internship.assign_intern(params[:email], params[:name]) and new_intern
+      #   flash[:notice] = "You successfully became an intern."
+      #   PersonMailer.assign_intern_mail(@internship).deliver
+      #   PersonMailer.confirmation_for_intern_mail(@internship).deliver
+      # elsif @internship.assign_intern(params[:email], params[:name]) and new_intern == false
+      #   flash[:notice] = "You successfully updated your position as an intern!"
+      # #TODO schöner machen
+      # else
+      #   flash[:error] = "Your application as an intern failed! #{@internship.errors.full_messages.join(', ')}"
+      # end  
     end
 
     respond_with(@internship) do |format|
