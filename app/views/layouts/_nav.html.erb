@@ -12,7 +12,8 @@
 
     <div class="collapse navbar-collapse" id="nav-menue">
       <ul class="nav navbar-nav">
-        <li><a href=<%= new_day_path %> data-toggle="modal" data-target="#new_day_modal">Create Open Day</a></li>
+        <!-- <li><a href=<%= new_day_path %> data-toggle="modal" data-target="#new_day_modal">Create Open Day</a></li> -->
+        <!-- TODO decide whether i want users to create their own open days -->
         <li><a href=<%= days_path(:future => true) %> >Upcoming Open Days</a></li>
         <li><a href=<%= days_path(:past => true) %> >Past Open Days</a></li>
       </ul>
