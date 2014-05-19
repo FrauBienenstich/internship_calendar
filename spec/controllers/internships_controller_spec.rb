@@ -85,7 +85,6 @@ describe InternshipsController do
           post :create, params
         end.to change{ Internship.count }.by(1)
       end
-
     end
 
     context "with invalid attributes" do
@@ -125,9 +124,48 @@ describe InternshipsController do
         flash[:error].should_not be_blank
       end
     end
+    
   end
 
   describe 'PUT update' do
+
+    before do
+      @internship = FactoryGirl.create(:internship)
+      @day = FactoryGirl.create(:day)
+
+      @params = { 
+
+        host: {
+          email: "susanne@dewein.de",
+          name: "Susanne Dewein"
+
+        },
+
+        internship: {
+          id: @internship.id,
+          day_id: @day.id,
+          description: "updated description",
+          start_time: @day.date + 4.hours,
+          end_time: @day.date + 5.hours
+        }
+      }
+
+    end
+
+    context 'it works' do
+
+      it 'does not add a new internship' do
+
+        expect do
+          put :update, @params,
+        end.not_to change{ Internship.count }
+      #   expect(flash[:notice]).to eql 'Internship was successfully updated!'
+      end
+    end
+
+    context 'it does not work' do
+
+    end
 
   end
 
@@ -155,8 +193,6 @@ describe InternshipsController do
 
       @email = "susanne.dewein@gmail.com"
       @name = "Susanne Dewein"
-      
-
     end
 
     context "when assigning an intern" do
@@ -193,7 +229,6 @@ describe InternshipsController do
         it 'updates an already existing intern' do
 
         end
-
       end
 
       context "in case of error" do
@@ -215,7 +250,6 @@ describe InternshipsController do
           flash[:error].should_not be_blank
         end
       end
-
     end
   end
 
