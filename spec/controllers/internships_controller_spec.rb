@@ -130,7 +130,24 @@ describe InternshipsController do
 
     before do
       @internship = FactoryGirl.create(:internship)
-      @day = FactoryGirl.create(:day)
+
+      @params = {
+          
+          host: {
+            email: @internship.host.email,
+            name: @internship.host.name
+          },
+
+          id: @internship.id,
+
+          internship: {
+            day_id: @internship.day.id,
+            description: "updated description",
+            start_time: @internship.day.date + 4.hours,
+            end_time: @internship.day.date + 5.hours
+          }
+        }
+
     end
 
 
@@ -144,36 +161,31 @@ describe InternshipsController do
 
     context 'it works' do
 
-      let (:params) { 
-        {
-          host: {
-            email: @internship.host.email,
-            name: @internship.host.name
-
-          },
-
-          id: @internship.id,
-          internship: {
-            day_id: @day.id,
-            description: "updated description",
-            start_time: @day.date + 4.hours,
-            end_time: @day.date + 5.hours
-          }
-        }
-      }
-      
       it 'does not add a new internship' do
-
-
         expect {
-          put :update, params
+          put :update, @params
         }.not_to change{ Internship.count }
          expect(flash[:notice]).to eql 'Internship was successfully updated!'
       end
 
+      it 'assigns the internship' do
+        put :update, @params
+        expect(assigns(:internship)).not_to eq nil
+      end
+
+      it 'redirects on html requests' do
+        put :update, @params
+        response.should redirect_to day_path(@internship.day)
+      end
+
+      it 'renders update javascript' do
+        xhr :put, :update, @params
+        response.should render_template :update
+      end
+
       it "shows an error flash" do
         Internship.any_instance.should_receive(:update_attributes).and_return(false)
-        put :update, params
+        put :update, @params
         flash[:error].should_not be_blank
       end
     end
@@ -283,6 +295,7 @@ describe InternshipsController do
         do_request
         expect(assigns(:internship)).not_to eq nil
       end
+
       it 'redirects on html requests' do
         do_request
         response.should redirect_to day_path(internship.day)
