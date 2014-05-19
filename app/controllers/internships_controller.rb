@@ -34,12 +34,8 @@ class InternshipsController < ApplicationController
   end
 
   def update
-    puts "PARAMS #{params}"
     @internship = Internship.find_by(id: params[:id])
-
-    # host = @internship.host
-    # host.update_attributes(params[:host])
-
+    
     respond_with(@internship) do |format|
       internship_attr = params[:internship].merge(:host => @internship.host)
 

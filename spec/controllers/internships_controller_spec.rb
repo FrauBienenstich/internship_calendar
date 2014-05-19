@@ -124,7 +124,6 @@ describe InternshipsController do
         flash[:error].should_not be_blank
       end
     end
-    
   end
 
   describe 'PUT update' do
@@ -132,39 +131,51 @@ describe InternshipsController do
     before do
       @internship = FactoryGirl.create(:internship)
       @day = FactoryGirl.create(:day)
-
-      @params = { 
-
-        host: {
-          email: "susanne@dewein.de",
-          name: "Susanne Dewein"
-
-        },
-
-        internship: {
-          id: @internship.id,
-          day_id: @day.id,
-          description: "updated description",
-          start_time: @day.date + 4.hours,
-          end_time: @day.date + 5.hours
-        }
-      }
-
     end
+
+
+    # Parameters: {"utf8"=>"✓", "authenticity_token"=>"gZBx+6Ybn5XicbBKwb9Uhtcks0fIloe84xB28Gp+Dow=", 
+
+    #     "internship"=>{"day_id"=>"25", "description"=>"check die params", "start_time"=>"21/05/2014, 09:00", "end_time"=>"21/05/2014, 10:00"},
+
+    #      "host"=>{"email"=>"susanne.dewein@gmail.com", "name"=>"sdgdxgv"}, 
+
+    #"commit"=>"Update Internship", "id"=>"94"}
 
     context 'it works' do
 
+      let (:params) { 
+        {
+          host: {
+            email: @internship.host.email,
+            name: @internship.host.name
+
+          },
+
+          id: @internship.id,
+          internship: {
+            day_id: @day.id,
+            description: "updated description",
+            start_time: @day.date + 4.hours,
+            end_time: @day.date + 5.hours
+          }
+        }
+      }
+      
       it 'does not add a new internship' do
 
-        expect do
-          put :update, @params,
-        end.not_to change{ Internship.count }
-      #   expect(flash[:notice]).to eql 'Internship was successfully updated!'
+
+        expect {
+          put :update, params
+        }.not_to change{ Internship.count }
+         expect(flash[:notice]).to eql 'Internship was successfully updated!'
       end
-    end
 
-    context 'it does not work' do
-
+      it "shows an error flash" do
+        Internship.any_instance.should_receive(:update_attributes).and_return(false)
+        put :update, params
+        flash[:error].should_not be_blank
+      end
     end
 
   end
