@@ -85,7 +85,7 @@ describe DaysController do
       get :new
       expect {get :new }.to render_template(:new)
       assigns(:day).should be_a_new(Day)
-      expect {get :new }.to_not render_template(layout: "application")
+      expect {get :new }.to render_template(layout: "application")
     end
   end
 
