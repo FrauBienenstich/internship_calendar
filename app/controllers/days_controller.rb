@@ -34,7 +34,7 @@ class DaysController < ApplicationController
 
   def new
     @day = Day.new
-    render :layout => false
+    render :layout => true
   end
 
   def show

@@ -1,40 +1,30 @@
-<%= form_tag('/days') do %>
-
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">Create a new day.</h4>
-  </div>
-
-  <div class="modal-body">
-
-    <div class="form-group">
-      <label for: :date> Date</label>
-      <div class='input-group date' id='datetimepicker_day' data-date-format="DD/MM/YYYY">
-        <input type='text' class="form-control" name="day[date]" />
-        <span class="input-group-addon"><span class="fa fa-calendar"></span>
-        </span>
+<div class="date-form">
+  <%= form_for @day, :method => :post do |f| %>
+    <h4>Create a new day!</h4>
+      <div class="form-group"> 
+        <div class='input-group date' id='datetimepicker_day' data-date-format="DD/MM/YYYY">
+          <input type='text' class="form-control" name="day[date]" />
+          <span class="input-group-addon"><span class="fa fa-calendar"></span>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <script type="text/javascript">
-      $(function () {
-        $('#datetimepicker_day').datetimepicker({
-          pickTime: false,
+      <script type="text/javascript">
+        $(function () {
+          $('#datetimepicker_day').datetimepicker({
+            pickTime: false,
 
-          icons: {
-            time: "fa fa-clock-o",
-            date: "fa fa-calendar",
-            up: "fa fa-arrow-up",
-            down: "fa fa-arrow-down"
-          }
+            icons: {
+              time: "fa fa-clock-o",
+              date: "fa fa-calendar",
+              up: "fa fa-arrow-up",
+              down: "fa fa-arrow-down"
+            }
+          });
         });
-      });
-    </script>
+      </script>
 
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     <button type="submit" class="btn btn-primary">Create new day</button>
-  </div>
 
-<% end %>
+  <% end %>
+</div>
