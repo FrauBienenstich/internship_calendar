@@ -9,20 +9,18 @@
 
   <p>
 
-  <!--   <%- if @upcoming_day.nil? %>
+    <%- if @upcoming_day.nil? %>
 
       <a href=<%= new_day_path %> data-toggle="modal" data-target="#new_day" type="button" class="btn btn-primary btn-lg" role="button">
         Start a new day!
       </a>
 
-    <%- else %> -->
-    <!-- TODO decide whether i want users to create their own days -->
-
+    <%- else %>
       <a class="calendar-date" href="<%= day_path(@upcoming_day)%>">
         <span><%= @upcoming_day.date.strftime("%d") %></span><span><%= @upcoming_day.date.strftime("%b") %></span><span><%= @upcoming_day.date.strftime("%Y") %></span>
       </a>
       <%= remaining_time_in_words(@upcoming_day) %>
-<!--     <%- end %> -->
+    <%- end %>
 
   </p>
 
