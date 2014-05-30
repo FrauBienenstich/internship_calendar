@@ -1,4 +1,6 @@
 class InternshipsController < ApplicationController
+  before_action :check_date_create, only: [:create]
+  before_action :check_date_update, only: [:update_intern, :update]
 
   respond_to :html, :js
 
@@ -106,18 +108,36 @@ class InternshipsController < ApplicationController
     redirect_to day_path(@internship.day), notice: "You successfully deleted an internship"
   end
 
+  private
+  #TODO refactor
+  def check_date_create
+    host = Person.find_or_new(params[:host][:email], params[:host][:name])
+    internship_attr = params[:internship].merge(:host => host) #don't fully understand this line
+    @internship = Internship.new(internship_attr)
+    @day = @internship.day
+
+
+    unless @day.date >= Date.today
+      flash[:error] = "This day has already passed!"
+      redirect_to day_path(@day)
+    end
+  end
+
+  def check_date_update
+    @internship = Internship.find_by(id: params[:id])
+
+    unless @internship.day.date >= Date.today
+      flash[:error] = "This day has already passed!"
+      redirect_to day_path(@internship.day)
+    end
+  end
+
+  # {"host"=>
+  #   {"email"=>"email50@factory.com", "name"=>"Susanne"}, 
+  # "internship"=>
+  #   {"day_id"=>"190", "description"=>"updated description", "start_time"=>"2014-07-07 04:00:00 +0200", "end_time"=>"2014-07-07 05:00:00 +0200"}, 
+  # "id"=>"134", 
+  # "controller"=>"internships", 
+  # "action"=>"update"}
+
 end
-
-
-
-# {
-#   "utf8"=>"✓",
-#   "authenticity_token"=>"FAUpvGQeq4SkgrlQU2lIXP2CdzEaattm4/t29xDGDt0=",
-#   "internship"=> {
-#     "description"=>"wawawa",
-#     "ende" => "morgen"
-#   },
-#   "commit"=>"Create Internship",
-#   "action"=>"create", 
-#   "controller"=>"internships"
-# }

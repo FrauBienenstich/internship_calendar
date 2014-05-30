@@ -124,6 +124,36 @@ describe InternshipsController do
         flash[:error].should_not be_blank
       end
     end
+
+    context "for a day in the past" do
+      it "does not save a new internship" do
+        @day = FactoryGirl.create(:day)
+        @day.date = Date.today.prev_day
+
+        @params = {
+
+          host: {
+            email: "susanne@dewein.de",
+            name: "Susanne Dewein"
+
+          },
+
+          internship: {
+            day_id: @day.id,
+            description: "Test",
+            start_time: @day.date - 5.hours,
+            end_time: @day.date - 4.hours
+          }
+        }
+
+        expect do
+          post :create, @params
+        end.not_to change{ Internship.count }
+        response.should redirect_to day_path(@day)
+        flash[:error].should_not be_blank
+      end
+
+    end
   end
 
   describe 'PUT update' do
@@ -204,11 +234,10 @@ describe InternshipsController do
       @ical = double('ical')
       @internship.stub(:to_ical).and_return(@ical)
 
-      #@internship.stub(:intern)
-
       @day = double('day')
       @mailer = double('mailer')
       @internship.stub(:day).and_return(@day)
+      @day.stub(:date).and_return(Date.new(2050, 4, 21))
 
       PersonMailer.stub(:assign_intern_mail).and_return(@mailer)
 
@@ -272,6 +301,21 @@ describe InternshipsController do
           put :update_intern, id: 12, email: "", name: ""
           flash[:error].should_not be_blank
         end
+      end
+
+      context "when the date is in the past" do
+        before do
+          @day.stub(:date).and_return(Date.new(1986, 4, 21))
+        end
+
+        it 'does not update the internship' do
+          expect do
+            put :update_intern, id: 12, email: @email, name: @name
+          end.not_to change{ Internship.count }
+          response.should redirect_to day_path(@day)
+          flash[:error].should_not be_blank
+        end
+
       end
     end
   end
