@@ -1,6 +1,6 @@
 class InternshipsController < ApplicationController
   before_action :check_date_create, only: [:create]
-  before_action :check_date_update, only: [:update_intern, :update]
+  before_action :check_date_update, only: [:update_intern, :update, :destroy]
 
   respond_to :html, :js
 
@@ -125,7 +125,6 @@ class InternshipsController < ApplicationController
 
   def check_date_update
     @internship = Internship.find_by(id: params[:id])
-
     unless @internship.day.date >= Date.today
       flash[:error] = "This day has already passed!"
       redirect_to day_path(@internship.day)

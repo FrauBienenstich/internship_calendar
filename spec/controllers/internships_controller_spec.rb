@@ -225,7 +225,7 @@ describe InternshipsController do
   describe 'PUT update_intern' do
 
     before do
-      @internship = double("my internship")
+      @internship = double("my internship", :id => "12")
       Internship.stub(:find_by).with(id: "12").and_return(@internship)
 
       @intern = double("my_intern")
@@ -457,29 +457,47 @@ describe InternshipsController do
   end
 
   describe 'DELETE destroy' do
+    context "internship is in the future" do
+      before do 
+        @internship = FactoryGirl.create(:internship)
+      end
 
-    it 'deletes the whole internship' do
-      internship = double("my Internship")
-      Internship.stub(:find).with("7").and_return(internship)
-      internship.should_receive(:destroy).and_return(internship.as_null_object)
-      delete :destroy, :id => 7
+
+      it 'deletes the whole internship' do
+        expect {
+          delete :destroy, id: @internship.id
+        }.to change {Internship.count}.by(-1)
+      end
+
+      it 'sends out an email to intern and host' do
+        PersonMailer.any_instance.should_receive(:delete_internship_mail).with(@internship)
+        delete :destroy, id: @internship.id
+      end
+
+      it 'redirects to the day_path' do
+        delete :destroy, id: @internship.id
+        expect(response).to redirect_to day_path(@internship.day)
+      end
     end
 
+    context "internship is in past" do
 
-    it 'sends out an email to intern and host' do
-      internship = double("my Internship").as_null_object
-      Internship.stub(:find).with("8").and_return(internship)
+      before do
+        @internship = FactoryGirl.create(:internship)
+        @internship.day.date = Date.today - 10.days
+        @internship.day.save!
+        @internship.start_time = @internship.day.date + 4.hours
+        @internship.end_time = @internship.day.date + 5.hours
+        @internship.save!
+        #TODO refactor: date is saved both in @internship.day as well as @internship.start_time/end_time
+      end
 
-      PersonMailer.any_instance.should_receive(:delete_internship_mail).with(internship)
+      it 'does not delete the internship if it is in the past' do
+        expect {
+          delete :destroy, id: @internship.id
+        }.not_to change {Internship.count}
 
-      delete :destroy, id: 8
-    end
-
-    it 'redirects to the day_path' do
-      internship = double("my Internship").as_null_object
-      Internship.stub(:find).with("9").and_return(internship)
-      delete :destroy, id: 9
-      expect(response).to redirect_to day_path(internship.slot.day)
+      end
     end
   end
 
